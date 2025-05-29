@@ -1,0 +1,182 @@
+\documentclass{myReport}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Packages
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{sidecap}
+\usepackage{caption}
+\usepackage{abstract}
+\usepackage{setspace}
+\usepackage{myStyle}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel} %to change language
+\usepackage{amsmath, amsthm, amsfonts}
+\usepackage{graphicx}
+% \usepackage{biblatex}
+% \addbibresource{references.bib}
+\usepackage[footnote]{acronym}
+\nocite{*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\cv}[2]{\begin{bmatrix}
+    #1\\
+    #2\\
+\end{bmatrix}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Doc infos
+\title{Introduction to \LaTeX}
+%\author{Ahmed IDRISSI\thanks{ENSIAS AI Club}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setstretch{1.5}
+\fontsize{14pt}{18pt}\selectfont
+\begin{document}
+\students{
+    ESSAHIH Abderrahmane
+    OUMGHAR Zakaria
+}
+\supervisors{
+    M.ETTALBI Ahmed
+}
+\jury{
+
+}
+\makecoverpage
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\abstractnamefont}{\normalfont\LARGE\bfseries}
+%\renewcommand{\abstracttextfont}{\normalfont\Huge}
+
+\thispagestyle{empty}
+
+
+%inclusion d'une mage dans le document
+\begin{figure}[!h]
+
+\begin{center}
+\vspace{2cm}
+%taille de l'image en largeur
+%remplacer "width" par "height" pour régler la hauteur
+\includegraphics[height=4cm]{images/rem1.PNG}
+\end{center}
+\end{figure}
+
+\hskip7mm
+
+
+
+\begin{spacing}{1.3}
+
+
+
+
+
+
+\end{spacing}
+
+\begin{figure}[!h]
+
+\begin{center}
+\\ [2 cm]
+%taille de l'image en largeur
+%remplacer "width" par "height" pour régler la hauteur
+\includegraphics[height=2cm]{images/rem2.PNG}
+\end{center}
+\end{figure}
+\renewcommand{\abstractname}{\LARGE \bfseries Résumé}
+\renewcommand{\abstractnamefont}{\LARGE \bfseries}
+\begin{abstract}
+
+ 
+\vspace{1cm}
+
+
+\noindent\rule[2pt]{\textwidth}{0.5pt}
+
+{\textbf{Mots clés :}}
+\\ 
+ 
+\noindent\rule[2pt]{\textwidth}{0.5pt}
+\end{abstract}
+\selectlanguage{english}
+\renewcommand{\abstractname}{Abstract} 
+
+\begin{abstract}
+
+\vspace{1cm}
+
+
+\noindent\rule[2pt]{\textwidth}{0.5pt}
+
+{\textbf{Keywords :}}
+\\ 
+ 
+\noindent\rule[2pt]{\textwidth}{0.5pt}
+\end{abstract}
+
+\newpage
+\include{acronymes}
+\selectlanguage{french}
+\tableofcontents
+\listoffigures
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\verb|\newline|
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\newpage
+\ThisLRCornerWallPaper{1}{}
+\vspace*{2cm}
+\begin{center}
+    {\LARGE \textbf{Introduction générale}}
+\end{center}
+\vspace{2cm}
+
+
+\newpage
+\makeheader
+\chapter{Aperçu général et cadre du projet}
+% \ThisLRCornerWallPaper{1}{logo/background.png}
+% \thispagestyle{empty}
+\newpage
+\input{Chapters/chapter1}
+\chapter{Analyse et Conception}
+% \ThisLRCornerWallPaper{1}{logo/background.png}
+% \thispagestyle{empty}
+\newpage
+\input{Chapters/chapter2}
+\newpage
+\chapter{Réalisation}
+% \ThisLRCornerWallPaper{1}{logo/background.png}
+% \thispagestyle{empty}
+\newpage
+\input{Chapters/chapter3}
+\newpage
+\chapter{Réalisation}
+% \ThisLRCornerWallPaper{1}{logo/background.png}
+% \thispagestyle{empty}
+\newpage
+\input{Chapters/chapter4}
+
+
+\chapter{déploiement}
+% \ThisLRCornerWallPaper{1}{logo/background.png}
+% \thispagestyle{empty}
+\input{Chapters/chapter5}
+\newpage
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\nocite{*} 
+\bibliographystyle{plain} 
+\renewcommand{\bibname}{Ressources} 
+\bibliography{bibliographie} 
+\ThisLRCornerWallPaper{1}{logo/background.png}
+\thispagestyle{empty}
+
+\end{document}
