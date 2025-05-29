@@ -1,0 +1,120 @@
+@startuml Site_Web_Gestion_Departementale
+
+' Enhanced styling for better visuals
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam linetype ortho
+skinparam nodesep 80
+skinparam ranksep 100
+
+' Better font styling
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+
+skinparam usecase {
+    BackgroundColor white
+    BorderColor #3498db
+    BorderThickness 1
+    FontSize 11
+    StereotypeFontSize 10
+    ArrowColor #3498db
+}
+
+skinparam actor {
+    BackgroundColor white
+    BorderColor #2c3e50
+    FontSize 12
+    FontColor black
+}
+
+skinparam rectangle {
+    BackgroundColor #f8f9fa
+    BorderColor #34495e
+    FontSize 14
+    FontStyle bold
+}
+
+skinparam arrow {
+    Color #34495e
+    FontSize 10
+    Thickness 1
+}
+
+skinparam note {
+    BackgroundColor #ffffcc
+    BorderColor #999966
+    FontSize 10
+}
+
+' Force vertical layout
+left to right direction
+skinparam packageStyle rectangle
+
+' Actors on left side
+actor Admin
+actor "Chef département" as ChefDept
+actor Professeur
+actor Visiteur
+
+rectangle "Site web gestion Départementale" {
+    together {
+        ' Authentication use case
+        (S'authentifier) as Login #e8f8f5
+        
+        ' Admin use cases
+        (Gérer les utilisateurs et\nleurs droits d'accès) as UC1
+        
+        ' Chef département use cases  
+        (Gérer les informations\ndu département) as UC2
+        (Gérer les professeurs) as UC3
+        
+        ' Shared use cases
+        (Gérer les formations\net modules) as UC4
+        (Mettre à jour les informations\npersonnelles) as UC5
+        (Gérer ses modules\net cours) as UC6
+        
+        ' Public use case (simplified)
+        (Consulter les informations\ndu département) as UC7
+    }
+}
+
+' Authentication relationships
+Admin --> Login
+ChefDept --> Login
+Professeur --> Login
+
+' Functionality relationships
+Admin --> UC1
+
+ChefDept --> UC2
+ChefDept --> UC3  
+ChefDept --> UC4
+ChefDept --> UC5
+
+Professeur --> UC4
+Professeur --> UC5
+Professeur --> UC6
+
+Visiteur --> UC7
+
+' Protected functionalities require authentication
+UC1 ..> Login : <<include>>
+UC2 ..> Login : <<include>>
+UC3 ..> Login : <<include>>
+UC4 ..> Login : <<include>>
+UC5 ..> Login : <<include>>
+UC6 ..> Login : <<include>>
+
+' Other include relationship
+UC2 ..> UC5 : <<include>>
+
+note bottom of Login
+  Tous les cas d'utilisation protégés 
+  nécessitent une authentification
+end note
+
+note right of UC7
+  Accès public sans authentification
+end note
+
+@enduml
