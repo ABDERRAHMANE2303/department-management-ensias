@@ -1,0 +1,151 @@
+version: '3.8'
+
+services:
+  # Database
+  db:
+    image: postgres:17-alpine
+    container_name: ensias-db-prod
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    networks:
+      - ensias_prod_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Common Models Service
+  common-models:
+    image: abderrahmane03/dep-ensias/common-models:latest
+    container_name: ensias-common-models-prod
+    ports:
+      - "9090:9090"  # Exposed for testing
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: prod
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ensias_prod_network
+    restart: unless-stopped
+
+  # Admin Service
+  admin:
+    image: abderrahmane03/dep-ensias/admin:latest
+    container_name: ensias-admin-prod
+    ports:
+      - "9091:9091"  # Exposed for testing
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: prod
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+    depends_on:
+      db:
+        condition: service_healthy
+      common-models:
+        condition: service_started
+    networks:
+      - ensias_prod_network
+    restart: unless-stopped
+
+  # Auth Service
+  auth:
+    image: abderrahmane03/dep-ensias/auth:latest
+    container_name: ensias-auth-prod
+    ports:
+      - "9092:9092"  # Exposed for testing
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+      SPRING_PROFILES_ACTIVE: prod
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+    depends_on:
+      db:
+        condition: service_healthy
+      common-models:
+        condition: service_started
+    networks:
+      - ensias_prod_network
+    restart: unless-stopped
+
+  # Chef Department Service
+  chef-dep:
+    image: abderrahmane03/dep-ensias/chef-dep:latest
+    container_name: ensias-chef-dep-prod
+    ports:
+      - "9093:9093"  # Exposed for testing
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: prod
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+    depends_on:
+      db:
+        condition: service_healthy
+      common-models:
+        condition: service_started
+    networks:
+      - ensias_prod_network
+    restart: unless-stopped
+
+  # Professor Department Service
+  prof-dep:
+    image: abderrahmane03/dep-ensias/prof-dep:latest
+    container_name: ensias-prof-dep-prod
+    ports:
+      - "9094:9094"  # Exposed for testing
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: prod
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+    depends_on:
+      db:
+        condition: service_healthy
+      common-models:
+        condition: service_started
+    networks:
+      - ensias_prod_network
+    restart: unless-stopped
+
+  # Frontend - exposed to internet
+  frontend:
+    image: abderrahmane03/dep-ensias/frontend:latest
+    container_name: ensias-frontend-prod
+    ports:
+      - "5173:5173"  # Exposed to internet via VM public IP
+    depends_on:
+      - common-models
+      - admin
+      - auth
+      - chef-dep
+      - prof-dep
+    networks:
+      - ensias_prod_network
+    restart: unless-stopped
+
+networks:
+  ensias_prod_network:
+    driver: bridge
+    name: ensias_prod_network
+
+volumes:
+  postgres_data_prod:
+    name: ensias_postgres_data_prod
