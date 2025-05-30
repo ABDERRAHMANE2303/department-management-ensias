@@ -14,20 +14,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  maven-setup:
+
+  common-models-setup:
+    container_name: common-models-setup
     image: maven:3.9-eclipse-temurin-21-alpine
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - ./Back-End/pom.xml:/app/pom.xml
-      - maven-repo:/root/.m2/repository
-    command: ["mvn", "install:install-file", "-Dfile=/app/pom.xml", "-DgroupId=com.departement", "-DartifactId=department-management", "-Dversion=0.0.1-SNAPSHOT", "-Dpackaging=pom"]
-  common-models-setup:
-    image: maven:3.9-eclipse-temurin-21-alpine
-    depends_on:
-      maven-setup:
-        condition: service_completed_successfully
     volumes:
       - ./Back-End/common-models:/app
       - maven-repo:/root/.m2/repository
@@ -41,8 +37,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      maven-setup:
-        condition: service_completed_successfully
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -64,8 +58,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      maven-setup:
-        condition: service_completed_successfully
       common-models-setup:
         condition: service_completed_successfully
     environment:
@@ -91,8 +83,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      maven-setup:
-        condition: service_completed_successfully
       common-models-setup:
         condition: service_completed_successfully
     environment:
@@ -120,8 +110,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      maven-setup:
-        condition: service_completed_successfully
       common-models-setup:
         condition: service_completed_successfully
     environment:
@@ -147,8 +135,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      maven-setup:
-        condition: service_completed_successfully
       common-models-setup:
         condition: service_completed_successfully
     environment:

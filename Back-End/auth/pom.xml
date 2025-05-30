@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-<!-- In each module's pom.xml -->
-	<parent>
-		<groupId>com.departement</groupId>
-		<artifactId>department-management</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>  <!-- Make sure this path is correct -->
-	</parent>
+<!-- Replace in each module's pom.xml -->
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.5.0</version>
+    <relativePath/>
+</parent>
 	<groupId>com.departement</groupId>
 	<artifactId>auth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -82,11 +82,11 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.departement</groupId>
-			<artifactId>common-models</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+<dependency>
+    <groupId>com.departement</groupId>
+    <artifactId>common-models</artifactId>
+    <version>0.0.1-SNAPSHOT</version> <!-- Use explicit version -->
+</dependency>
 	</dependencies>
 
 	<build>
