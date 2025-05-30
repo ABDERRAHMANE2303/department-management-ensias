@@ -6,9 +6,77 @@ import ensias_logo_whitebg from '../assets/Ensias2.jpg'
 import ensias_logo_bg_removed from '../assets/Ensias2-removebg-preview.png'
 import um5 from '../assets/Mohammed_V_University_Logo.png'
 import ensias_image from '../assets/55.jpg'
+import DepartmentCard from '../components/DepartmentCard'
+import { Search } from 'lucide-react'
 function App() {
   const [activeSection, setActiveSection] = useState('')
+  const [searchTerm, setSearchTerm] = useState('');
 
+  const departments = [
+    {
+      id: 1,
+      name: "Génie Logiciel",
+      description: "Optimisation des processus industriels et gestion de la production",
+      specializations: ["Logistique", "Qualité", "Management", 
+        "Devops", "Agilité"
+      ],
+      duration: "3 ans",
+      color: "bg-green-500"
+    },
+    {
+      id: 2,
+      name: "Génie Data",
+      description: "Formation en développement logiciel, intelligence artificielle et systèmes d'information",
+      specializations: ["IA & Data Science", "Développement Web", "Cybersécurité"],
+      duration: "3 ans",
+      color: "bg-blue-500"
+    },
+    {
+      id: 3,
+      name: "IDSIT",
+      description: "Conception et construction d'ouvrages d'art et d'infrastructures",
+      specializations: ["BTP", "Géotechnique", "Hydraulique"],
+      duration: "3 ans",
+      color: "bg-orange-500"
+    },
+    {
+      id: 4,
+      name: "SSE",
+      description: "Systèmes électriques, électroniques et énergies renouvelables",
+      specializations: ["Énergies Renouvelables", "Automatique", "Électronique", 'IOT', "data science"],
+      duration: "3 ans",
+      color: "bg-yellow-500"
+    },
+    {
+      id: 5,
+      name: "Génie Business intelligence",
+      description: "Conception et fabrication de systèmes mécaniques",
+      specializations: ["Mécatronique", "Matériaux", "Thermique", "Robotique"],
+      duration: "3 ans",
+      color: "bg-purple-500"
+    },
+    {
+      id: 6,
+      name: "SSI",
+      description: "Technologies de communication et réseaux informatiques",
+      specializations: ["5G", "IoT", "Sécurité Réseaux","IA & Data Science", "Développement Web", "Cybersécurité"],
+      duration: "3 ans",
+      color: "bg-red-500"
+    },
+        {
+      id: 7,
+      name: "2IA",
+      description: "Technologies de communication et réseaux informatiques",
+      specializations: ["5G", "IoT", "Sécurité Réseaux","IA & Data Science", "Développement Web", "Cybersécurité"],
+      duration: "3 ans",
+      color: "bg-blue-300"
+    }
+  ];
+
+  const filteredDepartments = departments.filter(dept =>
+    dept.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    dept.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['departments', 'about', 'contact']
@@ -134,7 +202,37 @@ function App() {
 
       {/* Departments Section */}
       <section id="departments" className="pt-20">
-        <Departments />
+       
+      {/* Search Bar */}
+      <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="relative max-w-md mx-auto">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <input
+              type="text"
+              placeholder="Rechercher un département..."
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* Departments Grid */}
+        <div className="max-w-7xl mx-auto px-4 pb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredDepartments.map((department) => (
+              <DepartmentCard key={department.id} department={department} />
+            ))}
+          </div>
+
+          {filteredDepartments.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-500 text-lg">
+                Aucun département trouvé pour "{searchTerm}"
+              </p>
+            </div>
+          )}
+        </div>
       </section>
 
       {/* À Propos Section */}
