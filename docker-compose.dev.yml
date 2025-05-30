@@ -1,0 +1,144 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5431:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  common-models:
+    container_name: common-models
+    build: ./Back-End/common-models
+    ports:
+      - "9090:9090"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DEVTOOLS_RESTART_ENABLED: ${SPRING_DEVTOOLS_RESTART_ENABLED}
+      SPRING_DEVTOOLS_LIVERELOAD_ENABLED: ${SPRING_DEVTOOLS_LIVERELOAD_ENABLED}
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+    volumes:
+      - ./Back-End/common-models/src/main/resources/uploads:/app/uploads
+      - ./Back-End/common-models/src:/build/src
+      - ./Back-End/common-models/target:/build/target
+      - maven-repo:/root/.m2/repository
+  admin:
+    container_name: admin
+    build: ./Back-End/admin
+    ports:
+      - "9091:9091"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DEVTOOLS_RESTART_ENABLED: ${SPRING_DEVTOOLS_RESTART_ENABLED}
+      SPRING_DEVTOOLS_LIVERELOAD_ENABLED: ${SPRING_DEVTOOLS_LIVERELOAD_ENABLED}
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+    volumes:
+      - ./Back-End/admin/src/main/resources/uploads:/app/uploads
+      - ./Back-End/admin/src:/build/src
+      - ./Back-End/admin/target:/build/target
+      - maven-repo:/root/.m2/repository
+
+  auth:
+    container_name: auth
+    build: ./Back-End/auth
+    ports:
+      - "9092:9092"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DEVTOOLS_RESTART_ENABLED: ${SPRING_DEVTOOLS_RESTART_ENABLED}
+      SPRING_DEVTOOLS_LIVERELOAD_ENABLED: ${SPRING_DEVTOOLS_LIVERELOAD_ENABLED}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+
+
+  chef-dep:
+    container_name: chef-dep
+    build: ./Back-End/chef-dep
+    ports:
+      - "9093:9093"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DEVTOOLS_RESTART_ENABLED: ${SPRING_DEVTOOLS_RESTART_ENABLED}
+      SPRING_DEVTOOLS_LIVERELOAD_ENABLED: ${SPRING_DEVTOOLS_LIVERELOAD_ENABLED}
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+    volumes:
+      - ./Back-End/chef-dep/src/main/resources/uploads:/app/uploads
+      - ./Back-End/chef-dep/src:/build/src
+      - ./Back-End/chef-dep/target:/build/target
+      - maven-repo:/root/.m2/repository
+
+  prof-dep:
+    container_name: prof-dep
+    build: ./Back-End/prof-dep
+    ports:
+      - "9094:9094"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DEVTOOLS_RESTART_ENABLED: ${SPRING_DEVTOOLS_RESTART_ENABLED}
+      SPRING_DEVTOOLS_LIVERELOAD_ENABLED: ${SPRING_DEVTOOLS_LIVERELOAD_ENABLED}
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+    volumes:
+      - ./Back-End/prof-dep/src/main/resources/uploads:/app/uploads
+      - ./Back-End/prof-dep/src:/build/src
+      - ./Back-End/prof-dep/target:/build/target
+      - maven-repo:/root/.m2/repository
+
+  frontend:
+    container_name: Front-End
+    build:
+      context: ./Front-End
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./Front-End:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=1
+      - VITE_PORT=5173
+    command: [ "npm", "run", "dev", "--", "--host" ]
+
+volumes:
+  postgres-data:
+  maven-repo:
