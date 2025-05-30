@@ -1,0 +1,80 @@
+@startuml Global_Sequence_Diagram
+
+' Styling
+!define ACTOR_BG_COLOR #A9DCDF
+!define SYSTEM_BG_COLOR #FFCC99
+!define DB_BG_COLOR #C5E0B4
+
+skinparam backgroundColor white
+skinparam handwritten false
+skinparam shadowing false
+skinparam sequenceArrowThickness 1.5
+skinparam roundcorner 8
+skinparam sequenceParticipant underline
+
+skinparam sequence {
+    ActorBackgroundColor ACTOR_BG_COLOR
+    ParticipantBackgroundColor SYSTEM_BG_COLOR
+    DatabaseBackgroundColor DB_BG_COLOR
+}
+
+' Actors
+actor "Utilisateur" as User
+participant "Interface Web" as UI
+participant "Contrôleurs\nApplication" as Controllers
+database "Base de Données" as DB
+
+' Title
+title Diagramme de Séquence Global: Système de Gestion Départementale
+
+' Authentication
+group Authentification
+    User -> UI: Accès au système
+    UI -> Controllers: Authentification utilisateur
+    Controllers -> DB: Vérification identifiants
+    DB --> Controllers: Validation + rôle utilisateur
+    Controllers --> UI: Session authentifiée
+    UI --> User: Accès au tableau de bord
+end
+
+' Department Management
+group Gestion Départementale
+    User -> UI: Actions de gestion (selon le rôle)
+    UI -> Controllers: Traitement demande
+    Controllers -> DB: Opération CRUD
+    DB --> Controllers: Résultat opération
+    Controllers --> UI: Mise à jour interface
+    UI --> User: Affichage résultat
+end
+
+' Module & Formation Management
+group Gestion Modules/Formations
+    User -> UI: Création/Modification/Consultation
+    UI -> Controllers: Traitement données pédagogiques
+    Controllers -> DB: Mise à jour données formations
+    DB --> Controllers: Confirmation opération
+    Controllers --> UI: Actualisation
+    UI --> User: Affichage formations/modules
+end
+
+' User Management
+group Gestion Utilisateurs
+    User -> UI: Administration des comptes
+    UI -> Controllers: Gestion des droits d'accès
+    Controllers -> DB: Modification utilisateurs
+    DB --> Controllers: Statut opération
+    Controllers --> UI: Résultat administration
+    UI --> User: Confirmation changements
+end
+
+' Public Access
+group Consultation Publique
+    User -> UI: Accès information publique
+    UI -> Controllers: Requête données publiques
+    Controllers -> DB: Récupération (départements, formations)
+    DB --> Controllers: Données filtrées (actifs uniquement)
+    Controllers --> UI: Présentation données
+    UI --> User: Affichage informations
+end
+
+@enduml

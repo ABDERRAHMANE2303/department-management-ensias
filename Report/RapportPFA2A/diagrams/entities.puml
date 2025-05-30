@@ -182,4 +182,188 @@ note right of enrollment
   (professeurs, modules, formations)
 end note
 
+@enduml@startuml Gestion_Departementale_ENSIAS
+
+!define ENTITY_COLOR #E1F5FE
+!define RELATION_COLOR #FFF3E0
+!define USER_COLOR #F3E5F5
+
+entity "departements" as dept {
+  * id : string <<CP>>
+  --
+  * nom : string
+  * description : string
+  * chef_departement_id : string <<CE>>
+  * code : string <<unique>> // ex: "GL", "II", "GI"
+  * date_creation : timestamp
+  * date_modification : timestamp
+  * est_actif : boolean
+}
+
+entity "formations" as form {
+  * id : string <<CP>>
+  --
+  * nom : string
+  * description : string
+  * departement_id : string <<CE>>
+  * niveau : string // "Licence", "Master", "Doctorat"
+  * duree_annees : integer
+  * coordinateur_id : string <<CE>>
+  * annee_academique : string // ex: "2024-2025"
+  * capacite_max : integer
+  * date_creation : timestamp
+  * est_active : boolean
+}
+
+entity "modules" as mod {
+  * id : string <<CP>>
+  --
+  * nom : string
+  * description : string
+  * formation_id : string <<CE>>
+  * code : string // ex: "INF101", "MATH201"
+  * credits : integer // Crédits ECTS
+  * semestre : integer // 1-6 pour Licence, 1-4 pour Master
+  * type_module : string // "Obligatoire", "Optionnel", "Libre"
+  * prerequis : text // JSON des IDs modules requis
+  * heures_totales : integer
+  * heures_cours : integer
+  * heures_td : integer // Travaux Dirigés
+  * heures_tp : integer // Travaux Pratiques
+  * date_creation : timestamp
+  * est_actif : boolean
+}
+
+entity "elements" as elem {
+  * id : string <<CP>>
+  --
+  * nom : string
+  * description : string
+  * module_id : string <<CE>>
+  * coefficient : decimal // Poids dans l'évaluation du module
+  * type_evaluation : string // "Examen", "Controle", "TP", "Projet"
+  * date_creation : timestamp
+}
+
+entity "professeurs" as prof {
+  * id : string <<CP>>
+  --
+  * nom : string
+  * prenom : string
+  * email : string <<unique>>
+  * telephone : string
+  * departement_id : string <<CE>>
+  * grade : string // "Professeur", "Maitre Assistant", "Assistant"
+  * specialite : string
+  * date_recrutement : date
+  * bureau : string
+  * statut : string // "Permanent", "Vacataire", "Visiteur"
+  * date_creation : timestamp
+  * est_actif : boolean
+}
+
+entity "utilisateurs" as users {
+  * id : string <<CP>>
+  --
+  * nom_utilisateur : string <<unique>>
+  * email : string <<unique>>
+  * mot_de_passe_hash : string
+  * role : string // 'cf', 'professeur', 'admin'
+  * professeur_id : string <<CE, nullable>>
+  * departement_id : string <<CE, nullable>>
+  * derniere_connexion : timestamp
+  * est_actif : boolean
+  * date_creation : timestamp
+  * date_modification : timestamp
+}
+
+entity "module_professeurs" as mod_prof {
+  * id : string <<CP>>
+  --
+  * module_id : string <<CE>>
+  * professeur_id : string <<CE>>
+  * role : string // "Titulaire", "Intervenant", "Responsable"
+  * annee_academique : string
+  * date_affectation : timestamp
+}
+
+entity "annees_academiques" as acad_year {
+  * id : string <<CP>>
+  --
+  * annee : string // "2024-2025"
+  * date_debut : date
+  * date_fin : date
+  * est_courante : boolean
+  * date_creation : timestamp
+}
+
+entity "inscriptions_etudiants" as enrollment {
+  * id : string <<CP>>
+  --
+  * numero_etudiant : string <<unique>>
+  * nom_etudiant : string
+  * prenom_etudiant : string
+  * email_etudiant : string
+  * formation_id : string <<CE>>
+  * annee_academique_id : string <<CE>>
+  * semestre_courant : integer
+  * statut : string // "Actif", "Suspendu", "Diplome"
+  * date_inscription : date
+}
+
+' Relations
+dept ||--o{ form : "possède"
+form ||--o{ mod : "contient"
+mod ||--o{ elem : "composé_de"
+dept ||--o{ prof : "emploie"
+prof ||--o{ users : "peut_être"
+dept ||--o{ users : "gère"
+mod ||--o{ mod_prof : "enseigné_par"
+prof ||--o{ mod_prof : "enseigne"
+form ||--o{ enrollment : "inscrit"
+acad_year ||--o{ enrollment : "durant_annee"
+acad_year ||--o{ mod_prof : "pendant"
+
+' Relation chef de département
+dept ||--o| prof : "dirigé_par"
+
+' Relation coordinateur de formation  
+form ||--o| prof : "coordonné_par"
+
+note right of dept
+  Départements comme:
+  - GL (Génie Logiciel)
+  - II (Ingénierie Informatique) 
+  - GI (Génie Industriel)
+  - GSTR (Génie des Systèmes de Télécommunications et Réseaux)
+end note
+
+note right of form
+  Les formations incluent:
+  - Niveaux Licence (3 ans)
+  - Niveaux Master (2 ans)
+  - Cycles d'ingénieur
+end note
+
+note right of mod
+  Les modules suivent le
+  système de crédits ENSIAS
+  avec organisation semestrielle
+end note
+
+note right of users
+  Accès basé sur les rôles:
+  - cf: Chef de Formation
+  - professeur: Membre du corps enseignant
+  - admin: Administrateur système
+  - invite: Accès limité
+end note
+
+note right of enrollment
+  Optionnel: Peut être supprimé
+  si le focus est uniquement sur
+  la gestion interne du département
+  (professeurs, modules, formations)
+end note
+
 @enduml

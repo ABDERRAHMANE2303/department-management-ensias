@@ -16,9 +16,9 @@
 \lhead{
     \includegraphics[scale=0.04]{logo/ensias_triangle.png}
     \hspace{0.1cm} % Adjust the space as needed
-    \includegraphics[scale=0.5]{logo/LOGOONDA_head.png}
+    \includegraphics[scale=0.5]{}
     \hspace{0.1cm} % Adjust the space as needed
-    \includegraphics[scale=0.12]{logo/AeroguardLogo_head.png}
+    \includegraphics[scale=0.12]{}
 }
 
 \rhead{\textbf{\nouppercase{\leftmark}}}

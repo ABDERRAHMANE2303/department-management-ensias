@@ -1,0 +1,77 @@
+# ---------- LaTeX files ----------
+Report/RapportPFA2A/*.aux
+Report/RapportPFA2A/*.lof
+Report/RapportPFA2A/*.log
+Report/RapportPFA2A/*.lot
+Report/RapportPFA2A/*.fls
+Report/RapportPFA2A/*.out
+Report/RapportPFA2A/*.toc
+Report/RapportPFA2A/*.fmt
+Report/RapportPFA2A/*.fot
+Report/RapportPFA2A/*.cb
+Report/RapportPFA2A/*.cb2
+Report/RapportPFA2A/.*.lb
+Report/RapportPFA2A/*.dvi
+Report/RapportPFA2A/*.xdv
+Report/RapportPFA2A/*-converted-to.*
+Report/RapportPFA2A/*.pdf
+Report/RapportPFA2A/*.ps
+Report/RapportPFA2A/*.eps
+Report/RapportPFA2A/*.tex~
+Report/RapportPFA2A/*.bbl
+Report/RapportPFA2A/*.bcf
+Report/RapportPFA2A/*.blg
+Report/RapportPFA2A/*.run.xml
+Report/RapportPFA2A/*.synctex.gz
+Report/RapportPFA2A/_minted*
+Report/RapportPFA2A/*.pyg
+
+# ---------- Front-End files ----------
+# Logs
+Front-End/logs
+Front-End/*.log
+Front-End/npm-debug.log*
+Front-End/yarn-debug.log*
+Front-End/yarn-error.log*
+Front-End/pnpm-debug.log*
+Front-End/lerna-debug.log*
+
+# Dependencies and build files
+Front-End/node_modules
+Front-End/dist
+Front-End/dist-ssr
+Front-End/*.local
+
+
+# ---------- General files ----------
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Temporary files
+*~
+*.swp
+*.tmp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Environment variables
+*.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
