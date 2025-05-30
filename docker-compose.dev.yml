@@ -14,21 +14,18 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-  common-models-setup:
-    container_name: common-models-setup
+  build-all:
+    container_name: build-all
     image: maven:3.9-eclipse-temurin-21-alpine
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
+    volumes:
+      - ./Back-End:/app
+      - maven-repo:/root/.m2/repository
+    working_dir: /app
+    command: ["mvn", "clean", "install", "-DskipTests"]
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - ./Back-End/common-models:/app
-      - maven-repo:/root/.m2/repository
-    working_dir: /app
-    command: ["mvn", "install", "-DskipTests"]
+
   common-models:
     container_name: common-models
     build: ./Back-End/common-models
@@ -37,6 +34,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      build-all:
+        condition: service_completed_successfully
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -58,7 +57,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      common-models-setup:
+      build-all:
         condition: service_completed_successfully
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
@@ -73,6 +72,7 @@ services:
       - ./Back-End/admin/src:/app/src
       - ./Back-End/admin/target:/app/target
       - ./Back-End/admin/pom.xml:/app/pom.xml 
+      - ./Back-End/common-models/target/classes:/app/common-model-classes
       - maven-repo:/root/.m2/repository
 
   auth:
@@ -83,7 +83,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      common-models-setup:
+      build-all:
         condition: service_completed_successfully
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
@@ -100,6 +100,7 @@ services:
       - ./Back-End/auth/src:/app/src
       - ./Back-End/auth/target:/app/target
       - ./Back-End/auth/pom.xml:/app/pom.xml 
+      - ./Back-End/common-models/target/classes:/app/common-model-classes
       - maven-repo:/root/.m2/repository
 
   chef-dep:
@@ -110,7 +111,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      common-models-setup:
+      build-all:
         condition: service_completed_successfully
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
@@ -125,6 +126,7 @@ services:
       - ./Back-End/chef-dep/src:/app/src
       - ./Back-End/chef-dep/target:/app/target
       - ./Back-End/chef-dep/pom.xml:/app/pom.xml 
+      - ./Back-End/common-models/target/classes:/app/common-model-classes
       - maven-repo:/root/.m2/repository
 
   prof-dep:
@@ -135,7 +137,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      common-models-setup:
+      build-all:
         condition: service_completed_successfully
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
@@ -150,6 +152,7 @@ services:
       - ./Back-End/prof-dep/src:/app/src
       - ./Back-End/prof-dep/target:/app/target
       - ./Back-End/prof-dep/pom.xml:/app/pom.xml 
+      - ./Back-End/common-models/target/classes:/app/common-model-classes
       - maven-repo:/root/.m2/repository
 
   frontend:

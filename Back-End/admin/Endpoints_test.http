@@ -1,0 +1,67 @@
+### Variables
+@baseUrl = http://localhost:9091
+@contentType = application/json
+
+### Get all users
+GET {{baseUrl}}/api/utilisateurs
+Accept: {{contentType}}
+
+### Create a new user
+POST {{baseUrl}}/api/utilisateurs
+Content-Type: {{contentType}}
+
+{
+  "nomUtilisateur": "user1",
+  "email": "user1@example.com",
+  "motDePasse": "password123",
+  "role": "admin",
+  "oauthId": "google123456",
+  "oauthProvider": "google",
+  "professeurId": null,
+  "departementId": null
+}
+
+### Create a professor user
+POST {{baseUrl}}/api/utilisateurs
+Content-Type: {{contentType}}
+
+{
+  "nomUtilisateur": "prof1",
+  "email": "prof1@example.com",
+  "motDePasse": "password123",
+  "role": "professeur",
+  "professeurId": "prof-id-123",
+  "departementId": "dept-id-456"
+}
+
+### Create a chef department user
+POST {{baseUrl}}/api/utilisateurs
+Content-Type: {{contentType}}
+
+{
+  "nomUtilisateur": "chef1",
+  "email": "chef1@example.com",
+  "motDePasse": "password123",
+  "role": "cf",
+  "departementId": "dept-id-789"
+}
+
+### Get a specific user by ID
+# Update this ID after creating a user
+@userId = replace-with-actual-id
+GET {{baseUrl}}/api/utilisateurs/{{userId}}
+Accept: {{contentType}}
+
+### Update a user
+# Update this ID after creating a user
+PUT {{baseUrl}}/api/utilisateurs/{{userId}}
+Content-Type: {{contentType}}
+
+{
+  "email": "updated-email@example.com",
+  "role": "admin"
+}
+
+### Delete a user
+# Update this ID after creating a user
+DELETE {{baseUrl}}/api/utilisateurs/{{userId}}
