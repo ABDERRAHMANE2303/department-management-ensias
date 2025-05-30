@@ -1,5 +1,5 @@
 import { Clock, Users, BookOpen } from 'lucide-react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const DepartmentCard = ({ department }) => {
   return (
@@ -43,9 +43,9 @@ const DepartmentCard = ({ department }) => {
         </div>
         
         {/* Call to Action - This will always be at the bottom */}
-        <button className={`w-full ${department.color} text-white py-2 px-4 rounded-lg font-medium hover:opacity-90 transition-opacity duration-200 mt-auto`}>
+        <Link className={`w-full ${department.color} text-white py-2 px-4 rounded-lg font-medium hover:opacity-90 transition-opacity duration-200 mt-auto`}>
           En savoir plus
-        </button>
+        </Link>
       </div>
     </div>
   );
