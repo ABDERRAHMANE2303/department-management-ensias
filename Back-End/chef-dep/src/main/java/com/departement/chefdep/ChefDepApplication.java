@@ -13,6 +13,11 @@ public class ChefDepApplication {
         return "Hello ChefDep";
     }
 
+    @GetMapping("/")
+    public String home() {
+        return "Common Models Service is running";
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(ChefDepApplication.class, args);
     }

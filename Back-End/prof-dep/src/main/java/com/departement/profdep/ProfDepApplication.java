@@ -13,6 +13,11 @@ public class ProfDepApplication {
         return "Hello ProfDep";
     }
 
+    @GetMapping("/")
+    public String home() {
+        return "Common Models Service is running";
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(ProfDepApplication.class, args);
     }

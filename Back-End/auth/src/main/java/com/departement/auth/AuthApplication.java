@@ -13,6 +13,11 @@ public class AuthApplication {
 		return "Hello Auth";
 	}
 
+	@GetMapping("/")
+	public String home() {
+		return "Common Models Service is running";
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(AuthApplication.class, args);
 	}

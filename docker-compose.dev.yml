@@ -14,7 +14,25 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
+  maven-setup:
+    image: maven:3.9-eclipse-temurin-21-alpine
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./Back-End/pom.xml:/app/pom.xml
+      - maven-repo:/root/.m2/repository
+    command: ["mvn", "install:install-file", "-Dfile=/app/pom.xml", "-DgroupId=com.departement", "-DartifactId=department-management", "-Dversion=0.0.1-SNAPSHOT", "-Dpackaging=pom"]
+  common-models-setup:
+    image: maven:3.9-eclipse-temurin-21-alpine
+    depends_on:
+      maven-setup:
+        condition: service_completed_successfully
+    volumes:
+      - ./Back-End/common-models:/app
+      - maven-repo:/root/.m2/repository
+    working_dir: /app
+    command: ["mvn", "install", "-DskipTests"]
   common-models:
     container_name: common-models
     build: ./Back-End/common-models
@@ -23,6 +41,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      maven-setup:
+        condition: service_completed_successfully
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -33,8 +53,8 @@ services:
       FILE_UPLOAD_DIR: ${UPLOAD_DIR}
     volumes:
       - ./Back-End/common-models/src/main/resources/uploads:/app/uploads
-      - ./Back-End/common-models/src:/build/src
-      - ./Back-End/common-models/target:/build/target
+      - ./Back-End/common-models/src:/app/src
+      - ./Back-End/common-models/pom.xml:/app/pom.xml 
       - maven-repo:/root/.m2/repository
   admin:
     container_name: admin
@@ -44,6 +64,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      maven-setup:
+        condition: service_completed_successfully
+      common-models-setup:
+        condition: service_completed_successfully
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -54,8 +78,9 @@ services:
       FILE_UPLOAD_DIR: ${UPLOAD_DIR}
     volumes:
       - ./Back-End/admin/src/main/resources/uploads:/app/uploads
-      - ./Back-End/admin/src:/build/src
-      - ./Back-End/admin/target:/build/target
+      - ./Back-End/admin/src:/app/src
+      - ./Back-End/admin/target:/app/target
+      - ./Back-End/admin/pom.xml:/app/pom.xml 
       - maven-repo:/root/.m2/repository
 
   auth:
@@ -66,6 +91,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      maven-setup:
+        condition: service_completed_successfully
+      common-models-setup:
+        condition: service_completed_successfully
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -76,7 +105,12 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: ${JWT_EXPIRATION}
       FILE_UPLOAD_DIR: ${UPLOAD_DIR}
-
+    volumes:
+      - ./Back-End/auth/src/main/resources/uploads:/app/uploads
+      - ./Back-End/auth/src:/app/src
+      - ./Back-End/auth/target:/app/target
+      - ./Back-End/auth/pom.xml:/app/pom.xml 
+      - maven-repo:/root/.m2/repository
 
   chef-dep:
     container_name: chef-dep
@@ -86,6 +120,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      maven-setup:
+        condition: service_completed_successfully
+      common-models-setup:
+        condition: service_completed_successfully
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -96,8 +134,9 @@ services:
       FILE_UPLOAD_DIR: ${UPLOAD_DIR}
     volumes:
       - ./Back-End/chef-dep/src/main/resources/uploads:/app/uploads
-      - ./Back-End/chef-dep/src:/build/src
-      - ./Back-End/chef-dep/target:/build/target
+      - ./Back-End/chef-dep/src:/app/src
+      - ./Back-End/chef-dep/target:/app/target
+      - ./Back-End/chef-dep/pom.xml:/app/pom.xml 
       - maven-repo:/root/.m2/repository
 
   prof-dep:
@@ -108,6 +147,10 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      maven-setup:
+        condition: service_completed_successfully
+      common-models-setup:
+        condition: service_completed_successfully
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -118,8 +161,9 @@ services:
       FILE_UPLOAD_DIR: ${UPLOAD_DIR}
     volumes:
       - ./Back-End/prof-dep/src/main/resources/uploads:/app/uploads
-      - ./Back-End/prof-dep/src:/build/src
-      - ./Back-End/prof-dep/target:/build/target
+      - ./Back-End/prof-dep/src:/app/src
+      - ./Back-End/prof-dep/target:/app/target
+      - ./Back-End/prof-dep/pom.xml:/app/pom.xml 
       - maven-repo:/root/.m2/repository
 
   frontend:
