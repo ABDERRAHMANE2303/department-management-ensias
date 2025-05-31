@@ -457,7 +457,8 @@ const semestres_GD = [
 const statistiques = [
   { label: "Étudiants actifs", valeur: "150+", icone: Users },
   { label: "Années d'excellence", valeur: "15+", icone: Calendar },
-  { label: "Diplômés en activité", valeur: "500+", icone: Award }
+  { label: "Diplômés en activité", valeur: "500+", icone: Award },
+  { label: "Publication", valeur: "50+", icone: Globe }
 
 ];
 
@@ -875,9 +876,9 @@ const Departement = () => {
             </p>
             
             {/* Enhanced Statistics Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-7xl mx-auto">
                 {statistiques.map((stat, index) => (
-                <div key={index} className="relative group w-[300px]">
+                <div key={index} className="relative group">
                   {/* Card Background with Enhanced Overlay */}
                   <div className="bg-white bg-opacity-15 backdrop-blur-md rounded-2xl p-4 sm:p-6 transform hover:scale-105 transition-all duration-300 border border-white border-opacity-20 shadow-2xl hover:bg-opacity-20">
                     {/* Inner Shadow Overlay for Better Contrast */}
