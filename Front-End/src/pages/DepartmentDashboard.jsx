@@ -135,7 +135,9 @@ const DepartmentDashboard = () => {
     titre: "",
     phone: "",
     isCoordinator: false,
-    role: "professeur"
+    role: "professeur",
+    password: "",
+    confirmPassword: ""
   });
 
   // Effect to update dark mode
@@ -199,6 +201,36 @@ const DepartmentDashboard = () => {
     }));
   };
 
+  // New handler for profile image upload
+  const handleProfileImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // In a real app, you'd upload the file to your server/cloud storage
+      // For now, we'll use a local URL
+      const imageUrl = URL.createObjectURL(file);
+      setCurrentUser(prev => ({
+        ...prev,
+        image: imageUrl
+      }));
+      
+      // Show a success message
+      alert("Image de profil mise à jour avec succès!");
+      
+      // In a real app, you would have:
+      // 1. Upload the file to your server/storage
+      // 2. Get the URL back
+      // 3. Update the user profile with the new image URL
+      // const formData = new FormData();
+      // formData.append('profileImage', file);
+      // api.uploadProfileImage(formData).then(response => {
+      //   setCurrentUser(prev => ({
+      //     ...prev,
+      //     image: response.imageUrl
+      //   }));
+      // });
+    }
+  };
+
   // Submit handlers
   const saveDepartmentChanges = () => {
     // In a real app, send API request to update department
@@ -258,7 +290,9 @@ const DepartmentDashboard = () => {
         titre: "",
         phone: "",
         isCoordinator: false,
-        role: "professeur"
+        role: "professeur",
+        password: "",
+        confirmPassword: ""
       });
     }
     setEditingProfessor(false);
@@ -1098,6 +1132,31 @@ const DepartmentDashboard = () => {
                     </div>
                   </div>
                   
+                  {!selectedProfessor && (
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label>Mot de passe</label>
+                        <input
+                          type="password"
+                          name="password"
+                          value={newProfessor.password}
+                          onChange={handleProfessorChange}
+                          placeholder="Mot de passe sécurisé"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Confirmer le mot de passe</label>
+                        <input
+                          type="password"
+                          name="confirmPassword"
+                          value={newProfessor.confirmPassword}
+                          onChange={handleProfessorChange}
+                          placeholder="Confirmer le mot de passe"
+                        />
+                      </div>
+                    </div>
+                  )}
+                  
                   <div className="form-group">
                     <div className="checkbox-group">
                       <input 
@@ -1252,11 +1311,23 @@ const DepartmentDashboard = () => {
                       }}
                     />
                     {editingProfile && (
-                      <div className="profile-image-overlay">
-                        <button className="change-image-button">
-                          <Edit size={24} />
-                        </button>
-                      </div>
+                      <>
+                        <div className="profile-image-overlay">
+                          <button 
+                            className="change-image-button"
+                            onClick={() => document.getElementById('profile-image-upload').click()}
+                          >
+                            <Edit size={24} />
+                          </button>
+                        </div>
+                        <input
+                          type="file"
+                          id="profile-image-upload"
+                          accept="image/*"
+                          onChange={handleProfileImageUpload}
+                          style={{ display: 'none' }}
+                        />
+                      </>
                     )}
                   </div>
                   <div className="profile-titles">
@@ -1345,19 +1416,6 @@ const DepartmentDashboard = () => {
                       </div>
                     </div>
                   </div>
-                  
-                  {editingProfile && (
-                    <div className="form-group full-width">
-                      <label>URL de l'image de profil</label>
-                      <input 
-                        type="url" 
-                        name="image"
-                        value={currentUser.image}
-                        onChange={handleProfileChange}
-                        placeholder="https://example.com/profile-image.jpg"
-                      />
-                    </div>
-                  )}
                   
                   {editingProfile && (
                     <div className="form-row">
