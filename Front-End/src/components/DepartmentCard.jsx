@@ -18,11 +18,6 @@ const DepartmentCard = ({department }) => {
           {department.description}
         </p>
 
-        {/* Duration */}
-        <div className="flex items-center mb-4 text-sm text-gray-500 dark:text-gray-400">
-          <Clock className="h-4 w-4 mr-2" />
-          <span>Durée: {department.duration}</span>
-        </div>
 
         {/* Specializations */}
         <div className="mb-4 flex-grow">

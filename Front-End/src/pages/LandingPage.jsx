@@ -95,14 +95,7 @@ function App() {
       duration: "3 ans",
       color: "bg-red-500"
     },
-        {
-      id: 7,
-      name: "2IA",
-      description: "Technologies de communication et réseaux informatiques",
-      specializations: ["5G", "IoT", "Sécurité Réseaux","IA & Data Science", "Développement Web", "Cybersécurité"],
-      duration: "3 ans",
-      color: "bg-blue-300"
-    }
+      
   ];
 
   const filteredDepartments = departments.filter(dept =>
@@ -184,12 +177,13 @@ function App() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#departments" className={navLinkClass('departments')}>
-              Départements
-            </a>
             <a href="#about" className={navLinkClass('about')}>
               À Propos
             </a>
+            <a href="#departments" className={navLinkClass('departments')}>
+              Départements
+            </a>
+
             <a href="#contact" className={navLinkClass('contact')}>
               Contact
             </a>
@@ -335,6 +329,40 @@ function App() {
         </div>
       </motion.section>
 
+
+
+      {/* À Propos Section */}
+      <section
+        id="about"
+        className="min-h-screen bg-gray-50 dark:bg-gray-800 flex items-center justify-center px-4 py-20"
+      >
+        <div className="max-w-6xl w-full grid md:grid-cols-2 gap-[150px] items-center">
+          <img
+            src={ensias_image}
+            alt="ENSIAS campus"
+            className="w-full h-auto rounded-lg shadow-lg"
+          />
+          <div>
+            <h2 className="text-4xl font-bold text-[#ee3638] mb-6">À Propos de l'ENSIAS</h2>
+            <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">
+              L'École Nationale Supérieure d'Informatique et d'Analyse des Systèmes (ENSIAS)
+              est l'une des écoles d'ingénieurs les plus prestigieuses au Maroc. Fondée en 1993,
+              elle fait partie de l'Université Mohammed V de Rabat.
+            </p>
+            <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">
+              L'ENSIAS propose plusieurs filières de formation en informatique, allant du
+              développement logiciel, à la cybersécurité, en passant par l'intelligence
+              artificielle, le cloud computing, et les systèmes embarqués.
+            </p>
+            <p className="text-gray-700 dark:text-gray-300 text-lg">
+              Grâce à un corps professoral hautement qualifié et des partenariats nationaux
+              et internationaux, l'ENSIAS vise à former des ingénieurs polyvalents et
+              compétents capables de répondre aux besoins du marché de l'emploi.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Departments Section */}
       <section id="departments" className="pt-20 dark:bg-gray-900">
         {/* Search Bar */}
@@ -366,38 +394,6 @@ function App() {
               </p>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* À Propos Section */}
-      <section
-        id="about"
-        className="min-h-screen bg-gray-50 dark:bg-gray-800 flex items-center justify-center px-4 py-20"
-      >
-        <div className="max-w-6xl w-full grid md:grid-cols-2 gap-[150px] items-center">
-          <img
-            src={ensias_image}
-            alt="ENSIAS campus"
-            className="w-full h-auto rounded-lg shadow-lg"
-          />
-          <div>
-            <h2 className="text-4xl font-bold text-[#ee3638] mb-6">À Propos de l'ENSIAS</h2>
-            <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">
-              L'École Nationale Supérieure d'Informatique et d'Analyse des Systèmes (ENSIAS)
-              est l'une des écoles d'ingénieurs les plus prestigieuses au Maroc. Fondée en 1993,
-              elle fait partie de l'Université Mohammed V de Rabat.
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 text-lg mb-4">
-              L'ENSIAS propose plusieurs filières de formation en informatique, allant du
-              développement logiciel, à la cybersécurité, en passant par l'intelligence
-              artificielle, le cloud computing, et les systèmes embarqués.
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 text-lg">
-              Grâce à un corps professoral hautement qualifié et des partenariats nationaux
-              et internationaux, l'ENSIAS vise à former des ingénieurs polyvalents et
-              compétents capables de répondre aux besoins du marché de l'emploi.
-            </p>
-          </div>
         </div>
       </section>
 
