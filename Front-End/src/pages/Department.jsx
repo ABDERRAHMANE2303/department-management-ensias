@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, ChevronLeft, ChevronRight, GraduationCap, Users, BookOpen, Code, Calendar, Mail, Phone, Award, Target, Globe, Briefcase, Moon, Sun } from 'lucide-react';
 import ViewCounter from '../components/ViewCounter';
 
+// Modify the professor array to mark the chef de département
 const professeurs = [
   {
     nom: "Prof. Mahmoud NASSAR",
@@ -11,6 +12,7 @@ const professeurs = [
     email: "m.nassar@ensias.ma",
     telephone: "06 64 72 54 77",
     formation: "Doctorat en Informatique de l'Institut National Polytechnique de Toulouse, 2005",
+    isChef: true, // Mark this professor as chef
     // image sera fournie localement
   },
   {
@@ -464,6 +466,259 @@ const statistiques = [
   { label: "Insertion professionnelle", valeur: "97%", icone: Target },
 ];
 
+const coordinateurs = {
+  GL: {
+    nom: "Prof. GUERMAH Hatim",
+    titre: "Coordinateur Pédagogique - Filière Génie Logiciel",
+    email: "h.guermah@ensias.ma",
+    image: "https://randomuser.me/api/portraits/men/46.jpg" // Placeholder image
+  },
+  GD: {
+    nom: "Prof. TABII Youness",
+    titre: "Coordinateur Pédagogique - Filière Génie Data",
+    email: "y.tabii@ensias.ma",
+    image: "https://randomuser.me/api/portraits/men/32.jpg" // Placeholder image
+  },
+  IA: {
+    nom: "Prof. EL HAMLAOUI Mahmoud",
+    titre: "Coordinateur Pédagogique - Filière Intelligence Artificielle",
+    email: "m.elhamloui@ensias.ma",
+    image: "https://randomuser.me/api/portraits/men/28.jpg" // Placeholder image
+  },
+  SSI: {
+    nom: "Prof. ABIK Mounia", 
+    titre: "Coordinatrice Pédagogique - Filière Sécurité des Systèmes d'Information",
+    email: "m.abik@ensias.ma",
+    image: "https://randomuser.me/api/portraits/women/33.jpg" // Placeholder image
+  }
+};
+
+// Add formations list
+const formations = [
+  { id: 'GL', name: 'Génie Logiciel' },
+  { id: 'GD', name: 'Génie Data' },
+  { id: 'IA', name: 'Intelligence Artificielle' },
+  { id: 'SSI', name: 'Sécurité des Systèmes d\'Information' },
+];
+
+// Add data structures for competences and debouches by formation
+const competencesParFormation = {
+  GL: [
+    "Maîtrise complète du cycle de développement logiciel",
+    "Expertise en architectures modernes (microservices, cloud)",
+    "Compétences avancées en qualité logicielle et tests",
+    "Gestion de projets agiles et DevOps",
+    "Leadership technique et innovation",
+    "Adaptabilité aux nouvelles technologies"
+  ],
+  GD: [
+    "Analyse et traitement de données à grande échelle",
+    "Conception et gestion de data lakes et data warehouses",
+    "Maîtrise des techniques de data mining et business intelligence",
+    "Visualisation de données avancée",
+    "Compétences en statistiques et modélisation de données",
+    "Architecture de solutions Big Data"
+  ],
+  IA: [
+    "Développement d'algorithmes d'apprentissage automatique",
+    "Conception et implémentation de modèles de deep learning",
+    "Traitement du langage naturel et vision par ordinateur",
+    "Déploiement et maintenance de systèmes IA",
+    "Interprétabilité et éthique de l'IA",
+    "Automatisation des processus par IA"
+  ],
+  SSI: [
+    "Audit et analyse des vulnérabilités de sécurité",
+    "Conception de solutions cryptographiques",
+    "Sécurisation des architectures cloud et réseaux",
+    "Détection et réponse aux incidents de sécurité",
+    "Gouvernance et conformité en cybersécurité",
+    "Conception de systèmes zéro-trust"
+  ]
+};
+
+const debouchesParFormation = {
+  GL: [
+    "Architecte Logiciel Senior",
+    "Lead Developer / Tech Lead",
+    "Chef de Projet Technique",
+    "DevOps Engineer",
+    "Consultant en Transformation Numérique",
+    "Entrepreneur Tech / Startup Founder"
+  ],
+  GD: [
+    "Data Engineer",
+    "Data Architect",
+    "Business Intelligence Analyst",
+    "Chief Data Officer",
+    "Data Warehouse Manager",
+    "ETL Developer"
+  ],
+  IA: [
+    "Machine Learning Engineer",
+    "Data Scientist",
+    "AI Research Scientist",
+    "Computer Vision Engineer",
+    "NLP Specialist",
+    "AI Solutions Architect"
+  ],
+  SSI: [
+    "Chief Information Security Officer (CISO)",
+    "Security Architect",
+    "Pentester / Ethical Hacker",
+    "Security Operations Analyst",
+    "Cryptographer",
+    "Cyber Risk Manager"
+  ]
+};
+
+// Add semester data for IA and SSI formations (similar to existing GL and GD)
+const semestres_IA = [
+  {
+    nom: "1er Semestre (S1) - Tronc Commun",
+    description: "Formation de base en informatique et mathématiques appliquées",
+    couleur: "from-purple-500 to-purple-600",
+    modules: [
+      {
+        nom: "Algorithmique et Structures de Données",
+        professeur: "Équipe enseignante ENSIAS",
+        description: "Fondements de l'algorithmique et structures de données essentielles"
+      },
+      {
+        nom: "Éléments de Recherche Opérationnelle",
+        professeur: "Équipe mathématiques",
+        description: "Analyse mathématique appliquée à l'informatique"
+      },
+      {
+        nom: "Probabilités et Statistiques",
+        professeur: "Équipe mathématiques",
+        description: "Fondements probabilistes pour l'informatique et l'IA"
+      },
+      {
+        nom: "Architecture des Ordinateurs",
+        professeur: "Équipe enseignante ENSIAS",
+        description: "Compréhension de l'architecture matérielle"
+      }
+    ]
+  },
+  {
+    nom: "2ème Semestre (S2) - Bases de l'IA",
+    description: "Introduction aux fondements de l'intelligence artificielle",
+    couleur: "from-indigo-500 to-indigo-600",
+    modules: [
+      {
+        nom: "Introduction à l'Intelligence Artificielle",
+        professeur: "Prof. EL HAMLAOUI Mahmoud",
+        description: "Concepts fondamentaux et historique de l'IA"
+      },
+      {
+        nom: "Statistiques pour l'IA",
+        professeur: "Équipe mathématiques",
+        description: "Méthodes statistiques pour l'analyse de données"
+      },
+      {
+        nom: "Programmation Python pour l'IA",
+        professeur: "Équipe enseignante ENSIAS",
+        description: "Maîtrise de Python et des bibliothèques d'IA"
+      }
+    ]
+  },
+  // Add more IA-specific semesters
+  {
+    nom: "3ème Semestre (S3) - Machine Learning",
+    description: "Fondements de l'apprentissage automatique",
+    couleur: "from-pink-500 to-pink-600",
+    modules: [
+      {
+        nom: "Apprentissage Supervisé",
+        professeur: "Prof. TABII Youness",
+        description: "Algorithmes de classification et régression"
+      },
+      {
+        nom: "Data Mining",
+        professeur: "Prof. RACHID OULAD HAJ THAMI",
+        description: "Extraction de connaissances à partir des données"
+      }
+    ]
+  }
+];
+
+const semestres_SSI = [
+  {
+    nom: "1er Semestre (S1) - Tronc Commun",
+    description: "Formation de base en informatique et mathématiques appliquées",
+    couleur: "from-red-500 to-red-600",
+    modules: [
+      {
+        nom: "Algorithmique et Structures de Données",
+        professeur: "Équipe enseignante ENSIAS",
+        description: "Fondements de l'algorithmique et structures de données essentielles"
+      },
+      {
+        nom: "Éléments de Recherche Opérationnelle",
+        professeur: "Équipe mathématiques",
+        description: "Analyse mathématique appliquée à l'informatique"
+      },
+      {
+        nom: "Architecture des Ordinateurs",
+        professeur: "Équipe enseignante ENSIAS",
+        description: "Compréhension de l'architecture matérielle"
+      }
+    ]
+  },
+  {
+    nom: "2ème Semestre (S2) - Bases de la Sécurité",
+    description: "Introduction aux fondements de la sécurité informatique",
+    couleur: "from-orange-500 to-orange-600",
+    modules: [
+      {
+        nom: "Introduction à la Cybersécurité",
+        professeur: "Pr. ABIK Mounia",
+        description: "Principes fondamentaux de la sécurité des systèmes"
+      },
+      {
+        nom: "Cryptographie de Base",
+        professeur: "Équipe enseignante ENSIAS",
+        description: "Algorithmes de chiffrement et protocoles"
+      },
+      {
+        nom: "Sécurité des Réseaux",
+        professeur: "Équipe enseignante ENSIAS",
+        description: "Fondements de la sécurité réseau"
+      }
+    ]
+  },
+  // Add more SSI-specific semesters
+  {
+    nom: "3ème Semestre (S3) - Sécurité Avancée",
+    description: "Approfondissement des techniques de sécurité",
+    couleur: "from-yellow-500 to-yellow-600",
+    modules: [
+      {
+        nom: "Sécurité Web",
+        professeur: "Prof. BOUCHRA Berrada",
+        description: "Protection des applications web et API"
+      },
+      {
+        nom: "Tests d'Intrusion",
+        professeur: "Équipe enseignante SSI",
+        description: "Méthodologies et outils de pentest"
+      }
+    ]
+  }
+];
+
+// Add helper function to get appropriate semester data
+function getSemestresForFormation(formation) {
+  switch(formation) {
+    case 'GL': return semestres_GL;
+    case 'GD': return semestres_GD;
+    case 'IA': return semestres_IA;
+    case 'SSI': return semestres_SSI;
+    default: return semestres_GL;
+  }
+}
+
 const Departement = () => {
   const [semestreActif, setSemestreActif] = useState(0);
   const [professeurActif, setProfesseurActif] = useState(0);
@@ -496,19 +751,13 @@ const Departement = () => {
   };
 
   const handlePrevSemestre = () => {
-    if (activeFormation === 'GL') {
-      setSemestreActif((prev) => (prev - 1 + semestres_GL.length) % semestres_GL.length);
-    } else {
-      setSemestreActif((prev) => (prev - 1 + semestres_GD.length) % semestres_GD.length);
-    }
+    const semestres = getSemestresForFormation(activeFormation);
+    setSemestreActif((prev) => (prev - 1 + semestres.length) % semestres.length);
   };
 
   const handleNextSemestre = () => {
-    if (activeFormation === 'GL') {
-      setSemestreActif((prev) => (prev + 1) % semestres_GL.length);
-    } else {
-      setSemestreActif((prev) => (prev + 1) % semestres_GD.length);
-    }
+    const semestres = getSemestresForFormation(activeFormation);
+    setSemestreActif((prev) => (prev + 1) % semestres.length);
   };
 
   const handlePrevProfesseur = () => {
@@ -716,7 +965,9 @@ const Departement = () => {
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
-              <h3 className="text-2xl font-bold text-center text-red-600 dark:text-red-400">Professeur</h3>
+              <h3 className="text-2xl font-bold text-center text-red-600 dark:text-red-400">
+                {professeurs[professeurActif].isChef ? "Chef de Département" : "Professeur"}
+              </h3>
               <button 
                 onClick={handleNextProfesseur}
                 className="p-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors duration-300 shadow-lg"
@@ -726,15 +977,26 @@ const Departement = () => {
             </div>
 
             <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 relative">
                 <img 
                   src={professeurs[professeurActif].image}
                   alt={professeurs[professeurActif].nom}
-                  className="w-48 h-48 rounded-full object-cover border-4 border-red-500 shadow-xl"
+                  className={`w-48 h-48 rounded-full object-cover shadow-xl ${
+                    professeurs[professeurActif].isChef 
+                      ? 'border-4 border-red-500' 
+                      : 'border-2 border-gray-300 dark:border-gray-600'
+                  }`}
                 />
+                {professeurs[professeurActif].isChef && (
+                  <div className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold py-1 px-2 rounded-full shadow-lg transform rotate-12">
+                    Chef
+                  </div>
+                )}
               </div>
               <div className="flex-1 text-center md:text-left">
-                <h4 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                <h4 className={`text-3xl font-bold text-gray-900 dark:text-white mb-2 ${
+                  professeurs[professeurActif].isChef ? 'text-red-600 dark:text-red-400' : ''
+                }`}>
                   {professeurs[professeurActif].nom}
                 </h4>
                 <p className="text-xl text-red-600 dark:text-red-400 font-semibold mb-4">
@@ -748,19 +1010,30 @@ const Departement = () => {
                     <Mail className="h-5 w-5 mr-2 text-red-500 dark:text-red-400" />
                     <span>{professeurs[professeurActif].email}</span>
                   </div>
-              
+                  {professeurs[professeurActif].telephone && (
+                    <div className="flex items-center text-gray-600 dark:text-gray-300">
+                      <Phone className="h-5 w-5 mr-2 text-red-500 dark:text-red-400" />
+                      <span>{professeurs[professeurActif].telephone}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
-
+            
             {/* Indicateurs */}
             <div className="flex justify-center mt-8 space-x-3">
-              {professeurs.map((_, idx) => (
+              {professeurs.map((prof, idx) => (
                 <button
                   key={idx}
                   onClick={() => setProfesseurActif(idx)}
-                  className={`w-4 h-4 rounded-full transition-all duration-300 ${
-                    professeurActif === idx ? 'bg-red-500 scale-125' : 'bg-gray-300 dark:bg-gray-600'
+                  className={`transition-all duration-300 ${
+                    professeurActif === idx 
+                      ? prof.isChef 
+                        ? 'w-6 h-6 bg-red-500 rounded-full scale-125' 
+                        : 'w-4 h-4 bg-red-500 rounded-full scale-125' 
+                      : prof.isChef
+                        ? 'w-5 h-5 bg-gray-300 dark:bg-gray-600 rounded-full border-2 border-gray-400 dark:border-gray-500' 
+                        : 'w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded-full'
                   }`}
                 />
               ))}
@@ -774,265 +1047,253 @@ const Departement = () => {
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">Programme Académique Détaillé</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto mb-8"></div>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-8">
-              Un cursus complet et progressif conçu pour former des experts en génie logiciel
+              Un cursus complet et progressif conçu pour former des experts en informatique
             </p>
             
-            {/* Formation Selector */}
-            <div className="flex justify-center space-x-4 mb-12">
-              <button
-                onClick={() => handleFormationChange('GL')}
-                className={`px-6 py-3 text-lg rounded-xl transition-all duration-300 ${
-                  activeFormation === 'GL' 
-                    ? 'bg-red-600 text-white font-medium shadow-lg' 
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
-              >
-                Formation Génie Logiciel
-              </button>
-              <button
-                onClick={() => handleFormationChange('GD')}
-                className={`px-6 py-3 text-lg rounded-xl transition-all duration-300 ${
-                  activeFormation === 'GD' 
-                    ? 'bg-blue-600 text-white font-medium shadow-lg' 
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
-              >
-                Formation Génie Data
-              </button>
+            {/* Formation Selector - Replace buttons with select dropdown */}
+            <div className="flex justify-center mb-12">
+              <div className="relative w-full max-w-md">
+                <select
+                  value={activeFormation}
+                  onChange={(e) => handleFormationChange(e.target.value)}
+                  className="w-full px-6 py-3 text-lg rounded-xl appearance-none bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-400 cursor-pointer"
+                >
+                  {formations.map(formation => (
+                    <option key={formation.id} value={formation.id}>
+                      {formation.name}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                  <ChevronRight className="h-5 w-5 text-gray-500 dark:text-gray-400 rotate-90" />
+                </div>
+              </div>
             </div>
           </div>
 
+          {/* Coordinateur Pédagogique */}
+          {coordinateurs[activeFormation] && (
+            <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg dark:shadow-gray-900 p-6 mb-8 border border-gray-100 dark:border-gray-700">
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                {/* Add coordinator image */}
+                <div className="flex-shrink-0">
+                  <img 
+                    src={coordinateurs[activeFormation].image} 
+                    alt={coordinateurs[activeFormation].nom}
+                    className="w-32 h-32 rounded-full object-cover border-4 border-red-500 shadow-lg"
+                    onError={(e) => {
+                      e.target.src = "https://via.placeholder.com/128?text=Image";
+                      e.target.onerror = null;
+                    }}
+                  />
+                </div>
+                
+                <div className="flex-1 flex flex-col md:flex-row items-center md:items-start md:justify-between">
+                  <div className="mb-4 md:mb-0 text-center md:text-left">
+                    <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200">
+                      Coordinateur Pédagogique
+                    </h3>
+                    <h4 className="text-2xl font-bold text-red-600 dark:text-red-400 mt-2">
+                      {coordinateurs[activeFormation].nom}
+                    </h4>
+                    <p className="text-gray-600 dark:text-gray-300 mt-1">
+                      {coordinateurs[activeFormation].titre}
+                    </p>
+                  </div>
+                  <div className="flex items-center bg-red-50 dark:bg-red-900/20 px-4 py-2 rounded-lg mt-4 md:mt-0">
+                    <Mail className="h-5 w-5 text-red-500 dark:text-red-400 mr-2" />
+                    <span className="text-gray-700 dark:text-gray-300">{coordinateurs[activeFormation].email}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Semester slider section */}
           <div className="relative bg-white dark:bg-gray-800 rounded-3xl shadow-2xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700">
             <div className="flex justify-between items-center mb-8">
               <button 
                 onClick={handlePrevSemestre}
-                className={`p-4 bg-gradient-to-r ${
-                  activeFormation === 'GL' 
-                    ? 'from-red-500 to-red-600 hover:from-red-600 hover:to-red-700' 
-                    : 'from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
-                } text-white rounded-full transition-all duration-300 shadow-lg transform hover:scale-110`
-              }
+                className="p-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-full transition-all duration-300 shadow-lg transform hover:scale-110"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
               
               <div className="text-center">
                 <h3 className={`text-3xl font-bold bg-gradient-to-r ${
-                  activeFormation === 'GL' 
-                    ? semestres_GL[semestreActif].couleur 
-                    : semestres_GD[semestreActif].couleur 
+                  getSemestresForFormation(activeFormation)[semestreActif].couleur
                 } bg-clip-text text-transparent mb-2`}>
-                  {activeFormation === 'GL' 
-                    ? semestres_GL[semestreActif].nom 
-                    : semestres_GD[semestreActif].nom }
+                  {getSemestresForFormation(activeFormation)[semestreActif].nom}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 max-w-2xl">
-                  {activeFormation === 'GL' 
-                    ? semestres_GL[semestreActif].description 
-                    : semestres_GD[semestreActif].description }
+                  {getSemestresForFormation(activeFormation)[semestreActif].description}
                 </p>
               </div>
               
               <button 
                 onClick={handleNextSemestre}
-                className={`p-4 bg-gradient-to-r ${
-                  activeFormation === 'GL' 
-                    ? 'from-red-500 to-red-600 hover:from-red-600 hover:to-red-700' 
-                    : 'from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
-                } text-white rounded-full transition-all duration-300 shadow-lg transform hover:scale-110`
-              }
+                className="p-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-full transition-all duration-300 shadow-lg transform hover:scale-110"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              {activeFormation === 'GL' ? (
-                // Display GL modules
-                semestres_GL[semestreActif].modules.map((module, index) => (
-                  // Existing module display code
-                  <div
-                    key={index}
-                    className="group bg-gradient-to-br from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 border border-gray-200 dark:border-gray-600 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                  >
-                    {/* Existing module content */}
-                    <div className="flex justify-between items-start mb-4">
-                      <h4 className={`text-xl font-bold bg-gradient-to-r ${semestres_GL[semestreActif].couleur} bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300`}>
-                        {module.nom}
-                      </h4>
-                      <div className="flex gap-2">
-                        {/* Credit badges if needed */}
-                      </div>
-                    </div>
-                    
-                    <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
-                      {module.description}
-                    </p>
-                    
-                    <div className="border-t dark:border-gray-600 pt-4">
-                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                        <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
-                        <span className="font-semibold">Professeur :</span>
-                        <span className="ml-2">{module.professeur}</span>
-                      </div>
+              {getSemestresForFormation(activeFormation)[semestreActif].modules.map((module, index) => (
+                <div
+                  key={index}
+                  className="group bg-gradient-to-br from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 border border-gray-200 dark:border-gray-600 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                >
+                  <div className="flex justify-between items-start mb-4">
+                    <h4 className={`text-xl font-bold bg-gradient-to-r ${getSemestresForFormation(activeFormation)[semestreActif].couleur} bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300`}>
+                      {module.nom}
+                    </h4>
+                  </div>
+                  
+                  <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                    {module.description}
+                  </p>
+                  
+                  <div className="border-t dark:border-gray-600 pt-4">
+                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                      <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                      <span className="font-semibold">Professeur :</span>
+                      <span className="ml-2">{module.professeur}</span>
                     </div>
                   </div>
-                ))
-              ) : 
-              (
-                // Display GL modules
-                semestres_GD[semestreActif].modules.map((module, index) => (
-                  // Existing module display code
-                  <div
-                    key={index}
-                    className="group bg-gradient-to-br from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 border border-gray-200 dark:border-gray-600 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                  >
-                    {/* Existing module content */}
-                    <div className="flex justify-between items-start mb-4">
-                      <h4 className={`text-xl font-bold bg-gradient-to-r ${semestres_GD[semestreActif].couleur} bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300`}>
-                        {module.nom}
-                      </h4>
-                      <div className="flex gap-2">
-                        {/* Credit badges if needed */}
-                      </div>
-                    </div>
-                    
-                    <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
-                      {module.description}
-                    </p>
-                    
-                    <div className="border-t dark:border-gray-600 pt-4">
-                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                        <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
-                        <span className="font-semibold">Professeur :</span>
-                        <span className="ml-2">{module.professeur}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              )}
+                </div>
+              ))}
             </div>
 
             {/* Semester indicators */}
             <div className="flex justify-center space-x-3">
-              {activeFormation === 'GL' 
-                ? semestres_GL.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setSemestreActif(idx)}
-                      className={`w-4 h-4 rounded-full transition-all duration-300 ${
-                        semestreActif === idx 
-                          ? 'bg-gradient-to-r from-red-500 to-red-600 scale-125 shadow-lg' 
-                          : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
-                      }`}
-                    />
-                  ))
-                :  semestres_GD.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setSemestreActif(idx)}
-                      className={`w-4 h-4 rounded-full transition-all duration-300 ${
-                        semestreActif === idx 
-                          ? 'bg-gradient-to-r from-red-500 to-red-600 scale-125 shadow-lg' 
-                          : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
-                      }`}
-                    />
-                  ))
-              }
-            </div>
-          </div>
-        </section>
-
-        {/* Compétences et Débouchés */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700">
-            <div className="text-center mb-8">
-              <Code className="h-12 w-12 text-red-500 dark:text-red-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Compétences Acquises</h3>
-              <div className="w-16 h-1 bg-red-500 mx-auto"></div>
-            </div>
-            
-            <div className="space-y-4">
-              {[
-                "Maîtrise complète du cycle de développement logiciel",
-                "Expertise en architectures modernes (microservices, cloud)",
-                "Compétences avancées en qualité logicielle et tests",
-                "Gestion de projets agiles et DevOps",
-                "Leadership technique et innovation",
-                "Adaptabilité aux nouvelles technologies"
-              ].map((competence, index) => (
-                <div key={index} className="flex items-center p-3 bg-red-50 dark:bg-red-900/20 rounded-xl hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors duration-300">
-                  <div className="w-2 h-2 bg-red-500 rounded-full mr-4"></div>
-                  <span className="text-gray-700 dark:text-gray-300">{competence}</span>
-                </div>
+              {getSemestresForFormation(activeFormation).map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setSemestreActif(idx)}
+                  className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                    semestreActif === idx 
+                      ? 'bg-gradient-to-r from-red-500 to-red-600 scale-125 shadow-lg' 
+                      : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                  }`}
+                />
               ))}
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700">
-            <div className="text-center mb-8">
-              <Briefcase className="h-12 w-12 text-blue-500 dark:text-blue-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Débouchés Professionnels</h3>
-              <div className="w-16 h-1 bg-blue-500 mx-auto"></div>
-            </div>
-            
-            <div className="space-y-4">
-              {[
-                "Architecte Logiciel Senior",
-                "Lead Developer / Tech Lead",
-                "Chef de Projet Technique",
-                "DevOps Engineer",
-                "Consultant en Transformation Numérique",
-                "Entrepreneur Tech / Startup Founder"
-              ].map((metier, index) => (
-                <div key={index} className="flex items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors duration-300">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
-                  <span className="text-gray-700 dark:text-gray-300">{metier}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Contact et Informations */}
-        <section className="bg-gradient-to-r from-red-600 to-orange-600 rounded-3xl p-12 text-white">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold mb-6">Rejoignez l'Excellence</h2>
-              <p className="text-xl mb-8 opacity-90">
-                Intégrez le département Génie Logiciel et donnez une nouvelle dimension à votre carrière technologique.
-              </p>
+          {/* Compétences et Débouchés */}
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700">
+              <div className="text-center mb-8">
+                <Code className="h-12 w-12 text-red-500 dark:text-red-400 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Compétences Acquises</h3>
+                <div className="w-16 h-1 bg-red-500 mx-auto"></div>
+              </div>
+              
               <div className="space-y-4">
-                <div className="flex items-center">
-                  <Mail className="h-6 w-6 mr-4" />
-                  <span className="text-lg">departement.gl@ensias.ma</span>
-                </div>
-                <div className="flex items-center">
-                  <Phone className="h-6 w-6 mr-4" />
-                  <span className="text-lg">+212 5 37 68 71 50</span>
-                </div>
-                <div className="flex items-center">
-                  <Calendar className="h-6 w-6 mr-4" />
-                  <span className="text-lg">Journées Portes Ouvertes : Mars 2024</span>
-                </div>
+                {competencesParFormation[activeFormation].map((competence, index) => (
+                  <div key={index} className="flex items-center p-3 bg-red-50 dark:bg-red-900/20 rounded-xl hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors duration-300">
+                    <div className="w-2 h-2 bg-red-500 rounded-full mr-4"></div>
+                    <span className="text-gray-700 dark:text-gray-300">{competence}</span>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="text-center">
-              <div className="bg-white bg-opacity-20 dark:bg-opacity-10 rounded-3xl p-8 backdrop-blur-sm">
-                <BookOpen className="h-16 w-16 mx-auto mb-6" />
-                <h3 className="text-2xl font-bold mb-4">Admission</h3>
-                <p className="text-lg opacity-90 mb-6">
-                  Concours national d'accès aux grandes écoles d'ingénieurs
+
+            <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700">
+              <div className="text-center mb-8">
+                <Briefcase className="h-12 w-12 text-blue-500 dark:text-blue-400 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Débouchés Professionnels</h3>
+                <div className="w-16 h-1 bg-blue-500 mx-auto"></div>
+              </div>
+              
+              <div className="space-y-4">
+                {debouchesParFormation[activeFormation].map((metier, index) => (
+                  <div key={index} className="flex items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors duration-300">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
+                    <span className="text-gray-700 dark:text-gray-300">{metier}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Contact et Informations */}
+          <section className="bg-gradient-to-r from-red-600 to-orange-600 rounded-3xl p-12 text-white">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-4xl font-bold mb-6">Rejoignez l'Excellence</h2>
+                <p className="text-xl mb-8 opacity-90">
+                  Intégrez le département Génie Logiciel et donnez une nouvelle dimension à votre carrière technologique.
                 </p>
-                <Link 
-                  to="/contact"
-                  className="inline-block bg-white text-red-600 font-bold py-3 px-8 rounded-xl hover:bg-gray-100 transition-colors duration-300"
-                >
-                  Nous Contacter
-                </Link>
+                <div className="space-y-4">
+                  <div className="flex items-center">
+                    <Mail className="h-6 w-6 mr-4" />
+                    <span className="text-lg">departement.gl@ensias.ma</span>
+                  </div>
+                    <Link
+                    to="/#contact"
+                    className="mt-8 inline-block bg-white text-red-600 font-bold py-3 px-6 md:px-8 rounded-xl hover:bg-gray-100 transition-colors duration-300 dark:bg-slate-800 dark:text-red-400 dark:hover:bg-slate-700"
+                  >
+                    Nous Contacter
+                  </Link>
+                </div>
               </div>
-            </div>
+                 <div className="text-center">
+      <div className="bg-white bg-opacity-20 dark:bg-black dark:bg-opacity-20 rounded-3xl p-6 md:p-8 backdrop-blur-sm shadow-lg max-w-2xl mx-auto">
+        <BookOpen className="h-16 w-16 mx-auto mb-4 text-slate-700 dark:text-slate-300" />
+        <h3 className="text-2xl md:text-3xl font-bold mb-2 text-slate-800 dark:text-slate-100">
+          Admission
+        </h3>
+        <p className="text-sm font-semibold uppercase text-slate-600 dark:text-slate-400 mb-6">
+          Conditions d’Accès
+        </p>
+
+        <div className="space-y-6 text-left text-sm md:text-base text-slate-700 dark:text-slate-300">
+          {/* Section 1: Sur Concours */}
+          <div>
+            <h4 className="text-lg font-semibold text-sky-700 dark:text-sky-400 mb-2">
+              1. Par Concours (Via Competitive Exam)
+            </h4>
+            <p className="text-xs opacity-80 mb-2">Candidats ayant réussi :</p>
+            <ul className="list-disc list-inside space-y-1.5 pl-4">
+              <li>
+                Le <strong>Concours National Commun (CNC)</strong> des grandes écoles d’ingénieurs.
+              </li>
+              <li>
+                Un <strong>concours spécifique</strong> pour titulaires de :
+                <ul className="list-circle list-inside ml-5 mt-1 space-y-1 text-xs md:text-sm opacity-90">
+                  <li>DEUG (SM / SMI) ou diplôme équivalent.</li>
+                  <li>DUT (spécialités informatiques) ou diplôme équivalent.</li>
+                  <li>Deux années préparatoires au cycle ingénieur INP.</li>
+                </ul>
+              </li>
+            </ul>
           </div>
+
+          {/* Section 2: Sur Étude de Dossier */}
+          <div>
+            <h4 className="text-lg font-semibold text-sky-700 dark:text-sky-400 mb-2">
+              2. Sur Étude de Dossier (Via File Review)
+            </h4>
+            <p className="text-xs opacity-80 mb-2">
+              Candidats titulaires (avec mention) de :
+            </p>
+            <ul className="list-disc list-inside space-y-1.5 pl-4">
+              <li>Licence (SMA / SMI).</li>
+              <li>Bachelor (Spécialité Mathématiques Appliquées ou Informatique).</li>
+              <li>LST.</li>
+              <li>Diplôme équivalent reconnu.</li>
+              <li>(Ou dans le cadre de la mobilité entrante).</li>
+            </ul>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+            </div>
+          </section>
         </section>
       </main>
     </div>
