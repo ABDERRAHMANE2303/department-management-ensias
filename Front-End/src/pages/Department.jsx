@@ -106,12 +106,6 @@ const professeurs = [
 
 
 
-// const statistiques = [
-//   { label: "Effectif GL prévu", valeur: "90", icone: "Users" },
-//   { label: "Option ILSI", valeur: "60", icone: "Users" },
-//   { label: "Année de fondation", valeur: "1992", icone: "Calendar" },
-//   { label: "Spécialisations ENSIAS", valeur: "8", icone: "BookOpen" }
-// ];
 
 const semestres_GL = [
   {
@@ -462,8 +456,9 @@ const semestres_GD = [
 
 const statistiques = [
   { label: "Étudiants actifs", valeur: "150+", icone: Users },
-  { label: "Taux de réussite", valeur: "94%", icone: Award },
-  { label: "Insertion professionnelle", valeur: "97%", icone: Target },
+  { label: "Années d'excellence", valeur: "15+", icone: Calendar },
+  { label: "Diplômés en activité", valeur: "500+", icone: Award }
+
 ];
 
 const coordinateurs = {
@@ -880,9 +875,9 @@ const Departement = () => {
             </p>
             
             {/* Enhanced Statistics Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 mt-8 sm:mt-16">
-              {statistiques.map((stat, index) => (
-                <div key={index} className="relative group">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+                {statistiques.map((stat, index) => (
+                <div key={index} className="relative group w-[300px]">
                   {/* Card Background with Enhanced Overlay */}
                   <div className="bg-white bg-opacity-15 backdrop-blur-md rounded-2xl p-4 sm:p-6 transform hover:scale-105 transition-all duration-300 border border-white border-opacity-20 shadow-2xl hover:bg-opacity-20">
                     {/* Inner Shadow Overlay for Better Contrast */}
@@ -925,16 +920,7 @@ const Departement = () => {
                 du logiciel. Notre cursus, constamment mis à jour, reflète les dernières avancées 
                 technologiques et les besoins émergents du marché.
               </p>
-              <div className="grid grid-cols-2 gap-6 mt-8">
-                <div className="text-center p-4 bg-red-50 dark:bg-red-900/20 rounded-xl">
-                  <div className="text-3xl font-bold text-red-600 dark:text-red-400 mb-2">15+</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300">Années d'excellence</div>
-                </div>
-                <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
-                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">500+</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300">Diplômés en activité</div>
-                </div>
-              </div>
+        
             </div>
             <div className="relative">
               <img 
@@ -1183,7 +1169,7 @@ const Departement = () => {
 
           {/* Compétences et Débouchés */}
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700 z-10">
               <div className="text-center mb-8">
                 <Code className="h-12 w-12 text-red-500 dark:text-red-400 mx-auto mb-4" />
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Compétences Acquises</h3>
@@ -1200,7 +1186,7 @@ const Departement = () => {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700 z-10">
               <div className="text-center mb-8">
                 <Briefcase className="h-12 w-12 text-blue-500 dark:text-blue-400 mx-auto mb-4" />
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Débouchés Professionnels</h3>
@@ -1241,8 +1227,8 @@ const Departement = () => {
               </div>
                  <div className="text-center">
       <div className="bg-white bg-opacity-20 dark:bg-black dark:bg-opacity-20 rounded-3xl p-6 md:p-8 backdrop-blur-sm shadow-lg max-w-2xl mx-auto">
-        <BookOpen className="h-16 w-16 mx-auto mb-4 text-slate-700 dark:text-slate-300" />
-        <h3 className="text-2xl md:text-3xl font-bold mb-2 text-slate-800 dark:text-slate-100">
+        <BookOpen className="h-16 w-16 mx-auto mb-4 text-slate-300" />
+        <h3 className="text-2xl md:text-3xl font-bold mb-2 text-slate-100">
           Admission
         </h3>
         <p className="text-sm font-semibold uppercase text-slate-600 dark:text-slate-400 mb-6">

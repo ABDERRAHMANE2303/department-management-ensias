@@ -6,7 +6,7 @@ import {
 import LandingPage from './pages/LandingPage.jsx'
 import './index.css'
 import Departement from './pages/Department.jsx';
-
+import DepartmentDashboard from './pages/DepartmentDashboard.jsx';  
 
 const router = createBrowserRouter([
   {
@@ -16,7 +16,11 @@ const router = createBrowserRouter([
   {
     path: "/departement/details",
     element: <Departement />,
-  }
+  },
+    {
+    path: "/chef-departement/dashboard",
+    element: <DepartmentDashboard />,
+  },
 ]);
 const root = document.getElementById("root");
 

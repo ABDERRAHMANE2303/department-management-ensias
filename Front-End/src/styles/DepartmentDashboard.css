@@ -1,0 +1,771 @@
+/* Base styling */
+:root {
+  --primary-color: #e53e3e;
+  --primary-hover: #c53030;
+  --secondary-color: #4299e1;
+  --success-color: #48bb78;
+  --warning-color: #ecc94b;
+  --danger-color: #f56565;
+  --light-bg: #f7fafc;
+  --dark-bg: #1a202c;
+  --light-card-bg: #ffffff;
+  --dark-card-bg: #2d3748;
+  --light-text: #1a202c;
+  --dark-text: #f7fafc;
+  --light-border: #e2e8f0;
+  --dark-border: #4a5568;
+  --light-sidebar: #2d3748;
+  --dark-sidebar: #1a202c;
+  --transition-speed: 0.3s;
+}
+
+/* Light/Dark Theme */
+.app-layout {
+  min-height: 100vh;
+  transition: all var(--transition-speed);
+}
+
+.app-layout.light {
+  background-color: var(--light-bg);
+  color: var(--light-text);
+}
+
+.app-layout.dark {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+/* Sidebar Styling */
+.sidebar {
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  transition: all var(--transition-speed);
+}
+
+.app-layout.dark .sidebar {
+  background-color: var(--dark-sidebar);
+}
+
+.app-layout.light .sidebar {
+  background-color: var(--light-sidebar);
+}
+
+.logo {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
+  overflow: hidden;
+  transition: all var(--transition-speed);
+}
+
+.logo-small {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary-color);
+  text-align: center;
+}
+
+.logo-full {
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-full .primary {
+  color: var(--primary-color);
+}
+
+.logo-full .secondary {
+  color: var(--dark-text);
+  margin-left: 4px;
+  font-weight: 300;
+}
+
+/* Header Styling */
+.site-header {
+  background-color: var(--light-card-bg);
+  padding: 0 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  transition: all var(--transition-speed);
+}
+
+.app-layout.dark .site-header {
+  background-color: var(--dark-card-bg);
+  border-bottom: 1px solid var(--dark-border);
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-trigger {
+  font-size: 18px;
+  margin-right: 24px;
+  cursor: pointer;
+  transition: color var(--transition-speed);
+}
+
+.app-layout.light .sidebar-trigger {
+  color: var(--light-text);
+}
+
+.app-layout.dark .sidebar-trigger {
+  color: var(--dark-text);
+}
+
+.page-title {
+  margin: 0;
+  transition: color var(--transition-speed);
+}
+
+.app-layout.light .page-title {
+  color: var(--light-text);
+}
+
+.app-layout.dark .page-title {
+  color: var(--dark-text);
+}
+
+.view-site-button {
+  margin-right: 16px;
+}
+
+.button-text {
+  display: inline;
+}
+
+.user-avatar {
+  cursor: pointer;
+  transition: all var(--transition-speed);
+}
+
+/* Main Content Styling */
+.site-content {
+  padding: 24px;
+  overflow-y: auto;
+  transition: all var(--transition-speed);
+}
+
+.app-layout.light .site-content {
+  background-color: var(--light-bg);
+}
+
+.app-layout.dark .site-content {
+  background-color: var(--dark-bg);
+}
+
+/* Cards and Sections */
+.section-title {
+  margin-bottom: 24px !important;
+  transition: color var(--transition-speed);
+}
+
+.app-layout.light .section-title {
+  color: var(--light-text);
+}
+
+.app-layout.dark .section-title {
+  color: var(--dark-text);
+}
+
+.section-subtitle {
+  margin-bottom: 16px !important;
+  transition: color var(--transition-speed);
+}
+
+.app-layout.light .section-subtitle {
+  color: var(--light-text);
+}
+
+.app-layout.dark .section-subtitle {
+  color: var(--dark-text);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+/* Dashboard Overview */
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.stat-card {
+  text-align: center;
+  transition: all var(--transition-speed);
+}
+
+.app-layout.light .stat-card {
+  background-color: var(--light-card-bg);
+  border: 1px solid var(--light-border);
+}
+
+.app-layout.dark .stat-card {
+  background-color: var(--dark-card-bg);
+  border: 1px solid var(--dark-border);
+}
+
+.stat-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  transition: color var(--transition-speed);
+}
+
+.app-layout.light .stat-label {
+  color: #718096;
+}
+
+.app-layout.dark .stat-label {
+  color: #a0aec0;
+}
+
+.stat-value {
+  margin: 0 !important;
+  transition: color var(--transition-speed);
+}
+
+.app-layout.light .stat-value {
+  color: var(--light-text);
+}
+
+.app-layout.dark .stat-value {
+  color: var(--dark-text);
+}
+
+.quick-actions {
+  margin-bottom: 36px;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.recent-activity {
+  margin-bottom: 24px;
+}
+
+.activity-card {
+  transition: all var(--transition-speed);
+}
+
+.app-layout.light .activity-card {
+  background-color: var(--light-card-bg);
+  border: 1px solid var(--light-border);
+}
+
+.app-layout.dark .activity-card {
+  background-color: var(--dark-card-bg);
+  border: 1px solid var(--dark-border);
+}
+
+.activity-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.activity-item {
+  padding: 12px 0;
+  border-bottom: 1px solid;
+  transition: border-color var(--transition-speed);
+}
+
+.app-layout.light .activity-item {
+  border-color: var(--light-border);
+}
+
+.app-layout.dark .activity-item {
+  border-color: var(--dark-border);
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-time {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+  transition: color var(--transition-speed);
+}
+
+.app-layout.light .activity-time {
+  color: #718096;
+}
+
+.app-layout.dark .activity-time {
+  color: #a0aec0;
+}
+
+.activity-text {
+  display: block;
+  transition: color var(--transition-speed);
+}
+
+.app-layout.light .activity-text {
+  color: var(--light-text);
+}
+
+.app-layout.dark .activity-text {
+  color: var(--dark-text);
+}
+
+/* Professors Management */
+.professors-table-card {
+  transition: all var(--transition-speed);
+}
+
+.app-layout.light .professors-table-card {
+  background-color: var(--light-card-bg);
+  border: 1px solid var(--light-border);
+}
+
+.app-layout.dark .professors-table-card {
+  background-color: var(--dark-card-bg);
+  border: 1px solid var(--dark-border);
+}
+
+.professor-cell {
+  display: flex;
+  align-items: center;
+}
+
+.professor-info {
+  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.action-buttons button {
+  margin-right: 8px;
+}
+
+/* Department Profile */
+.department-form-card {
+  transition: all var(--transition-speed);
+}
+
+.app-layout.light .department-form-card {
+  background-color: var(--light-card-bg);
+  border: 1px solid var(--light-border);
+}
+
+.app-layout.dark .department-form-card {
+  background-color: var(--dark-card-bg);
+  border: 1px solid var(--dark-border);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.bg-upload {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.bg-preview {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.bg-upload-actions {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}
+
+.submit-buttons {
+  margin-top: 24px;
+  text-align: right;
+}
+
+/* Formations Management */
+.formations-tabs {
+  margin-bottom: 36px;
+}
+
+.formation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.semesters-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.semester-card, .add-semester-card {
+  transition: all var(--transition-speed);
+  cursor: pointer;
+}
+
+.app-layout.light .semester-card,
+.app-layout.light .add-semester-card {
+  background-color: var(--light-card-bg);
+  border: 1px solid var(--light-border);
+}
+
+.app-layout.dark .semester-card,
+.app-layout.dark .add-semester-card {
+  background-color: var(--dark-card-bg);
+  border: 1px solid var(--dark-border);
+}
+
+.semester-card:hover, .add-semester-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.semester-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.semester-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.semester-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.modules-count {
+  font-size: 12px;
+  transition: color var(--transition-speed);
+}
+
+.app-layout.light .modules-count {
+  color: #718096;
+}
+
+.app-layout.dark .modules-count {
+  color: #a0aec0;
+}
+
+.add-semester {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 0;
+}
+
+.add-formation-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-formation-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 48px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-buttons button {
+    width: 100%;
+  }
+  
+  .button-text {
+    display: none;
+  }
+  
+  .desktop-sidebar {
+    display: none;
+  }
+  
+  .mobile-sidebar-trigger {
+    display: block;
+  }
+  
+  .desktop-sidebar-trigger {
+    display: none;
+  }
+  
+  .mobile-logo {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 16px 0;
+  }
+  
+  .semesters-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-sidebar-trigger {
+    display: none;
+  }
+  
+  .desktop-sidebar-trigger {
+    display: block;
+  }
+  
+  .mobile-drawer {
+    display: none;
+  }
+}
+
+/* Add to your DepartmentDashboard.css file */
+.modules-list {
+  margin-top: 16px;
+}
+
+.empty-modules {
+  text-align: center;
+  padding: 24px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.app-layout.dark .empty-modules {
+  background: #2d3748;
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.semester-card {
+  cursor: pointer;
+}
+
+.module-tag {
+  margin-bottom: 8px;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+/* Add these styles for the new sections */
+
+/* Statistics Management */
+.statistics-management {
+  margin-bottom: 24px;
+}
+
+.stat-items-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.stat-item-card {
+  transition: all var(--transition-speed);
+}
+
+.app-layout.light .stat-item-card {
+  background-color: var(--light-card-bg);
+  border: 1px solid var(--light-border);
+}
+
+.app-layout.dark .stat-item-card {
+  background-color: var(--dark-card-bg);
+  border: 1px solid var(--dark-border);
+}
+
+.stat-item-content {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.stat-item-icon {
+  font-size: 32px;
+  margin-right: 16px;
+  color: var(--primary-color);
+}
+
+.stat-item-info {
+  flex: 1;
+}
+
+.stat-item-value {
+  margin: 0 !important;
+}
+
+.stat-item-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+}
+
+.stat-item-card:hover .stat-item-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Competences Management */
+.competences-management {
+  margin-bottom: 24px;
+}
+
+.competences-card {
+  margin-top: 24px;
+}
+
+/* Career Paths Management */
+.careers-management {
+  margin-bottom: 24px;
+}
+
+.careers-card {
+  margin-top: 24px;
+}
+
+.career-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.career-tile {
+  transition: all var(--transition-speed);
+  height: 120px;
+}
+
+.app-layout.light .career-tile {
+  background-color: var(--light-card-bg);
+  border: 1px solid var(--light-border);
+}
+
+.app-layout.dark .career-tile {
+  background-color: var(--dark-card-bg);
+  border: 1px solid var(--dark-border);
+}
+
+.career-tile-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.career-tile-icon {
+  font-size: 24px;
+  margin-bottom: 12px;
+  color: var(--primary-color);
+}
+
+.career-tile-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: none;
+  gap: 8px;
+}
+
+.career-tile:hover .career-tile-actions {
+  display: flex;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .stat-items-container,
+  .career-tiles {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-item-actions,
+  .career-tile-actions {
+    display: flex;
+  }
+}
+
+/* Add these styles at the end of your CSS file */
+
+/* Profile Modal Styling */
+.profile-form {
+  padding: 8px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.profile-avatar {
+  margin-right: 16px;
+  border: 2px solid var(--primary-color);
+}
+
+.profile-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-title h4 {
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.password-section {
+  margin-top: 24px;
+}
