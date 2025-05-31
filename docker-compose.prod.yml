@@ -20,25 +20,25 @@ services:
       timeout: 10s
       retries: 3
 
-  # Common Models Service
-  common-models:
-    build:
-      context: ./Back-End
-      dockerfile: common-models/Dockerfile.prod
-    container_name: ensias-common-models-prod
-    ports:
-      - "9090:9090"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME}
-      SPRING_DATASOURCE_USERNAME: ${DB_USER}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-      SPRING_PROFILES_ACTIVE: prod
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      - ensias_prod_network
-    restart: unless-stopped
+#  # Common Models Service
+#  common-models:
+#    build:
+#      context: ./Back-End
+#      dockerfile: common-models/Dockerfile.prod
+#    container_name: ensias-common-models-prod
+#    ports:
+#      - "9090:9090"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME}
+#      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+#      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+#      SPRING_PROFILES_ACTIVE: prod
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#    networks:
+#      - ensias_prod_network
+#    restart: unless-stopped
 
   # Admin Service
   admin:
@@ -56,8 +56,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      common-models:
-        condition: service_started
+#      common-models:
+#        condition: service_started
     networks:
       - ensias_prod_network
     restart: unless-stopped
@@ -80,8 +80,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      common-models:
-        condition: service_started
+#      common-models:
+#        condition: service_started
     networks:
       - ensias_prod_network
     restart: unless-stopped
@@ -102,8 +102,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      common-models:
-        condition: service_started
+#      common-models:
+#        condition: service_started
     networks:
       - ensias_prod_network
     restart: unless-stopped
@@ -124,8 +124,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      common-models:
-        condition: service_started
+#      common-models:
+#        condition: service_started
     networks:
       - ensias_prod_network
     restart: unless-stopped
@@ -141,7 +141,7 @@ services:
     environment:
       - NODE_ENV=production
     depends_on:
-      - common-models
+#      - common-models
       - admin
       - auth
       - chef-dep
