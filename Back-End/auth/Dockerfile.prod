@@ -3,17 +3,19 @@ FROM maven:3.9-eclipse-temurin-21-alpine AS build
 
 WORKDIR /app
 
-# Copy parent pom and common-models
-COPY ../pom.xml ./parent-pom.xml
-COPY ../common-models ./common-models
+# Copy parent pom
+COPY pom.xml ./parent-pom.xml
+
+# Copy and build common-models first
+COPY common-models ./common-models
+RUN cd common-models && mvn clean install -DskipTests
 
 # Copy auth service
-COPY pom.xml .
-COPY src ./src
+COPY auth/pom.xml ./auth/
+COPY auth/src ./auth/src
 
-# Build common-models first, then auth
-RUN cd common-models && mvn clean install -DskipTests
-RUN mvn clean package -DskipTests
+# Build auth service
+RUN cd auth && mvn clean package -DskipTests
 
 # Production stage
 FROM eclipse-temurin:21-jre-alpine
@@ -21,7 +23,7 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 # Copy the built jar
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/auth/target/*.jar app.jar
 
 EXPOSE 9092
 
