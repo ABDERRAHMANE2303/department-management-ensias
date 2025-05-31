@@ -6,12 +6,9 @@ on:
     branches: [main]
 
 jobs:
-  # Job 1: Test Backend Services in Parallel
-  backend-tests:
+  # Job 1: Build parent and common-models first
+  build-common:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        service: [common-models, admin, auth, chef-dep, prof-dep]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,11 +27,52 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Build common-models first
-        if: matrix.service != 'common-models'
+      - name: Install parent POM
+        run: |
+          cd Back-End
+          mvn clean install -N
+
+      - name: Build and install common-models
         run: |
           cd Back-End/common-models
           mvn clean install -DskipTests
+
+      - name: Cache built artifacts
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository/com/departement
+          key: ${{ runner.os }}-built-artifacts-${{ github.sha }}
+
+  # Job 2: Test Backend Services in Parallel
+  backend-tests:
+    runs-on: ubuntu-latest
+    needs: build-common
+    strategy:
+      matrix:
+        service: [admin, auth, chef-dep, prof-dep]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Restore Maven dependencies cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Restore built artifacts
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository/com/departement
+          key: ${{ runner.os }}-built-artifacts-${{ github.sha }}
 
       - name: Test ${{ matrix.service }}
         run: |
@@ -48,7 +86,41 @@ jobs:
           name: test-results-${{ matrix.service }}
           path: Back-End/${{ matrix.service }}/target/surefire-reports/
 
-  # Job 2: Test Frontend
+  # Job 3: Test common-models separately
+  test-common-models:
+    runs-on: ubuntu-latest
+    needs: build-common
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Restore Maven dependencies cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Test common-models
+        run: |
+          cd Back-End/common-models
+          mvn clean test
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-common-models
+          path: Back-End/common-models/target/surefire-reports/
+
+  # Job 4: Test Frontend
   frontend-tests:
     runs-on: ubuntu-latest
     steps:
@@ -76,13 +148,14 @@ jobs:
           cd Front-End
           npm run build
 
-  # Job 3: Summary
+  # Job 5: Summary
   ci-summary:
     runs-on: ubuntu-latest
-    needs: [backend-tests, frontend-tests]
+    needs: [backend-tests, test-common-models, frontend-tests]
     if: always()
     steps:
       - name: CI Results
         run: |
+          echo "✅ Common models tests: ${{ needs.test-common-models.result }}"
           echo "✅ Backend tests: ${{ needs.backend-tests.result }}"
           echo "✅ Frontend tests: ${{ needs.frontend-tests.result }}"
