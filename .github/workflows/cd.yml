@@ -73,6 +73,9 @@ jobs:
             
             # Create .env file with all secrets
             cat > .env << EOF
+            # Docker Configuration
+            DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
+            
             # Database Configuration
             DB_HOST=${{ secrets.DB_HOST }}
             DB_PORT=5432
