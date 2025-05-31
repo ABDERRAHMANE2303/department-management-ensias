@@ -568,6 +568,16 @@ const debouchesParFormation = {
   ]
 };
 
+const formationDescriptions = {
+  GL: "La filière Génie Logiciel forme des ingénieurs spécialisés dans la conception, le développement et la maintenance de systèmes logiciels. Les étudiants acquièrent une expertise en architectures modernes, méthodes agiles, et qualité logicielle, leur permettant de diriger des projets techniques complexes et d'innover dans un environnement technologique en constante évolution.",
+  
+  GD: "La filière Génie Data (Data Engineering) prépare les étudiants à maîtriser les technologies et méthodologies nécessaires pour collecter, stocker, transformer et valoriser les données massives. Cette formation développe des compétences en conception de data lakes, pipelines de données, et solutions Big Data pour répondre aux défis analytiques et décisionnels des organisations.",
+  
+  IA: "La filière Intelligence Artificielle offre une formation approfondie dans les domaines du machine learning, deep learning, et traitement automatique du langage naturel. Les étudiants développent une expertise pour concevoir et déployer des systèmes d'IA innovants et éthiques, capables de résoudre des problèmes complexes dans divers secteurs d'activité.",
+  
+  SSI: "La filière Sécurité des Systèmes d'Information forme des experts en cybersécurité capables d'identifier les vulnérabilités, de protéger les infrastructures numériques, et de répondre aux incidents de sécurité. Les étudiants acquièrent des compétences en cryptographie, tests d'intrusion, et gouvernance de sécurité pour faire face aux menaces informatiques en constante évolution."
+};
+
 // Add semester data for IA and SSI formations (similar to existing GL and GD)
 const semestres_IA = [
   {
@@ -1058,11 +1068,11 @@ const Departement = () => {
             </div>
           </div>
 
-          {/* Coordinateur Pédagogique */}
+          {/* Coordinateur Pédagogique with Formation Description */}
           {coordinateurs[activeFormation] && (
             <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg dark:shadow-gray-900 p-6 mb-8 border border-gray-100 dark:border-gray-700">
               <div className="flex flex-col md:flex-row items-center gap-8">
-                {/* Add coordinator image */}
+                {/* Coordinator image */}
                 <div className="flex-shrink-0">
                   <img 
                     src={coordinateurs[activeFormation].image} 
@@ -1090,6 +1100,21 @@ const Departement = () => {
                   <div className="flex items-center bg-red-50 dark:bg-red-900/20 px-4 py-2 rounded-lg mt-4 md:mt-0">
                     <Mail className="h-5 w-5 text-red-500 dark:text-red-400 mr-2" />
                     <span className="text-gray-700 dark:text-gray-300">{coordinateurs[activeFormation].email}</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Formation Description */}
+              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex items-start">
+                  <BookOpen className="h-6 w-6 text-red-500 dark:text-red-400 mr-3 mt-1 flex-shrink-0" />
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                      À Propos de la Filière {formations.find(f => f.id === activeFormation)?.name}
+                    </h4>
+                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                      {formationDescriptions[activeFormation]}
+                    </p>
                   </div>
                 </div>
               </div>
