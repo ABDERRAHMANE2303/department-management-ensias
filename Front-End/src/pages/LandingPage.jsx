@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import Departments from '../components/Departments'
 import background_ensias from '../assets/59.jpg'
 import ensias_logo_whitebg from '../assets/Ensias2.jpg'
 import ensias_logo_bg_removed from '../assets/Ensias2-removebg-preview.png'

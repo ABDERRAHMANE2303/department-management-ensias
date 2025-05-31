@@ -5,6 +5,7 @@ import {
 } from "react-router";
 import LandingPage from './pages/LandingPage.jsx'
 import './index.css'
+import Departement from './pages/Department.jsx';
 
 
 const router = createBrowserRouter([
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <LandingPage />,
   },
+  {
+    path: "/departement/details",
+    element: <Departement />,
+  }
 ]);
 const root = document.getElementById("root");
 

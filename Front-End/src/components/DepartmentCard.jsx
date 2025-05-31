@@ -1,7 +1,7 @@
 import { Clock, Users, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const DepartmentCard = ({ department }) => {
+const DepartmentCard = ({department }) => {
   return (
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden h-full flex flex-col">
       {/* Header with color */}
@@ -43,7 +43,7 @@ const DepartmentCard = ({ department }) => {
         </div>
         
         {/* Call to Action - This will always be at the bottom */}
-        <Link className={`w-full ${department.color} text-white py-2 px-4 rounded-lg font-medium hover:opacity-90 transition-opacity duration-200 mt-auto`}>
+        <Link to="/departement/details" onClick={()=> console.log(department.id)} className={`w-full ${department.color} text-white py-2 px-4 rounded-lg font-medium hover:opacity-90 transition-opacity duration-200 mt-auto`}>
           En savoir plus
         </Link>
       </div>
