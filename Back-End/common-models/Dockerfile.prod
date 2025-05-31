@@ -1,25 +1,27 @@
-# Multi-stage build for production
+# Production Dockerfile for common-models
 FROM maven:3.9-eclipse-temurin-21-alpine AS build
 
 WORKDIR /app
 
-# Copy parent pom
+# Copy parent POM
 COPY pom.xml ./parent-pom.xml
 
-# Copy common-models project
+# Copy common-models project files
 COPY common-models/pom.xml ./common-models/
 COPY common-models/src ./common-models/src
 
-# Build the application
+# Install parent POM and build common-models
+RUN mvn clean install -N -f parent-pom.xml
 RUN cd common-models && mvn clean package -DskipTests
 
-# Production stage
+# Production runtime stage
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# Copy the built jar
+# Copy the built JAR
 COPY --from=build /app/common-models/target/*.jar app.jar
+
 
 EXPOSE 9090
 
