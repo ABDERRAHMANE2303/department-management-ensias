@@ -1257,14 +1257,14 @@ const Departement = () => {
         <h3 className="text-2xl md:text-3xl font-bold mb-2 text-slate-100">
           Admission
         </h3>
-        <p className="text-sm font-semibold uppercase text-slate-600 dark:text-slate-400 mb-6">
+        <p className="text-sm font-semibold uppercase text-slate-100 mb-6">
           Conditions d’Accès
         </p>
 
-        <div className="space-y-6 text-left text-sm md:text-base text-slate-700 dark:text-slate-300">
+        <div className="space-y-6 text-left text-sm md:text-base text-slate-100">
           {/* Section 1: Sur Concours */}
           <div>
-            <h4 className="text-lg font-semibold text-sky-700 dark:text-sky-400 mb-2">
+            <h4 className="text-lg font-semibold text-slate-100 mb-2">
               1. Par Concours (Via Competitive Exam)
             </h4>
             <p className="text-xs opacity-80 mb-2">Candidats ayant réussi :</p>
@@ -1285,7 +1285,7 @@ const Departement = () => {
 
           {/* Section 2: Sur Étude de Dossier */}
           <div>
-            <h4 className="text-lg font-semibold text-sky-700 dark:text-sky-400 mb-2">
+            <h4 className="text-lg font-semibold text-slate-100 mb-2">
               2. Sur Étude de Dossier (Via File Review)
             </h4>
             <p className="text-xs opacity-80 mb-2">
