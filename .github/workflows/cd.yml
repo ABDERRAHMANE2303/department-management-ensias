@@ -1,9 +1,10 @@
 name: ENSIAS Departments CD
 
-# Trigger on push to main (after PR merge)
+# Trigger on push to main (after PR merge) or manual trigger
 on:
   push:
     branches: [main]
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   # Job 1: Run CI checks first
