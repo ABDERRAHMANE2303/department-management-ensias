@@ -20,7 +20,7 @@ services:
 
   # Admin Service
   admin:
-    image: ${DOCKER_USERNAME}/ensias-deps/admin:latest
+    image: ${DOCKER_USERNAME}/ensias-admin:latest
     container_name: ensias-admin-prod
     ports:
       - "9091:9091"
@@ -39,7 +39,7 @@ services:
 
   # Auth Service
   auth:
-    image: ${DOCKER_USERNAME}/ensias-deps/auth:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:auth-latest
     container_name: ensias-auth-prod
     ports:
       - "9092:9092"
@@ -60,7 +60,7 @@ services:
 
   # Chef Department Service
   chef-dep:
-    image: ${DOCKER_USERNAME}/ensias-deps/chef-dep:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:chef-dep-latest
     container_name: ensias-chef-dep-prod
     ports:
       - "9093:9093"
@@ -79,7 +79,7 @@ services:
 
   # Professor Department Service
   prof-dep:
-    image: ${DOCKER_USERNAME}/ensias-deps/prof-dep:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:prof-dep-latest
     container_name: ensias-prof-dep-prod
     ports:
       - "9094:9094"
@@ -98,7 +98,7 @@ services:
 
   # Frontend - exposed to internet via public IP
   frontend:
-    image: ${DOCKER_USERNAME}/ensias-deps/frontend:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:frontend-latest
     container_name: ensias-frontend-prod
     ports:
       - "5173:5173"  # Exposed on public IP
