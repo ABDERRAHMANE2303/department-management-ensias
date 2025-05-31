@@ -17,8 +17,50 @@ const professeurs = [
     nom: "Prof. Karim BAINA",
     titre: "Professeur",
     specialite: "Génie Logiciel, Systèmes d'Information",
-    email: "k.baina@ensias.ma",
-    telephone: "+212 5 37 68 71 51",
+    email: "k.baina@ensias.ma"
+    // image sera fournie localement
+  },
+  {
+    nom: "Pr. ABIK Mounia",
+    titre: "Professeure",
+    specialite: "Génie Logiciel, Systèmes d'Information",
+    email: "m.abik@ensias.ma"
+    // image sera fournie localement
+  },
+  {
+    nom: "Prof. Salah BAINA",
+    titre: "Professeur",
+    specialite: "Génie Logiciel, Architecture Logicielle",
+    email: "s.baina@ensias.ma",
+    telephone: "+212 5 37 68 71 52",
+    // image sera fournie localement
+  },
+  {
+    nom: "Prof. ETTALBI Ahmed",
+    titre: "Professeur",
+    specialite: "Génie Logiciel, Architecture Logicielle",
+    email: "a.ettalbi@ensias.ma"
+    // image sera fournie localement
+  },
+  {
+    nom: "Prof. EL HAMLAOUI Mahmoud",
+    titre: "Professeur",
+    specialite: "Génie Logiciel, Architecture Logicielle",
+    email: "m.elhamloui@ensias.ma"
+    // image sera fournie localement
+  },
+  {
+    nom: "Prof. GUERMAH Hatim",
+    titre: "Professeur",
+    specialite: "Génie Logiciel, Architecture Logicielle",
+    email: "h.guermah@ensias.ma"
+    // image sera fournie localement
+  },
+  {
+    nom: "Prof. BOUCHRA Berrada",
+    titre: "Professeur",
+    specialite: "Génie Logiciel, Architecture Logicielle",
+    email: "bouchra.berrada@ensias.ma"
     // image sera fournie localement
   },
   {
@@ -138,7 +180,7 @@ const semestres = [
     ]
   },
   {
-    nom: "3ème Semestre (S3) - Tronc Commun",
+    nom: "3ème Semestre (S3) - Approfondissement",
     description: "Technologies avancées et méthodes de développement",
     couleur: "from-purple-500 to-purple-600",
     modules: [
@@ -173,7 +215,7 @@ const semestres = [
     ]
   },
   {
-    nom: "4ème Semestre (S4) - Tronc Commun",
+    nom: "4ème Semestre (S4) - Approfondissement",
     description: "Systèmes d'information et technologies entreprise",
     couleur: "from-red-500 to-red-600",
     modules: [
@@ -190,7 +232,7 @@ const semestres = [
       },
             {
         nom: "Design patterns",
-        professeur: "Prof. Nassar",
+        professeur: "Mahmoud NASSAR",
         description: "Architectures logicielles et patterns"
       },
       {
@@ -208,29 +250,25 @@ const semestres = [
       {
         nom: "Génie Logiciel Objet",
         professeur: "Prof. Mahmoud NASSAR",
-        credits: 6,
-        coefficient: 3,
+
         description: "Conception et développement orienté objet avancé"
       },
       {
         nom: "Audit, Contrôle et Qualité",
         professeur: "Prof. BOUCHAIB BOUNABAT",
-        credits: 5,
-        coefficient: 3,
+
         description: "Qualité logicielle et métriques"
       },
       {
         nom: "Intégration d'Applications d'Entreprise",
         professeur: "Prof. Karim BAINA",
-        credits: 5,
-        coefficient: 3,
+
         description: "Architecture SOA et intégration système"
       },
       {
         nom: "Aspects Avancés du Génie Logiciel",
         professeur: "Prof. Salah BAINA",
-        credits: 4,
-        coefficient: 2,
+
         description: "Méthodes agiles et DevOps"
       }
     ]
