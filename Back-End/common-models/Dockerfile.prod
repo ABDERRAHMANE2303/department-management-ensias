@@ -3,15 +3,15 @@ FROM maven:3.9-eclipse-temurin-21-alpine AS build
 
 WORKDIR /app
 
-# Copy parent pom first
-COPY ../pom.xml ./parent-pom.xml
+# Copy parent pom
+COPY pom.xml ./parent-pom.xml
 
 # Copy common-models project
-COPY pom.xml .
-COPY src ./src
+COPY common-models/pom.xml ./common-models/
+COPY common-models/src ./common-models/src
 
 # Build the application
-RUN mvn clean package -DskipTests
+RUN cd common-models && mvn clean package -DskipTests
 
 # Production stage
 FROM eclipse-temurin:21-jre-alpine
@@ -19,7 +19,7 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 # Copy the built jar
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/common-models/target/*.jar app.jar
 
 EXPOSE 9090
 
