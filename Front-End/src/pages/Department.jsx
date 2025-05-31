@@ -111,7 +111,7 @@ const professeurs = [
 //   { label: "Spécialisations ENSIAS", valeur: "8", icone: "BookOpen" }
 // ];
 
-const semestres = [
+const semestres_GL = [
   {
     nom: "1er Semestre (S1) - Tronc Commun",
     description: "Formation de base en informatique et mathématiques appliquées",
@@ -299,6 +299,164 @@ const semestres = [
     ]
   }
 ];
+const semestres_GD = [
+  {
+    nom: "1er Semestre (S1) - Tronc Commun",
+    description: "Formation de base en informatique et mathématiques appliquées",
+    couleur: "from-blue-500 to-blue-600",
+    modules: [
+      {
+        nom: "Algorithmique et Structures de Données",
+        professeur: "Équipe enseignante ENSIAS",
+
+        description: "Fondements de l'algorithmique et structures de données essentielles"
+      },
+      {
+        nom: "Éléments de Recherche Opérationnelle",
+        professeur: "Équipe mathématiques",
+ 
+        description: "Analyse mathématique appliquée à l'informatique"
+      },
+      {
+        nom: "Probabilités et Statistiques",
+        professeur: "Équipe mathématiques",
+
+        description: "Fondements probabilistes pour l'informatique"
+      },
+      {
+        nom: "Architecture des Ordinateurs",
+        professeur: "Équipe enseignante ENSIAS",
+
+        description: "Compréhension de l'architecture matérielle"
+      },
+      {
+        nom: "Communication et Langues",
+        professeur: "Équipe langues",
+
+        description: "Anglais technique et communication professionnelle"
+      }
+    ]
+  },
+  {
+    nom: "2ème Semestre (S2) - Tronc Commun",
+    description: "Approfondissement des bases et introduction à la programmation",
+    couleur: "from-green-500 to-green-600",
+    modules: [
+      {
+        nom: "Programmation Orientée Objet",
+        professeur: "Équipe enseignante ENSIAS",
+
+        description: "Concepts OOP et programmation Java"
+      },
+      {
+        nom: "Systèmes d'Exploitation",
+        professeur: "Équipe enseignante ENSIAS",
+
+        description: "Gestion des processus, mémoire et fichiers"
+      },
+      {
+        nom: "Bases de Données",
+        professeur: "Équipe enseignante ENSIAS",
+
+        description: "Conception et manipulation de bases de données"
+      },
+      {
+        nom: "Développement Web",
+        professeur: "Équipe enseignante ENSIAS",
+        description: "Technologies web modernes"
+      },
+    ]
+  },
+  {
+    nom: "3ème Semestre (S3) - Approfondissement",
+    description: "Technologies avancées et méthodes de développement",
+    couleur: "from-purple-500 to-purple-600",
+    modules: [
+            {
+        nom: "Systèmes d'Information",
+        professeur: "Prof. Karim BAINA",
+        description: "Analyse et conception des systèmes d'information"
+      },
+      {
+        nom: "Génie Logiciel",
+        professeur: "Prof. Mahmoud NASSAR",
+        description: "Méthodologies de développement logiciel"
+      },
+
+
+      {
+        nom: "Communication professionnelle",
+        professeur: "Équipe langues",
+
+        description: "Anglais technique et communication professionnelle"
+      }
+    ]
+  },
+  {
+    nom: "4ème Semestre (S4) - Approfondissement",
+    description: "Systèmes d'information et technologies entreprise",
+    couleur: "from-red-500 to-red-600",
+    modules: [
+
+      {
+        nom: "Bases de Données Avancées",
+        professeur: "Équipe enseignante ENSIAS",
+        description: "Bases de données distribuées et NoSQL"
+      },
+      {
+        nom: "Agile",
+        professeur: "Prof. Salah BAINA",
+        description: "Architectures logicielles et patterns"
+      },
+  
+    ]
+  },
+  {
+    nom: "5ème Semestre (S5) - Spécialisation GL",
+    description: "Spécialisation avancée en Génie Logiciel",
+    couleur: "from-orange-500 to-orange-600",
+    modules: [
+      {
+        nom: "Génie Logiciel Objet",
+        professeur: "Prof. Mahmoud NASSAR",
+
+        description: "Conception et développement orienté objet avancé"
+      },
+      {
+        nom: "Audit, Contrôle et Qualité",
+        professeur: "Prof. BOUCHAIB BOUNABAT",
+
+        description: "Qualité logicielle et métriques"
+      },
+
+    ]
+  },
+  {
+    nom: "6ème Semestre (S6) - Projet et Stage",
+    description: "Projet de fin d'études et stage professionnel",
+    couleur: "from-indigo-500 to-indigo-600",
+    modules: [
+      {
+        nom: "Projet de Fin d'Études",
+        professeur: "Encadrant académique + Industriel",
+
+        description: "Développement d'un projet innovant en entreprise"
+      },
+      {
+        nom: "Stage Professionnel",
+        professeur: "Tuteur entreprise",
+
+        description: "Stage de 4-6 mois en milieu professionnel"
+      },
+      {
+        nom: "Soutenance PFE",
+        professeur: "Jury académique et professionnel",
+
+        description: "Présentation et défense du projet"
+      }
+    ]
+  }
+];
 
 const statistiques = [
   { label: "Étudiants actifs", valeur: "150+", icone: Users },
@@ -309,8 +467,10 @@ const statistiques = [
 const Departement = () => {
   const [semestreActif, setSemestreActif] = useState(0);
   const [professeurActif, setProfesseurActif] = useState(0);
+  // Add formation state
+  const [activeFormation, setActiveFormation] = useState('GL');
   
-  // Add dark mode state
+  // Dark mode state and other states...
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
       const savedMode = localStorage.getItem('darkMode');
@@ -336,11 +496,19 @@ const Departement = () => {
   };
 
   const handlePrevSemestre = () => {
-    setSemestreActif((prev) => (prev - 1 + semestres.length) % semestres.length);
+    if (activeFormation === 'GL') {
+      setSemestreActif((prev) => (prev - 1 + semestres_GL.length) % semestres_GL.length);
+    } else {
+      setSemestreActif((prev) => (prev - 1 + semestres_GD.length) % semestres_GD.length);
+    }
   };
 
   const handleNextSemestre = () => {
-    setSemestreActif((prev) => (prev + 1) % semestres.length);
+    if (activeFormation === 'GL') {
+      setSemestreActif((prev) => (prev + 1) % semestres_GL.length);
+    } else {
+      setSemestreActif((prev) => (prev + 1) % semestres_GD.length);
+    }
   };
 
   const handlePrevProfesseur = () => {
@@ -349,6 +517,12 @@ const Departement = () => {
 
   const handleNextProfesseur = () => {
     setProfesseurActif((prev) => (prev + 1) % professeurs.length);
+  };
+
+  // Reset semester index when changing formation
+  const handleFormationChange = (formation) => {
+    setActiveFormation(formation);
+    setSemestreActif(0); // Reset to first semester when changing formation
   };
 
   return (
@@ -599,85 +773,172 @@ const Departement = () => {
           <div className="text-center">
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">Programme Académique Détaillé</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto mb-8"></div>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-8">
               Un cursus complet et progressif conçu pour former des experts en génie logiciel
             </p>
+            
+            {/* Formation Selector */}
+            <div className="flex justify-center space-x-4 mb-12">
+              <button
+                onClick={() => handleFormationChange('GL')}
+                className={`px-6 py-3 text-lg rounded-xl transition-all duration-300 ${
+                  activeFormation === 'GL' 
+                    ? 'bg-red-600 text-white font-medium shadow-lg' 
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                Formation Génie Logiciel
+              </button>
+              <button
+                onClick={() => handleFormationChange('GD')}
+                className={`px-6 py-3 text-lg rounded-xl transition-all duration-300 ${
+                  activeFormation === 'GD' 
+                    ? 'bg-blue-600 text-white font-medium shadow-lg' 
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                Formation Génie Data
+              </button>
+            </div>
           </div>
 
           <div className="relative bg-white dark:bg-gray-800 rounded-3xl shadow-2xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700">
             <div className="flex justify-between items-center mb-8">
               <button 
                 onClick={handlePrevSemestre}
-                className="p-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg transform hover:scale-110"
+                className={`p-4 bg-gradient-to-r ${
+                  activeFormation === 'GL' 
+                    ? 'from-red-500 to-red-600 hover:from-red-600 hover:to-red-700' 
+                    : 'from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
+                } text-white rounded-full transition-all duration-300 shadow-lg transform hover:scale-110`
+              }
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
               
               <div className="text-center">
-                <h3 className={`text-3xl font-bold bg-gradient-to-r ${semestres[semestreActif].couleur} bg-clip-text text-transparent mb-2`}>
-                  {semestres[semestreActif].nom}
+                <h3 className={`text-3xl font-bold bg-gradient-to-r ${
+                  activeFormation === 'GL' 
+                    ? semestres_GL[semestreActif].couleur 
+                    : semestres_GD[semestreActif].couleur 
+                } bg-clip-text text-transparent mb-2`}>
+                  {activeFormation === 'GL' 
+                    ? semestres_GL[semestreActif].nom 
+                    : semestres_GD[semestreActif].nom }
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 max-w-2xl">
-                  {semestres[semestreActif].description}
+                  {activeFormation === 'GL' 
+                    ? semestres_GL[semestreActif].description 
+                    : semestres_GD[semestreActif].description }
                 </p>
               </div>
               
               <button 
                 onClick={handleNextSemestre}
-                className="p-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-full hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg transform hover:scale-110"
+                className={`p-4 bg-gradient-to-r ${
+                  activeFormation === 'GL' 
+                    ? 'from-red-500 to-red-600 hover:from-red-600 hover:to-red-700' 
+                    : 'from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
+                } text-white rounded-full transition-all duration-300 shadow-lg transform hover:scale-110`
+              }
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              {semestres[semestreActif].modules.map((module, index) => (
-                <div
-                  key={index}
-                  className="group bg-gradient-to-br from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 border border-gray-200 dark:border-gray-600 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                >
-                  <div className="flex justify-between items-start mb-4">
-                    <h4 className={`text-xl font-bold bg-gradient-to-r ${semestres[semestreActif].couleur} bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300`}>
-                      {module.nom}
-                    </h4>
-                    <div className="flex gap-2">
-                      {/* <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-xs font-semibold px-2 py-1 rounded-full">
-                        {module.credits} ECTS
-                      </span>
-                      <span className="bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 text-xs font-semibold px-2 py-1 rounded-full">
-                        Coeff. {module.coefficient}
-                      </span> */}
+              {activeFormation === 'GL' ? (
+                // Display GL modules
+                semestres_GL[semestreActif].modules.map((module, index) => (
+                  // Existing module display code
+                  <div
+                    key={index}
+                    className="group bg-gradient-to-br from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 border border-gray-200 dark:border-gray-600 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                  >
+                    {/* Existing module content */}
+                    <div className="flex justify-between items-start mb-4">
+                      <h4 className={`text-xl font-bold bg-gradient-to-r ${semestres_GL[semestreActif].couleur} bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300`}>
+                        {module.nom}
+                      </h4>
+                      <div className="flex gap-2">
+                        {/* Credit badges if needed */}
+                      </div>
+                    </div>
+                    
+                    <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                      {module.description}
+                    </p>
+                    
+                    <div className="border-t dark:border-gray-600 pt-4">
+                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                        <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                        <span className="font-semibold">Professeur :</span>
+                        <span className="ml-2">{module.professeur}</span>
+                      </div>
                     </div>
                   </div>
-                  
-                  <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
-                    {module.description}
-                  </p>
-                  
-                  <div className="border-t dark:border-gray-600 pt-4">
-                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                      <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
-                      <span className="font-semibold">Professeur :</span>
-                      <span className="ml-2">{module.professeur}</span>
+                ))
+              ) : 
+              (
+                // Display GL modules
+                semestres_GD[semestreActif].modules.map((module, index) => (
+                  // Existing module display code
+                  <div
+                    key={index}
+                    className="group bg-gradient-to-br from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 border border-gray-200 dark:border-gray-600 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                  >
+                    {/* Existing module content */}
+                    <div className="flex justify-between items-start mb-4">
+                      <h4 className={`text-xl font-bold bg-gradient-to-r ${semestres_GD[semestreActif].couleur} bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300`}>
+                        {module.nom}
+                      </h4>
+                      <div className="flex gap-2">
+                        {/* Credit badges if needed */}
+                      </div>
+                    </div>
+                    
+                    <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                      {module.description}
+                    </p>
+                    
+                    <div className="border-t dark:border-gray-600 pt-4">
+                      <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                        <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                        <span className="font-semibold">Professeur :</span>
+                        <span className="ml-2">{module.professeur}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
 
-            {/* Indicateurs de semestre */}
+            {/* Semester indicators */}
             <div className="flex justify-center space-x-3">
-              {semestres.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setSemestreActif(idx)}
-                  className={`w-4 h-4 rounded-full transition-all duration-300 ${
-                    semestreActif === idx 
-                      ? 'bg-gradient-to-r from-red-500 to-red-600 scale-125 shadow-lg' 
-                      : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
-                  }`}
-                />
-              ))}
+              {activeFormation === 'GL' 
+                ? semestres_GL.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSemestreActif(idx)}
+                      className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                        semestreActif === idx 
+                          ? 'bg-gradient-to-r from-red-500 to-red-600 scale-125 shadow-lg' 
+                          : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                      }`}
+                    />
+                  ))
+                :  semestres_GD.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSemestreActif(idx)}
+                      className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                        semestreActif === idx 
+                          ? 'bg-gradient-to-r from-red-500 to-red-600 scale-125 shadow-lg' 
+                          : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                      }`}
+                    />
+                  ))
+              }
             </div>
           </div>
         </section>
