@@ -5,240 +5,258 @@ import ViewCounter from '../components/ViewCounter';
 
 const professeurs = [
   {
-    nom: "Prof. NASSAR",
-    titre: "Professeur - Chef de Département",
-    specialite: "Architecture Logicielle, Génie Logiciel",
-    email: "prof.nassar@ensias.ma",
-    telephone: "+212 5 37 68 71 50",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
+    nom: "Prof. Mahmoud NASSAR",
+    titre: "Professeur de l'Enseignement Supérieur - Chef de Département GL",
+    specialite: "Architecture Orientée Service (SOA), Bases de données réparties, Administration de bases de données, Systèmes à objets distribués, Compilation, Algorithmique et Programmation",
+    email: "m.nassar@ensias.ma",
+    telephone: "06 64 72 54 77",
+    formation: "Doctorat en Informatique de l'Institut National Polytechnique de Toulouse, 2005",
+    // image sera fournie localement
   },
   {
-    nom: "Dr. Amal BENYAHIA",
-    titre: "Professeure",
-    specialite: "Algorithmique Avancée, Structures de Données",
-    email: "a.benyahia@ensias.ma",
-    telephone: "+212 5 37 68 71 51",
-    image: "https://images.unsplash.com/photo-1494790108755-2616b332c8d9?w=200&h=200&fit=crop&crop=face"
-  },
-  {
-    nom: "Dr. Lamia KHADIRI",
-    titre: "Professeure Associée",
-    specialite: "Programmation Orientée Objet, Java",
-    email: "l.khadiri@ensias.ma",
-    telephone: "+212 5 37 68 71 52",
-    image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=200&h=200&fit=crop&crop=face"
-  },
-  {
-    nom: "Dr. Youssef EL KAF",
+    nom: "Prof. Karim BAINA",
     titre: "Professeur",
-    specialite: "Génie Logiciel, Qualité Logicielle",
-    email: "y.elkaf@ensias.ma",
+    specialite: "Génie Logiciel, Systèmes d'Information",
+    email: "k.baina@ensias.ma",
+    telephone: "+212 5 37 68 71 51",
+    // image sera fournie localement
+  },
+  {
+    nom: "Prof. Salah BAINA",
+    titre: "Professeur",
+    specialite: "Génie Logiciel, Architecture Logicielle",
+    email: "s.baina@ensias.ma",
+    telephone: "+212 5 37 68 71 52",
+    // image sera fournie localement
+  },
+  {
+    nom: "Prof. BOUCHAIB BOUNABAT",
+    titre: "Professeur",
+    specialite: "Systèmes d'Information, Génie Logiciel",
+    email: "b.bounabat@ensias.ma",
     telephone: "+212 5 37 68 71 53",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face"
+    // image sera fournie localement
+  },
+  {
+    nom: "Prof. RACHID OULAD HAJ THAMI",
+    titre: "Professeur de l'Enseignement Supérieur",
+    specialite: "Doctorat d'État en Informatique",
+    email: "r.ouladhajthami@ensias.ma",
+    telephone: "+212 5 37 68 71 54",
+    // image sera fournie localement
+  },
+  {
+    nom: "Prof. TABII Youness",
+    titre: "Professeur d'Enseignement Supérieur",
+    specialite: "Informatique",
+    email: "y.tabii@ensias.ma",
+    telephone: "+212 5 37 68 71 55",
+    formation: "Doctorat en Informatique de l'ENSIAS, Université Mohammed V - Rabat, 2010",
+    // image sera fournie localement
   }
 ];
 
+
+
+
+
+
+
+// const statistiques = [
+//   { label: "Effectif GL prévu", valeur: "90", icone: "Users" },
+//   { label: "Option ILSI", valeur: "60", icone: "Users" },
+//   { label: "Année de fondation", valeur: "1992", icone: "Calendar" },
+//   { label: "Spécialisations ENSIAS", valeur: "8", icone: "BookOpen" }
+// ];
+
 const semestres = [
   {
-    nom: "1er Semestre",
-    description: "Fondations solides en algorithmique et structures de données pour le développement logiciel",
+    nom: "1er Semestre (S1) - Tronc Commun",
+    description: "Formation de base en informatique et mathématiques appliquées",
     couleur: "from-blue-500 to-blue-600",
     modules: [
       {
-        nom: "Algorithmique Avancée",
-        professeur: "Dr. Amal BENYAHIA",
-        credits: 6,
-        coefficient: 3,
-        description: "Étude approfondie des algorithmes de tri, recherche, graphes et programmation dynamique"
+        nom: "Algorithmique et Structures de Données",
+        professeur: "Équipe enseignante ENSIAS",
+
+        description: "Fondements de l'algorithmique et structures de données essentielles"
+      },
+      {
+        nom: "Éléments de Recherche Opérationnelle",
+        professeur: "Équipe mathématiques",
+ 
+        description: "Analyse mathématique appliquée à l'informatique"
+      },
+      {
+        nom: "Probabilités et Statistiques",
+        professeur: "Équipe mathématiques",
+
+        description: "Fondements probabilistes pour l'informatique"
       },
       {
         nom: "Architecture des Ordinateurs",
-        professeur: "Prof. Ahmed EL MOUTAOUAKIL",
-        credits: 4,
-        coefficient: 2,
-        description: "Compréhension de l'architecture matérielle et son impact sur les performances logicielles"
+        professeur: "Équipe enseignante ENSIAS",
+
+        description: "Compréhension de l'architecture matérielle"
       },
       {
-        nom: "Structures de Données",
-        professeur: "Dr. Rachid AIT MOUSSA",
-        credits: 5,
-        coefficient: 3,
-        description: "Listes, arbres, graphes, tables de hachage et leur implémentation efficace"
-      },
-      {
-        nom: "Mathématiques Discrètes",
-        professeur: "Dr. Fatima ZAHRA",
-        credits: 4,
-        coefficient: 2,
-        description: "Logique, théorie des ensembles, combinatoire appliquée à l'informatique"
+        nom: "Communication et Langues",
+        professeur: "Équipe langues",
+
+        description: "Anglais technique et communication professionnelle"
       }
     ]
   },
   {
-    nom: "2ème Semestre",
-    description: "Maîtrise de la programmation orientée objet et introduction aux bases de données",
+    nom: "2ème Semestre (S2) - Tronc Commun",
+    description: "Approfondissement des bases et introduction à la programmation",
     couleur: "from-green-500 to-green-600",
     modules: [
       {
         nom: "Programmation Orientée Objet",
-        professeur: "Dr. Lamia KHADIRI",
-        credits: 6,
-        coefficient: 3,
-        description: "Concepts avancés OOP en Java : héritage, polymorphisme, interfaces, design patterns"
-      },
-      {
-        nom: "Base de Données",
-        professeur: "Dr. Hicham TAZI",
-        credits: 5,
-        coefficient: 3,
-        description: "Conception, normalisation, SQL avancé, transactions et optimisation"
-      },
-      {
-        nom: "Génie Logiciel I",
-        professeur: "Prof. Youssef EL KAF",
-        credits: 5,
-        coefficient: 3,
-        description: "Méthodologies de développement, analyse des besoins, spécification"
-      },
-      {
-        nom: "Interface Homme-Machine",
-        professeur: "Dr. Sara RHAZI",
-        credits: 3,
-        coefficient: 2,
-        description: "Principes d'ergonomie, design d'interfaces utilisateur modernes"
-      }
-    ]
-  },
-  {
-    nom: "3ème Semestre",
-    description: "Approfondissement du génie logiciel et introduction aux systèmes distribués",
-    couleur: "from-purple-500 to-purple-600",
-    modules: [
-      {
-        nom: "Méthodes Agiles",
-        professeur: "Dr. Nadia LAGHZAOUI",
-        credits: 4,
-        coefficient: 2,
-        description: "Scrum, Kanban, XP, DevOps - Pratiques collaboratives modernes"
+        professeur: "Équipe enseignante ENSIAS",
+
+        description: "Concepts OOP et programmation Java"
       },
       {
         nom: "Systèmes d'Exploitation",
-        professeur: "Prof. Badr TOUATI",
-        credits: 5,
-        coefficient: 3,
-        description: "Processus, threads, mémoire virtuelle, systèmes de fichiers"
+        professeur: "Équipe enseignante ENSIAS",
+
+        description: "Gestion des processus, mémoire et fichiers"
       },
       {
-        nom: "Génie Logiciel II",
-        professeur: "Dr. Saïd EL HAFIDI",
-        credits: 6,
-        coefficient: 3,
-        description: "Architecture logicielle, patterns de conception, refactoring"
+        nom: "Bases de Données",
+        professeur: "Équipe enseignante ENSIAS",
+
+        description: "Conception et manipulation de bases de données"
       },
       {
         nom: "Développement Web",
-        professeur: "Dr. Mohammed TAZI",
-        credits: 4,
-        coefficient: 2,
-        description: "HTML5, CSS3, JavaScript ES6+, frameworks modernes React/Vue"
+        professeur: "Équipe enseignante ENSIAS",
+        description: "Technologies web modernes"
+      },
+    ]
+  },
+  {
+    nom: "3ème Semestre (S3) - Tronc Commun",
+    description: "Technologies avancées et méthodes de développement",
+    couleur: "from-purple-500 to-purple-600",
+    modules: [
+            {
+        nom: "Systèmes d'Information",
+        professeur: "Prof. Karim BAINA",
+        description: "Analyse et conception des systèmes d'information"
+      },
+      {
+        nom: "Génie Logiciel",
+        professeur: "Prof. Mahmoud NASSAR",
+        description: "Méthodologies de développement logiciel"
+      },
+      {
+        nom: "Réseaux",
+        professeur: "Équipe enseignante ENSIAS",
+
+        description: "Architectures réseaux et protocoles"
+      },
+      {
+        nom: "Théorie de language et Compilation",
+        professeur: "M. Tabii",
+
+        description: "Conception du compilateur pour pascale"
+      },
+      {
+        nom: "Communication professionnelle",
+        professeur: "Équipe langues",
+
+        description: "Anglais technique et communication professionnelle"
       }
     ]
   },
   {
-    nom: "4ème Semestre",
-    description: "Expertise en qualité logicielle et architectures modernes",
+    nom: "4ème Semestre (S4) - Tronc Commun",
+    description: "Systèmes d'information et technologies entreprise",
     couleur: "from-red-500 to-red-600",
     modules: [
+
       {
-        nom: "Qualité Logicielle",
-        professeur: "Dr. Youssef EL KAF",
-        credits: 5,
-        coefficient: 3,
-        description: "Tests unitaires, intégration continue, métriques qualité, SonarQube"
+        nom: "Bases de Données Avancées",
+        professeur: "Équipe enseignante ENSIAS",
+        description: "Bases de données distribuées et NoSQL"
       },
       {
-        nom: "Architecture des Systèmes",
-        professeur: "Prof. Ahmed EL MOUTAOUAKIL",
-        credits: 6,
-        coefficient: 3,
-        description: "Microservices, SOA, patterns architecturaux, cloud computing"
+        nom: "Agile",
+        professeur: "Prof. Salah BAINA",
+        description: "Architectures logicielles et patterns"
+      },
+            {
+        nom: "Design patterns",
+        professeur: "Prof. Nassar",
+        description: "Architectures logicielles et patterns"
       },
       {
-        nom: "DevOps et Intégration Continue",
-        professeur: "Dr. Sanae BOURASS",
-        credits: 4,
-        coefficient: 2,
-        description: "Docker, Kubernetes, CI/CD, Jenkins, GitLab, monitoring"
-      },
-      {
-        nom: "Sécurité Informatique",
-        professeur: "Dr. Khalid ZINE",
-        credits: 4,
-        coefficient: 2,
-        description: "Cryptographie, sécurité web, OWASP, tests de pénétration"
+        nom: "Gestion de Projet",
+        professeur: "Équipe enseignante ENSIAS",
+        description: "Méthodologies de gestion de projets IT"
       }
     ]
   },
   {
-    nom: "5ème Semestre",
-    description: "Spécialisation avancée et préparation au projet de fin d'études",
+    nom: "5ème Semestre (S5) - Spécialisation GL",
+    description: "Spécialisation avancée en Génie Logiciel",
     couleur: "from-orange-500 to-orange-600",
     modules: [
       {
-        nom: "Projet de Fin d'Études I",
-        professeur: "Prof. NASSAR",
-        credits: 8,
-        coefficient: 4,
-        description: "Conception et développement d'un projet innovant en équipe"
+        nom: "Génie Logiciel Objet",
+        professeur: "Prof. Mahmoud NASSAR",
+        credits: 6,
+        coefficient: 3,
+        description: "Conception et développement orienté objet avancé"
       },
       {
-        nom: "Tests Logiciels Avancés",
-        professeur: "Dr. Sara RHAZI",
+        nom: "Audit, Contrôle et Qualité",
+        professeur: "Prof. BOUCHAIB BOUNABAT",
+        credits: 5,
+        coefficient: 3,
+        description: "Qualité logicielle et métriques"
+      },
+      {
+        nom: "Intégration d'Applications d'Entreprise",
+        professeur: "Prof. Karim BAINA",
+        credits: 5,
+        coefficient: 3,
+        description: "Architecture SOA et intégration système"
+      },
+      {
+        nom: "Aspects Avancés du Génie Logiciel",
+        professeur: "Prof. Salah BAINA",
         credits: 4,
         coefficient: 2,
-        description: "Tests automatisés, BDD, TDD, outils de test modernes"
-      },
-      {
-        nom: "Ingénierie Dirigée par les Modèles",
-        professeur: "Dr. Yassine EL KABBAJ",
-        credits: 4,
-        coefficient: 2,
-        description: "UML, génération de code, MDA, outils CASE"
-      },
-      {
-        nom: "Intelligence Artificielle",
-        professeur: "Dr. Karim EL YAAKOUBI",
-        credits: 3,
-        coefficient: 2,
-        description: "Machine Learning, algorithmes d'IA appliqués au génie logiciel"
+        description: "Méthodes agiles et DevOps"
       }
     ]
   },
   {
-    nom: "6ème Semestre",
-    description: "Stage professionnel et validation des compétences acquises",
+    nom: "6ème Semestre (S6) - Projet et Stage",
+    description: "Projet de fin d'études et stage professionnel",
     couleur: "from-indigo-500 to-indigo-600",
     modules: [
       {
-        nom: "Stage PFE",
-        professeur: "Encadrant entreprise + Superviseur académique",
-        credits: 15,
-        coefficient: 6,
-        description: "Stage de 6 mois en entreprise pour la réalisation du PFE"
+        nom: "Projet de Fin d'Études",
+        professeur: "Encadrant académique + Industriel",
+
+        description: "Développement d'un projet innovant en entreprise"
       },
       {
-        nom: "Soutenance",
+        nom: "Stage Professionnel",
+        professeur: "Tuteur entreprise",
+
+        description: "Stage de 4-6 mois en milieu professionnel"
+      },
+      {
+        nom: "Soutenance PFE",
         professeur: "Jury académique et professionnel",
-        credits: 5,
-        coefficient: 3,
-        description: "Présentation et défense du projet devant un jury d'experts"
-      },
-      {
-        nom: "Rapport de Stage",
-        professeur: "Encadrant académique",
-        credits: 3,
-        coefficient: 2,
-        description: "Rédaction d'un rapport technique détaillé"
+
+        description: "Présentation et défense du projet"
       }
     ]
   }
@@ -585,12 +603,12 @@ const Departement = () => {
                       {module.nom}
                     </h4>
                     <div className="flex gap-2">
-                      <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-xs font-semibold px-2 py-1 rounded-full">
+                      {/* <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-xs font-semibold px-2 py-1 rounded-full">
                         {module.credits} ECTS
                       </span>
                       <span className="bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 text-xs font-semibold px-2 py-1 rounded-full">
                         Coeff. {module.coefficient}
-                      </span>
+                      </span> */}
                     </div>
                   </div>
                   
