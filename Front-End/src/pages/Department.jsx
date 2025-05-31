@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ChevronLeft, ChevronRight, GraduationCap, Users, BookOpen, Code, Calendar, Mail, Phone, Award, Target, Globe, Briefcase } from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, GraduationCap, Users, BookOpen, Code, Calendar, Mail, Phone, Award, Target, Globe, Briefcase, Moon, Sun } from 'lucide-react';
 import ViewCounter from '../components/ViewCounter';
 
 const professeurs = [
@@ -253,20 +253,31 @@ const statistiques = [
 const Departement = () => {
   const [semestreActif, setSemestreActif] = useState(0);
   const [professeurActif, setProfesseurActif] = useState(0);
+  
+  // Add dark mode state
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedMode = localStorage.getItem('darkMode');
+      return savedMode === 'true'; // defaults to false if not set
+    }
+    return false;
+  });
+  
+  // Apply dark mode class whenever the state changes
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    // Save preference to localStorage
+    localStorage.setItem('darkMode', String(darkMode));
+  }, [darkMode]);
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setSemestreActif((prev) => (prev + 1) % semestres.length);
-  //   }, 8000);
-  //   return () => clearInterval(timer);
-  // }, []);
-
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setProfesseurActif((prev) => (prev + 1) % professeurs.length);
-  //   }, 6000);
-  //   return () => clearInterval(timer);
-  // }, []);
+  // Toggle function for dark mode
+  const toggleDarkMode = () => {
+    setDarkMode(prevMode => !prevMode);
+  };
 
   const handlePrevSemestre = () => {
     setSemestreActif((prev) => (prev - 1 + semestres.length) % semestres.length);
@@ -285,17 +296,32 @@ const Departement = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       {/* Header avec compteur de vues */}
-      <header className="bg-white shadow-lg border-b-4 border-red-500">
+      <header className="bg-white dark:bg-gray-900 shadow-lg dark:shadow-gray-800 border-b-4 border-red-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-4 sm:py-6">
             {/* Mobile Layout (stacked) */}
             <div className="flex flex-col sm:hidden space-y-4">
-              <Link to="/" className="flex items-center text-red-600 hover:text-red-800 transition-colors duration-300 self-start">
-                <ArrowLeft className="h-5 w-5 mr-2" />
-                <span className="font-semibold text-sm">Retour à l'accueil</span>
-              </Link>
+              <div className="flex items-center justify-between">
+                <Link to="/" className="flex items-center text-red-600 hover:text-red-800 transition-colors duration-300">
+                  <ArrowLeft className="h-5 w-5 mr-2" />
+                  <span className="font-semibold text-sm">Retour à l'accueil</span>
+                </Link>
+                
+                {/* Dark mode toggle for mobile */}
+                <button 
+                  onClick={toggleDarkMode}
+                  className="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 focus:outline-none"
+                  aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+                >
+                  {darkMode ? (
+                    <Sun className="h-5 w-5" />
+                  ) : (
+                    <Moon className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
               
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
@@ -303,8 +329,8 @@ const Departement = () => {
                     <GraduationCap className="h-7 w-7 text-white" />
                   </div>
                   <div>
-                    <h1 className="text-xl font-bold text-gray-900">Département Génie Logiciel</h1>
-                    <p className="text-xs text-gray-600">Excellence • Innovation • Performance</p>
+                    <h1 className="text-xl font-bold text-gray-900 dark:text-white">Département Génie Logiciel</h1>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">Excellence • Innovation • Performance</p>
                   </div>
                 </div>
                 <ViewCounter />
@@ -323,19 +349,33 @@ const Departement = () => {
                     <GraduationCap className="h-10 w-10 text-white" />
                   </div>
                   <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Département Génie Logiciel</h1>
-                    <p className="text-gray-600">Excellence • Innovation • Performance</p>
+                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Département Génie Logiciel</h1>
+                    <p className="text-gray-600 dark:text-gray-400">Excellence • Innovation • Performance</p>
                   </div>
                 </div>
               </div>
-              <ViewCounter />
+              <div className="flex items-center space-x-4">
+                {/* Dark mode toggle for desktop */}
+                <button 
+                  onClick={toggleDarkMode}
+                  className="text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 focus:outline-none"
+                  aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+                >
+                  {darkMode ? (
+                    <Sun className="h-5 w-5" />
+                  ) : (
+                    <Moon className="h-5 w-5" />
+                  )}
+                </button>
+                <ViewCounter />
+              </div>
             </div>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-    <section className="relative py-20 overflow-hidden">
+      <section className="relative py-20 overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0" style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1600&h=900&fit=crop')",
@@ -347,7 +387,7 @@ const Departement = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-500 to-orange-500 opacity-80"></div>
         
         {/* Additional Dark Overlay for Better Text Contrast */}
-        <div className="absolute inset-0 bg-black opacity-30"></div>
+        <div className="absolute inset-0 bg-black opacity-30 dark:opacity-50"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-white">
@@ -386,34 +426,34 @@ const Departement = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 space-y-12 sm:space-y-20">
         {/* Présentation du département */}
-        <section className="bg-white rounded-3xl shadow-2xl p-6 sm:p-12 border border-gray-100">
+        <section className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl dark:shadow-gray-900 p-6 sm:p-12 border border-gray-100 dark:border-gray-700">
           <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Notre Vision</h2>
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">Notre Vision</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto mb-8"></div>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+              <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
                 Le Département de Génie Logiciel de l'ENSIAS est un centre d'excellence reconnu 
                 internationalement qui forme des ingénieurs logiciels de classe mondiale. Depuis 
                 sa création, notre département se distingue par son approche pédagogique innovante 
                 qui allie rigueur académique et excellence pratique.
               </p>
-              <p className="text-lg text-gray-700 leading-relaxed mb-6">
+              <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
                 Nos diplômés occupent des postes stratégiques dans les plus grandes entreprises 
                 technologiques mondiales et contribuent activement à l'innovation dans l'industrie 
                 du logiciel. Notre cursus, constamment mis à jour, reflète les dernières avancées 
                 technologiques et les besoins émergents du marché.
               </p>
               <div className="grid grid-cols-2 gap-6 mt-8">
-                <div className="text-center p-4 bg-red-50 rounded-xl">
-                  <div className="text-3xl font-bold text-red-600 mb-2">15+</div>
-                  <div className="text-sm text-gray-600">Années d'excellence</div>
+                <div className="text-center p-4 bg-red-50 dark:bg-red-900/20 rounded-xl">
+                  <div className="text-3xl font-bold text-red-600 dark:text-red-400 mb-2">15+</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Années d'excellence</div>
                 </div>
-                <div className="text-center p-4 bg-blue-50 rounded-xl">
-                  <div className="text-3xl font-bold text-blue-600 mb-2">500+</div>
-                  <div className="text-sm text-gray-600">Diplômés en activité</div>
+                <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">500+</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Diplômés en activité</div>
                 </div>
               </div>
             </div>
@@ -429,16 +469,16 @@ const Departement = () => {
         </section>
 
         {/* Équipe Pédagogique Carousel */}
-        <section className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-3xl p-12">
+        <section className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-800 dark:to-indigo-950 rounded-3xl p-12">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Notre Équipe d'Excellence</h2>
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">Notre Équipe d'Excellence</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mb-8"></div>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Des professeurs reconnus, experts dans leurs domaines
             </p>
           </div>
 
-          <div className="relative bg-white rounded-2xl shadow-xl p-8">
+          <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark:shadow-gray-900 p-8">
             <div className="flex justify-between items-center mb-6">
               <button 
                 onClick={handlePrevProfesseur}
@@ -446,7 +486,7 @@ const Departement = () => {
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
-              <h3 className="text-2xl font-bold text-center text-red-600">Professeur</h3>
+              <h3 className="text-2xl font-bold text-center text-red-600 dark:text-red-400">Professeur</h3>
               <button 
                 onClick={handleNextProfesseur}
                 className="p-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors duration-300 shadow-lg"
@@ -464,18 +504,18 @@ const Departement = () => {
                 />
               </div>
               <div className="flex-1 text-center md:text-left">
-                <h4 className="text-3xl font-bold text-gray-900 mb-2">
+                <h4 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                   {professeurs[professeurActif].nom}
                 </h4>
-                <p className="text-xl text-red-600 font-semibold mb-4">
+                <p className="text-xl text-red-600 dark:text-red-400 font-semibold mb-4">
                   {professeurs[professeurActif].titre}
                 </p>
-                <p className="text-lg text-gray-700 mb-6">
+                <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
                   Spécialisation : {professeurs[professeurActif].specialite}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                  <div className="flex items-center text-gray-600">
-                    <Mail className="h-5 w-5 mr-2 text-red-500" />
+                  <div className="flex items-center text-gray-600 dark:text-gray-300">
+                    <Mail className="h-5 w-5 mr-2 text-red-500 dark:text-red-400" />
                     <span>{professeurs[professeurActif].email}</span>
                   </div>
               
@@ -490,7 +530,7 @@ const Departement = () => {
                   key={idx}
                   onClick={() => setProfesseurActif(idx)}
                   className={`w-4 h-4 rounded-full transition-all duration-300 ${
-                    professeurActif === idx ? 'bg-red-500 scale-125' : 'bg-gray-300'
+                    professeurActif === idx ? 'bg-red-500 scale-125' : 'bg-gray-300 dark:bg-gray-600'
                   }`}
                 />
               ))}
@@ -501,14 +541,14 @@ const Departement = () => {
         {/* Programme Détaillé par Semestre */}
         <section className="space-y-8">
           <div className="text-center">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Programme Académique Détaillé</h2>
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">Programme Académique Détaillé</h2>
             <div className="w-24 h-1 bg-gradient-to-r from-red-500 to-orange-500 mx-auto mb-8"></div>
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto">
               Un cursus complet et progressif conçu pour former des experts en génie logiciel
             </p>
           </div>
 
-          <div className="relative bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+          <div className="relative bg-white dark:bg-gray-800 rounded-3xl shadow-2xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700">
             <div className="flex justify-between items-center mb-8">
               <button 
                 onClick={handlePrevSemestre}
@@ -521,7 +561,7 @@ const Departement = () => {
                 <h3 className={`text-3xl font-bold bg-gradient-to-r ${semestres[semestreActif].couleur} bg-clip-text text-transparent mb-2`}>
                   {semestres[semestreActif].nom}
                 </h3>
-                <p className="text-gray-600 max-w-2xl">
+                <p className="text-gray-600 dark:text-gray-300 max-w-2xl">
                   {semestres[semestreActif].description}
                 </p>
               </div>
@@ -538,28 +578,28 @@ const Departement = () => {
               {semestres[semestreActif].modules.map((module, index) => (
                 <div
                   key={index}
-                  className="group bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                  className="group bg-gradient-to-br from-gray-50 to-white dark:from-gray-700 dark:to-gray-800 border border-gray-200 dark:border-gray-600 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <h4 className={`text-xl font-bold bg-gradient-to-r ${semestres[semestreActif].couleur} bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300`}>
                       {module.nom}
                     </h4>
                     <div className="flex gap-2">
-                      <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded-full">
+                      <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 text-xs font-semibold px-2 py-1 rounded-full">
                         {module.credits} ECTS
                       </span>
-                      <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full">
+                      <span className="bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 text-xs font-semibold px-2 py-1 rounded-full">
                         Coeff. {module.coefficient}
                       </span>
                     </div>
                   </div>
                   
-                  <p className="text-gray-700 mb-4 leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
                     {module.description}
                   </p>
                   
-                  <div className="border-t pt-4">
-                    <div className="flex items-center text-sm text-gray-600">
+                  <div className="border-t dark:border-gray-600 pt-4">
+                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
                       <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
                       <span className="font-semibold">Professeur :</span>
                       <span className="ml-2">{module.professeur}</span>
@@ -578,7 +618,7 @@ const Departement = () => {
                   className={`w-4 h-4 rounded-full transition-all duration-300 ${
                     semestreActif === idx 
                       ? 'bg-gradient-to-r from-red-500 to-red-600 scale-125 shadow-lg' 
-                      : 'bg-gray-300 hover:bg-gray-400'
+                      : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
                   }`}
                 />
               ))}
@@ -588,10 +628,10 @@ const Departement = () => {
 
         {/* Compétences et Débouchés */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700">
             <div className="text-center mb-8">
-              <Code className="h-12 w-12 text-red-500 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Compétences Acquises</h3>
+              <Code className="h-12 w-12 text-red-500 dark:text-red-400 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Compétences Acquises</h3>
               <div className="w-16 h-1 bg-red-500 mx-auto"></div>
             </div>
             
@@ -604,18 +644,18 @@ const Departement = () => {
                 "Leadership technique et innovation",
                 "Adaptabilité aux nouvelles technologies"
               ].map((competence, index) => (
-                <div key={index} className="flex items-center p-3 bg-red-50 rounded-xl hover:bg-red-100 transition-colors duration-300">
+                <div key={index} className="flex items-center p-3 bg-red-50 dark:bg-red-900/20 rounded-xl hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors duration-300">
                   <div className="w-2 h-2 bg-red-500 rounded-full mr-4"></div>
-                  <span className="text-gray-700">{competence}</span>
+                  <span className="text-gray-700 dark:text-gray-300">{competence}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl dark:shadow-gray-900 p-8 border border-gray-100 dark:border-gray-700">
             <div className="text-center mb-8">
-              <Briefcase className="h-12 w-12 text-blue-500 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Débouchés Professionnels</h3>
+              <Briefcase className="h-12 w-12 text-blue-500 dark:text-blue-400 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Débouchés Professionnels</h3>
               <div className="w-16 h-1 bg-blue-500 mx-auto"></div>
             </div>
             
@@ -628,9 +668,9 @@ const Departement = () => {
                 "Consultant en Transformation Numérique",
                 "Entrepreneur Tech / Startup Founder"
               ].map((metier, index) => (
-                <div key={index} className="flex items-center p-3 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors duration-300">
+                <div key={index} className="flex items-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors duration-300">
                   <div className="w-2 h-2 bg-blue-500 rounded-full mr-4"></div>
-                  <span className="text-gray-700">{metier}</span>
+                  <span className="text-gray-700 dark:text-gray-300">{metier}</span>
                 </div>
               ))}
             </div>
@@ -661,7 +701,7 @@ const Departement = () => {
               </div>
             </div>
             <div className="text-center">
-              <div className="bg-white bg-opacity-20 rounded-3xl p-8 backdrop-blur-sm">
+              <div className="bg-white bg-opacity-20 dark:bg-opacity-10 rounded-3xl p-8 backdrop-blur-sm">
                 <BookOpen className="h-16 w-16 mx-auto mb-6" />
                 <h3 className="text-2xl font-bold mb-4">Admission</h3>
                 <p className="text-lg opacity-90 mb-6">
