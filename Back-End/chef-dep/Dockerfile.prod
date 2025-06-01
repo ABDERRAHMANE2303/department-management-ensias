@@ -1,28 +1,30 @@
-# Multi-stage build for production
+# Production Dockerfile for chef-dep service
 FROM maven:3.9-eclipse-temurin-21-alpine AS build
 
 WORKDIR /app
 
-# Copy parent pom
+# Copy parent POM
 COPY pom.xml ./parent-pom.xml
 
-# Copy and build common-models first
-COPY common-models ./common-models
-RUN cd common-models && mvn clean install -DskipTests
+# Copy and build common-models dependency first
+COPY common-models/pom.xml ./common-models/
+COPY common-models/src ./common-models/src
 
-# Copy chef-dep service
+# Copy chef-dep service files
 COPY chef-dep/pom.xml ./chef-dep/
 COPY chef-dep/src ./chef-dep/src
 
-# Build chef-dep service
+# Install parent POM, build common-models, then build chef-dep
+RUN mvn clean install -N -f parent-pom.xml
+RUN cd common-models && mvn clean install -DskipTests
 RUN cd chef-dep && mvn clean package -DskipTests
 
-# Production stage
+# Production runtime stage
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# Copy the built jar
+# Copy the built JAR
 COPY --from=build /app/chef-dep/target/*.jar app.jar
 
 EXPOSE 9093

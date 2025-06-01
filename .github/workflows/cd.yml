@@ -1,65 +1,15 @@
 name: ENSIAS Departments CD
 
-# Trigger on push to main (after PR merge) or manual trigger
+# Trigger on push to main branch (bypass CI)
 on:
   push:
     branches: [main]
-  workflow_dispatch:  # Allows manual triggering
+  workflow_dispatch:  # Manual trigger
 
 jobs:
-  # Job 1: Run CI checks first
-  ci-check:
+  # Job 1: Build and Push Images
+  build-and-push:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Java 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: Install parent POM and build common-models
-        run: |
-          cd Back-End
-          mvn clean install -N
-          cd common-models
-          mvn clean install -DskipTests
-
-      - name: Test all backend services
-        run: |
-          cd Back-End
-          for service in common-models admin auth chef-dep prof-dep; do
-            echo "Testing $service..."
-            cd $service
-            mvn clean test
-            cd ..
-          done
-
-      - name: Set up Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Test frontend
-        run: |
-          cd Front-End
-          npm ci
-          npm run build
-
-  # Job 2: Build and Push Backend Services (only if CI passes)
-  build-and-push-backend:
-    runs-on: ubuntu-latest
-    needs: ci-check
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -76,86 +26,98 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Build in correct order to handle dependencies
-      - name: Build and push common-models
+      - name: Debug Docker authentication
+        run: |
+          echo "Username: ${{ secrets.DOCKER_USERNAME }}"
+          echo "Testing Docker Hub access..."
+          docker info
+          docker pull hello-world
+          echo "Docker login successful!"
+
+      # Build backend services (using Dockerfile.prod)
+      - name: Build and push backend services
         run: |
           cd Back-End
+          
           # Install parent POM first
           mvn clean install -N
-          docker build -f common-models/Dockerfile.prod -t ${{ secrets.DOCKER_USERNAME }}/ensias-deps/common-models:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/ensias-deps/common-models:latest
-
-      - name: Build and install common-models locally
-        run: |
-          cd Back-End/common-models
+          
+          # Build and install common-models (skip tests)
+          cd common-models
           mvn clean install -DskipTests
-
-      - name: Build and push other services
-        run: |
-          cd Back-End
-          for service in admin auth chef-dep prof-dep; do
+          cd ..
+          
+          # Build all backend service images
+          for service in common-models admin auth chef-dep prof-dep; do
             echo "Building $service..."
-            docker build -f $service/Dockerfile.prod -t ${{ secrets.DOCKER_USERNAME }}/ensias-deps/$service:latest .
-            docker push ${{ secrets.DOCKER_USERNAME }}/ensias-deps/$service:latest
+            docker build -f $service/Dockerfile.prod -t ${{ secrets.DOCKER_USERNAME }}/ensias-deps:$service-latest .
+            docker push ${{ secrets.DOCKER_USERNAME }}/ensias-deps:$service-latest
           done
 
-  # Job 3: Build and Push Frontend (only if CI passes)
-  build-and-push-frontend:
-    runs-on: ubuntu-latest
-    needs: ci-check
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
+      # Build frontend (using regular Dockerfile)
       - name: Build and push frontend
         run: |
           cd Front-End
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/ensias-deps/frontend:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/ensias-deps/frontend:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/ensias-deps:frontend-latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/ensias-deps:frontend-latest
 
-  # Job 4: Deploy to VM (only if build succeeds)
+  # Job 2: Deploy to VM
   deploy:
     runs-on: ubuntu-latest
-    needs: [build-and-push-backend, build-and-push-frontend]
+    needs: build-and-push
     steps:
-      - name: Deploy to VM
+      - name: Deploy to OCI VM
         uses: appleboy/ssh-action@v1.2.1
         with:
           host: ${{ secrets.OCI_HOST }}
           username: ubuntu
           key: ${{ secrets.OCI_SSH_KEY }}
           script: |
-            # Navigate to project directory
-            cd ~/ensias-departments-platform
+            # Navigate to project directory (same as repo name)
+            cd ~/department-management-ensias
             
             # Pull latest code
             git pull origin main
             
-            # Create .env file from secrets
+            # Create .env file with all secrets
             cat > .env << EOF
+            # Docker Configuration
+            DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
+            
+            # Database Configuration
             DB_HOST=${{ secrets.DB_HOST }}
             DB_PORT=5432
             DB_NAME=${{ secrets.DB_NAME }}
             DB_USER=${{ secrets.DB_USER }}
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            
+            # JWT Configuration
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             JWT_EXPIRATION=86400000
+            
+            # Spring Configuration
+            SPRING_PROFILES_ACTIVE=prod
             SPRING_DEVTOOLS_RESTART_ENABLED=false
             SPRING_DEVTOOLS_LIVERELOAD_ENABLED=false
+            
+            # File Upload
             UPLOAD_DIR=./uploads
+            
+            # Public IP for external access
+            PUBLIC_IP=${{ secrets.OCI_HOST }}
             EOF
             
             # Pull latest Docker images
             docker-compose -f docker-compose.prod.yml pull
             
-            # Restart services with latest code and images
+            # Stop existing containers
+            docker-compose -f docker-compose.prod.yml down
+            
+            # Start with latest images
             docker-compose -f docker-compose.prod.yml up -d
             
             # Clean up old images
             docker image prune -f
+            
+            echo "🚀 Deployment completed successfully!"
+            echo "Frontend available at: http://${{ secrets.OCI_HOST }}:5173"

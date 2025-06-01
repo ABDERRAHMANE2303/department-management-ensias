@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Database
   db:
@@ -20,31 +18,12 @@ services:
       timeout: 10s
       retries: 3
 
-  # Common Models Service
-  common-models:
-    image: abderrahmane03/ensias-deps/common-models:latest
-    container_name: ensias-common-models-prod
-    ports:
-      - "9090:9090"  # Exposed for testing
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-      SPRING_DATASOURCE_USERNAME: ${DB_USER}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-      SPRING_PROFILES_ACTIVE: prod
-      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      - ensias_prod_network
-    restart: unless-stopped
-
   # Admin Service
   admin:
-    image: abderrahmane03/ensias-deps/admin:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:admin-latest
     container_name: ensias-admin-prod
     ports:
-      - "9091:9091"  # Exposed for testing
+      - "9091:9091"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -54,18 +33,16 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      common-models:
-        condition: service_started
     networks:
       - ensias_prod_network
     restart: unless-stopped
 
   # Auth Service
   auth:
-    image: abderrahmane03/ensias-deps/auth:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:auth-latest
     container_name: ensias-auth-prod
     ports:
-      - "9092:9092"  # Exposed for testing
+      - "9092:9092"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -77,18 +54,16 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      common-models:
-        condition: service_started
     networks:
       - ensias_prod_network
     restart: unless-stopped
 
   # Chef Department Service
   chef-dep:
-    image: abderrahmane03/ensias-deps/chef-dep:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:chef-dep-latest
     container_name: ensias-chef-dep-prod
     ports:
-      - "9093:9093"  # Exposed for testing
+      - "9093:9093"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -98,18 +73,16 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      common-models:
-        condition: service_started
     networks:
       - ensias_prod_network
     restart: unless-stopped
 
   # Professor Department Service
   prof-dep:
-    image: abderrahmane03/ensias-deps/prof-dep:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:prof-dep-latest
     container_name: ensias-prof-dep-prod
     ports:
-      - "9094:9094"  # Exposed for testing
+      - "9094:9094"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -119,20 +92,20 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      common-models:
-        condition: service_started
     networks:
       - ensias_prod_network
     restart: unless-stopped
 
-  # Frontend - exposed to internet
+  # Frontend - exposed to internet via public IP
   frontend:
-    image: abderrahmane03/ensias-deps/frontend:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:frontend-latest
     container_name: ensias-frontend-prod
     ports:
-      - "5173:5173"  # Exposed to internet via VM public IP
+      - "5173:5173"  # Exposed on public IP
+    environment:
+      - NODE_ENV=production
+      - VITE_API_BASE_URL=http://${PUBLIC_IP}:9091  # Point to admin service via public IP
     depends_on:
-      - common-models
       - admin
       - auth
       - chef-dep
