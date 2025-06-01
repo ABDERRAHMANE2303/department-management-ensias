@@ -14,6 +14,7 @@ const professeurs = [
     formation: "Doctorat en Informatique de l'Institut National Polytechnique de Toulouse, 2005",
     isChef: true, // Mark this professor as chef
     // image sera fournie localement
+    image: "/src/assets/prof-nassar.jpg"
   },
   {
     nom: "Prof. Karim BAINA",
