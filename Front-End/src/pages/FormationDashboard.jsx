@@ -20,12 +20,12 @@ const FormationDashboard = () => {
   
   // Current formation data
   const [currentFormation, setCurrentFormation] = useState({
-    id: "GD",
+    id: "GL",
     departmentId: "dept-gl-01",
-    slug: "genie-data",
-    name: "Formation Génie Data",
-    shortName: "GD",
-    description: "Formation spécialisée en science des données, intelligence artificielle et analyse de données massives. Les étudiants acquièrent des compétences avancées en modélisation statistique, machine learning et visualisation de données.",
+    slug: "genie-logiciel",
+    name: "Formation Génie Logiciel",
+    shortName: "GL",
+    description: "Formation spécialisée en génie logiciel, développement d'applications et systèmes d'information. Les étudiants acquièrent des compétences avancées en conception, développement, et gestion de projets informatiques.",
     CoordinateurId: "prof-456"
   });
 
@@ -39,56 +39,267 @@ const FormationDashboard = () => {
   // Semesters data
   const [semesters, setSemesters] = useState([
     {
-      id: "sem-gd-1",
-      formationId: "GD",
+      id: "sem-gl-1",
+      formationId: "GL",
       number: 1,
-      name: "1er Semestre (S1) - Fondamentaux Data",
-      description: "Introduction aux concepts fondamentaux de la science des données et des mathématiques associées.",
+      name: "1er Semestre (S1) - Tronc Commun",
+      description: "Formation de base en informatique et mathématiques appliquées",
       colorGradient: "from-blue-500 to-blue-600"
     },
     {
-      id: "sem-gd-2",
-      formationId: "GD",
+      id: "sem-gl-2",
+      formationId: "GL",
       number: 2,
-      name: "2ème Semestre (S2) - Analyse et Traitement",
-      description: "Approfondissement des techniques d'analyse et de traitement des données structurées et non structurées.",
+      name: "2ème Semestre (S2) - Tronc Commun",
+      description: "Approfondissement des bases et introduction à la programmation",
+      colorGradient: "from-green-500 to-green-600"
+    },
+    {
+      id: "sem-gl-3",
+      formationId: "GL",
+      number: 3,
+      name: "3ème Semestre (S3) - Approfondissement",
+      description: "Technologies avancées et méthodes de développement",
+      colorGradient: "from-purple-500 to-purple-600"
+    },
+    {
+      id: "sem-gl-4",
+      formationId: "GL",
+      number: 4,
+      name: "4ème Semestre (S4) - Approfondissement",
+      description: "Systèmes d'information et technologies entreprise",
+      colorGradient: "from-red-500 to-red-600"
+    },
+    {
+      id: "sem-gl-5",
+      formationId: "GL",
+      number: 5,
+      name: "5ème Semestre (S5) - Spécialisation GL",
+      description: "Spécialisation avancée en Génie Logiciel",
+      colorGradient: "from-orange-500 to-orange-600"
+    },
+    {
+      id: "sem-gl-6",
+      formationId: "GL",
+      number: 6,
+      name: "6ème Semestre (S6) - Projet et Stage",
+      description: "Projet de fin d'études et stage professionnel",
       colorGradient: "from-indigo-500 to-indigo-600"
     }
   ]);
 
   // Modules data
   const [modules, setModules] = useState([
+    // Semester 1 modules
     {
-      id: "mod-gd-1-1",
-      semesterId: "sem-gd-1",
-      name: "Introduction à la Science des Données",
-      description: "Fondamentaux de la data science, écosystème, enjeux et applications.",
-      professorId: "prof-789",
-      professorName: "Prof. A. Professor"
+      id: "mod-gl-1-1",
+      semesterId: "sem-gl-1",
+      name: "Algorithmique et Structures de Données",
+      description: "Fondements de l'algorithmique et structures de données essentielles",
+      professorId: null,
+      professorName: "Mr. Ahmed ETTALBI"
     },
     {
-      id: "mod-gd-1-2",
-      semesterId: "sem-gd-1",
-      name: "Mathématiques pour la Data",
-      description: "Algèbre linéaire, statistiques et probabilités appliquées à la data science.",
-      professorId: "prof-456",
-      professorName: "Prof. S. Afia"
+      id: "mod-gl-1-2",
+      semesterId: "sem-gl-1",
+      name: "Éléments de Recherche Opérationnelle",
+      description: "Analyse mathématique appliquée à l'informatique",
+      professorId: null,
+      professorName: "Équipe mathématiques"
     },
     {
-      id: "mod-gd-2-1",
-      semesterId: "sem-gd-2",
-      name: "Machine Learning",
-      description: "Algorithmes d'apprentissage supervisé et non supervisé, évaluation des modèles.",
-      professorId: "prof-456",
-      professorName: "Prof. S. Afia"
+      id: "mod-gl-1-3",
+      semesterId: "sem-gl-1",
+      name: "Probabilités et Statistiques",
+      description: "Fondements probabilistes pour l'informatique",
+      professorId: null,
+      professorName: "I. Amrani"
     },
     {
-      id: "mod-gd-2-2",
-      semesterId: "sem-gd-2",
-      name: "Data Engineering",
-      description: "Infrastructures et pipelines de traitement de données massives.",
+      id: "mod-gl-1-4",
+      semesterId: "sem-gl-1",
+      name: "Architecture des Ordinateurs",
+      description: "Compréhension de l'architecture matérielle",
+      professorId: null,
+      professorName: "J. EL HACHIMI"
+    },
+    {
+      id: "mod-gl-1-5",
+      semesterId: "sem-gl-1",
+      name: "Communication et Langues",
+      description: "Anglais technique et communication professionnelle",
+      professorId: null,
+      professorName: "A. KOUR"
+    },
+
+    // Semester 2 modules
+    {
+      id: "mod-gl-2-1",
+      semesterId: "sem-gl-2",
+      name: "Programmation Orientée Objet",
+      description: "Concepts OOP et programmation Java",
       professorId: null,
       professorName: "Équipe enseignante ENSIAS"
+    },
+    {
+      id: "mod-gl-2-2",
+      semesterId: "sem-gl-2",
+      name: "Systèmes d'Exploitation",
+      description: "Gestion des processus, mémoire et fichiers",
+      professorId: null,
+      professorName: "Équipe enseignante ENSIAS"
+    },
+    {
+      id: "mod-gl-2-3",
+      semesterId: "sem-gl-2",
+      name: "Bases de Données",
+      description: "Conception et manipulation de bases de données",
+      professorId: null,
+      professorName: "Équipe enseignante ENSIAS"
+    },
+    {
+      id: "mod-gl-2-4",
+      semesterId: "sem-gl-2",
+      name: "Développement Web",
+      description: "Technologies web modernes",
+      professorId: null,
+      professorName: "Équipe enseignante ENSIAS"
+    },
+
+    // Semester 3 modules
+    {
+      id: "mod-gl-3-1",
+      semesterId: "sem-gl-3",
+      name: "Systèmes d'Information",
+      description: "Analyse et conception des systèmes d'information",
+      professorId: null,
+      professorName: "Prof. Karim BAINA"
+    },
+    {
+      id: "mod-gl-3-2",
+      semesterId: "sem-gl-3",
+      name: "Génie Logiciel",
+      description: "Méthodologies de développement logiciel",
+      professorId: "prof-123", // Assuming this is Prof. Nassar's ID
+      professorName: "Prof. Mahmoud NASSAR"
+    },
+    {
+      id: "mod-gl-3-3",
+      semesterId: "sem-gl-3",
+      name: "Réseaux",
+      description: "Architectures réseaux et protocoles",
+      professorId: null,
+      professorName: "Équipe enseignante ENSIAS"
+    },
+    {
+      id: "mod-gl-3-4",
+      semesterId: "sem-gl-3",
+      name: "Théorie de language et Compilation",
+      description: "Conception du compilateur pour pascale",
+      professorId: null,
+      professorName: "M. Tabii"
+    },
+    {
+      id: "mod-gl-3-5",
+      semesterId: "sem-gl-3",
+      name: "Communication professionnelle",
+      description: "Anglais technique et communication professionnelle",
+      professorId: null,
+      professorName: "Équipe langues"
+    },
+
+    // Semester 4 modules
+    {
+      id: "mod-gl-4-1",
+      semesterId: "sem-gl-4",
+      name: "Bases de Données Avancées",
+      description: "Bases de données distribuées et NoSQL",
+      professorId: null,
+      professorName: "Équipe enseignante ENSIAS"
+    },
+    {
+      id: "mod-gl-4-2",
+      semesterId: "sem-gl-4",
+      name: "Agile",
+      description: "Architectures logicielles et patterns",
+      professorId: null,
+      professorName: "Prof. Salah BAINA"
+    },
+    {
+      id: "mod-gl-4-3",
+      semesterId: "sem-gl-4",
+      name: "Design patterns",
+      description: "Architectures logicielles et patterns",
+      professorId: "prof-123", // Assuming this is Prof. Nassar's ID
+      professorName: "Mahmoud NASSAR"
+    },
+    {
+      id: "mod-gl-4-4",
+      semesterId: "sem-gl-4",
+      name: "Gestion de Projet",
+      description: "Méthodologies de gestion de projets IT",
+      professorId: null,
+      professorName: "Équipe enseignante ENSIAS"
+    },
+
+    // Semester 5 modules
+    {
+      id: "mod-gl-5-1",
+      semesterId: "sem-gl-5",
+      name: "Génie Logiciel Objet",
+      description: "Conception et développement orienté objet avancé",
+      professorId: "prof-123", // Assuming this is Prof. Nassar's ID
+      professorName: "Prof. Mahmoud NASSAR"
+    },
+    {
+      id: "mod-gl-5-2",
+      semesterId: "sem-gl-5",
+      name: "Audit, Contrôle et Qualité",
+      description: "Qualité logicielle et métriques",
+      professorId: null,
+      professorName: "Prof. BOUCHAIB BOUNABAT"
+    },
+    {
+      id: "mod-gl-5-3",
+      semesterId: "sem-gl-5",
+      name: "Intégration d'Applications d'Entreprise",
+      description: "Architecture SOA et intégration système",
+      professorId: null,
+      professorName: "Prof. Karim BAINA"
+    },
+    {
+      id: "mod-gl-5-4",
+      semesterId: "sem-gl-5",
+      name: "Aspects Avancés du Génie Logiciel",
+      description: "Méthodes agiles et DevOps",
+      professorId: null,
+      professorName: "Prof. Salah BAINA"
+    },
+
+    // Semester 6 modules
+    {
+      id: "mod-gl-6-1",
+      semesterId: "sem-gl-6",
+      name: "Projet de Fin d'Études",
+      description: "Développement d'un projet innovant en entreprise",
+      professorId: null,
+      professorName: "Encadrant académique + Industriel"
+    },
+    {
+      id: "mod-gl-6-2",
+      semesterId: "sem-gl-6",
+      name: "Stage Professionnel",
+      description: "Stage de 4-6 mois en milieu professionnel",
+      professorId: null,
+      professorName: "Tuteur entreprise"
+    },
+    {
+      id: "mod-gl-6-3",
+      semesterId: "sem-gl-6",
+      name: "Soutenance PFE",
+      description: "Présentation et défense du projet",
+      professorId: null,
+      professorName: "Jury académique et professionnel"
     }
   ]);
 
