@@ -20,7 +20,7 @@ services:
 
   # Admin Service
   admin:
-    image: ${DOCKER_USERNAME}/ensias-admin:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:admin-latest
     container_name: ensias-admin-prod
     ports:
       - "9091:9091"
