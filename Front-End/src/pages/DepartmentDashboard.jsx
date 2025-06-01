@@ -334,21 +334,26 @@ const DepartmentDashboard = () => {
   return (
     <div className={`app-layout ${darkMode ? 'dark' : 'light'}`}>
       {/* Sidebar */}
-      <aside className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`}>
+      <aside className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`} role="navigation" aria-label="Main Navigation">
         <div className="sidebar-header">
           <div className="logo-container">
             <GraduationCap className="logo-icon" />
             {isSidebarOpen && <span className="logo-text">ENSIAS</span>}
           </div>
-          {/* <button className="sidebar-close" onClick={toggleSidebar}>
-            {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
-          </button> */}
+          <button 
+            className="sidebar-toggle-button" 
+            onClick={toggleSidebar} 
+            aria-label={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+          >
+            {/* {isSidebarOpen ? <X size={20} /> : <Menu size={20} />} */}
+          </button>
         </div>
         
         <nav className="sidebar-menu">
           <button 
             className={`sidebar-item ${activeTab === 'overview' ? 'active' : ''}`}
             onClick={() => setActiveTab('overview')}
+            aria-current={activeTab === 'overview' ? 'page' : undefined}
           >
             <BarChart3 size={20} />
             {isSidebarOpen && <span>Vue d'ensemble</span>}
@@ -356,10 +361,8 @@ const DepartmentDashboard = () => {
           
           <button 
             className={`sidebar-item ${activeTab === 'department' ? 'active' : ''}`}
-            onClick={() => {
-              setActiveTab('department');
-              setActiveSection('department');
-            }}
+            onClick={() => setActiveTab('department')}
+            aria-current={activeTab === 'department' ? 'page' : undefined}
           >
             <BookOpen size={20} />
             {isSidebarOpen && <span>Département</span>}
@@ -367,10 +370,8 @@ const DepartmentDashboard = () => {
           
           <button 
             className={`sidebar-item ${activeTab === 'formations' ? 'active' : ''}`}
-            onClick={() => {
-              setActiveTab('formations');
-              setActiveSection('formations');
-            }}
+            onClick={() => setActiveTab('formations')}
+            aria-current={activeTab === 'formations' ? 'page' : undefined}
           >
             <Layers size={20} />
             {isSidebarOpen && <span>Formations</span>}
@@ -378,10 +379,8 @@ const DepartmentDashboard = () => {
           
           <button 
             className={`sidebar-item ${activeTab === 'professors' ? 'active' : ''}`}
-            onClick={() => {
-              setActiveTab('professors');
-              setActiveSection('professors');
-            }}
+            onClick={() => setActiveTab('professors')}
+            aria-current={activeTab === 'professors' ? 'page' : undefined}
           >
             <Users size={20} />
             {isSidebarOpen && <span>Professeurs</span>}
@@ -391,10 +390,8 @@ const DepartmentDashboard = () => {
           
           <button 
             className={`sidebar-item ${activeTab === 'profile' ? 'active' : ''}`}
-            onClick={() => {
-              setActiveTab('profile');
-              setActiveSection('profile');
-            }}
+            onClick={() => setActiveTab('profile')}
+            aria-current={activeTab === 'profile' ? 'page' : undefined}
           >
             <User size={20} />
             {isSidebarOpen && <span>Mon profil</span>}
@@ -470,7 +467,7 @@ const DepartmentDashboard = () => {
                   </div>
                   <div className="department-views">
                     <Eye size={16} />
-                    <span>{departmentData.views} vues ce mois</span>
+                    <span>{departmentData.views} vues</span>
                   </div>
                 </div>
               </div>
