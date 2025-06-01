@@ -164,14 +164,6 @@ const [currentUser, setCurrentUser] = useState({
   phone: "+212 6 23 45 67 89"
 });
 
-  // Formation statistics
-  const [stats, setStats] = useState({
-    studentCount: 45,
-    graduationRate: 95,
-    moduleCount: modules.length,
-    averageGrade: "16.2/20"
-  });
-
   // Edit states
   const [editingFormation, setEditingFormation] = useState(false);
   const [editingSemester, setEditingSemester] = useState(false);
@@ -179,6 +171,10 @@ const [currentUser, setCurrentUser] = useState({
   const [editingModule, setEditingModule] = useState(false);
   const [selectedModule, setSelectedModule] = useState(null);
   const [editingProfile, setEditingProfile] = useState(false);
+  const [editingCompetence, setEditingCompetence] = useState(false);
+  const [selectedCompetence, setSelectedCompetence] = useState(null);
+  const [editingCareerPath, setEditingCareerPath] = useState(false);
+  const [selectedCareerPath, setSelectedCareerPath] = useState(null);
 
   // New entities
   const [newSemester, setNewSemester] = useState({
@@ -196,6 +192,62 @@ const [currentUser, setCurrentUser] = useState({
     professorId: null,
     professorName: "Équipe enseignante ENSIAS"
   });
+
+  const [newCompetence, setNewCompetence] = useState({
+    departmentId: departmentData.id,
+    formationId: currentFormation.id,
+    description: ""
+  });
+
+  const [newCareerPath, setNewCareerPath] = useState({
+    departmentId: departmentData.id,
+    formationId: currentFormation.id,
+    title: ""
+  });
+
+  // Competences state
+  const [competences, setCompetences] = useState([
+    {
+      id: "comp-1",
+      departmentId: "dept-gl-01",
+      formationId: "GD",
+      description: "Maîtrise des algorithmes avancés d'apprentissage automatique"
+    },
+    {
+      id: "comp-2",
+      departmentId: "dept-gl-01",
+      formationId: "GD",
+      description: "Conception et développement de pipelines de traitement de données"
+    },
+    {
+      id: "comp-3",
+      departmentId: "dept-gl-01",
+      formationId: "GD",
+      description: "Analyse et visualisation de données massives pour la prise de décision"
+    }
+  ]);
+
+  // CareerPaths state
+  const [careerPaths, setCareerPaths] = useState([
+    {
+      id: "career-1",
+      departmentId: "dept-gl-01",
+      formationId: "GD",
+      title: "Data Scientist"
+    },
+    {
+      id: "career-2",
+      departmentId: "dept-gl-01",
+      formationId: "GD",
+      title: "Ingénieur Intelligence Artificielle"
+    },
+    {
+      id: "career-3",
+      departmentId: "dept-gl-01",
+      formationId: "GD",
+      title: "Architecte Big Data"
+    }
+  ]);
 
   // Effect to update dark mode
   useEffect(() => {
@@ -289,6 +341,63 @@ const [currentUser, setCurrentUser] = useState({
     }
   };
 
+  // Add these handler functions
+
+const handleCompetenceChange = (e) => {
+  const { name, value } = e.target;
+  if (selectedCompetence) {
+    setCompetences(competences.map(c => 
+      c.id === selectedCompetence.id ? { ...c, [name]: value } : c
+    ));
+  } else {
+    setNewCompetence(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }
+};
+
+
+
+const handleCareerPathChange = (e) => {
+  const { name, value } = e.target;
+  if (selectedCareerPath) {
+    setCareerPaths(careerPaths.map(c => 
+      c.id === selectedCareerPath.id ? { ...c, [name]: value } : c
+    ));
+  } else {
+    setNewCareerPath(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }
+};
+
+const saveCareerPathChanges = () => {
+  if (selectedCareerPath) {
+    // Update existing career path already handled by handleCareerPathChange
+    console.log("Updated career path:", 
+      careerPaths.find(c => c.id === selectedCareerPath.id)
+    );
+  } else {
+    // Create new career path
+    const newId = `career-${careerPaths.length + 1}`;
+    const careerPathToAdd = {
+      ...newCareerPath,
+      id: newId
+    };
+    setCareerPaths([...careerPaths, careerPathToAdd]);
+    console.log("Added new career path:", careerPathToAdd);
+    setNewCareerPath({
+      departmentId: departmentData.id,
+      formationId: currentFormation.id,
+      title: ""
+    });
+  }
+  setEditingCareerPath(false);
+  setSelectedCareerPath(null);
+};
+
   // Save handlers
   const saveFormationChanges = () => {
     console.log("Saving formation changes:", currentFormation);
@@ -359,6 +468,33 @@ const [currentUser, setCurrentUser] = useState({
     setEditingProfile(false);
   };
 
+  const saveCompetenceChanges = () => {
+    if (selectedCompetence) {
+      // Update existing competence
+      console.log("Saving competence changes:", 
+        competences.find(c => c.id === selectedCompetence.id)
+      );
+    } else {
+      // Create new competence
+      const newId = `comp-${newCompetence.description.split(' ').join('-').toLowerCase()}`;
+      const competenceToAdd = {
+        ...newCompetence,
+        id: newId
+      };
+      setCompetences([...competences, competenceToAdd]);
+      console.log("Added new competence:", competenceToAdd);
+      setNewCompetence({
+        departmentId: departmentData.id,
+        formationId: currentFormation.id,
+        description: ""
+      });
+    }
+    setEditingCompetence(false);
+    setSelectedCompetence(null);
+  };
+
+  
+
   // Delete handlers
   const deleteSemester = (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer ce semestre ? Cette action supprimera également tous les modules associés.")) {
@@ -371,6 +507,18 @@ const [currentUser, setCurrentUser] = useState({
   const deleteModule = (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer ce module ?")) {
       setModules(modules.filter(m => m.id !== id));
+    }
+  };
+
+  const deleteCompetence = (id) => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer cette compétence ?")) {
+      setCompetences(competences.filter(c => c.id !== id));
+    }
+  };
+
+  const deleteCareerPath = (id) => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer cette opportunité professionnelle ?")) {
+      setCareerPaths(careerPaths.filter(c => c.id !== id));
     }
   };
 
@@ -429,6 +577,15 @@ const [currentUser, setCurrentUser] = useState({
             {isSidebarOpen && <span>Modules</span>}
           </button>
           
+          <button 
+            className={`sidebar-item ${activeTab === 'programme' ? 'active' : ''}`}
+            onClick={() => setActiveTab('programme')}
+            aria-current={activeTab === 'programme' ? 'page' : undefined}
+          >
+            <BookMarked size={20} />
+            {isSidebarOpen && <span>Programme</span>}
+          </button>
+          
           <div className="sidebar-separator"></div>
           
           <button 
@@ -460,6 +617,7 @@ const [currentUser, setCurrentUser] = useState({
               {activeTab === 'formation' && 'Gestion de la formation'}
               {activeTab === 'semesters' && 'Gestion des semestres'}
               {activeTab === 'modules' && 'Gestion des modules'}
+              {activeTab === 'programme' && 'Programme'}
               {activeTab === 'profile' && 'Mon profil'}
             </h1>
           </div>
@@ -1395,6 +1553,219 @@ const [currentUser, setCurrentUser] = useState({
                   )}
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* Programme Tab */}
+          {activeTab === 'programme' && (
+            <div>
+              {/* Competences Section */}
+              <div className="section-header">
+                <h2 className="section-title">Compétences acquises</h2>
+                {!editingCompetence && (
+                  <button 
+                    className="action-button primary"
+                    onClick={() => {
+                      setEditingCompetence(true);
+                      setSelectedCompetence(null);
+                    }}
+                  >
+                    <Plus size={18} />
+                    <span>Ajouter une compétence</span>
+                  </button>
+                )}
+              </div>
+              
+              {editingCompetence ? (
+                <div className="form-container">
+                  <h3 className="section-subtitle">
+                    {selectedCompetence ? "Modifier la compétence" : "Ajouter une nouvelle compétence"}
+                  </h3>
+                  
+                  <div className="form-group full-width">
+                    <label>Description de la compétence</label>
+                    <textarea 
+                      name="description"
+                      value={selectedCompetence ? 
+                        competences.find(c => c.id === selectedCompetence.id).description : 
+                        newCompetence.description
+                      }
+                      onChange={handleCompetenceChange}
+                      rows={3}
+                      placeholder="Ex: Maîtrise des algorithmes d'apprentissage profond pour l'analyse prédictive..."
+                    />
+                  </div>
+                  
+                  <div className="form-actions">
+                    <button 
+                      className="action-button secondary"
+                      onClick={() => {
+                        setEditingCompetence(false);
+                        setSelectedCompetence(null);
+                      }}
+                    >
+                      Annuler
+                    </button>
+                    <button 
+                      className="action-button success"
+                      onClick={saveCompetenceChanges}
+                      disabled={!selectedCompetence && !newCompetence.description}
+                    >
+                      <Save size={18} />
+                      <span>Enregistrer</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="competences-list">
+                  {competences.length > 0 ? (
+                    competences.map(competence => (
+                      <div className="competence-item" key={competence.id}>
+                        <div className="competence-content">
+                          <div className="competence-icon">
+                            <CheckSquare size={24} />
+                          </div>
+                          <p className="competence-description">{competence.description}</p>
+                        </div>
+                        <div className="competence-actions">
+                          <button 
+                            className="icon-button edit"
+                            onClick={() => {
+                              setSelectedCompetence(competence);
+                              setEditingCompetence(true);
+                            }}
+                          >
+                            <Edit size={16} />
+                          </button>
+                          <button 
+                            className="icon-button delete"
+                            onClick={() => deleteCompetence(competence.id)}
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="empty-state">
+                      <h3>Aucune compétence définie</h3>
+                      <p>Ajoutez les compétences que les étudiants acquerront dans cette formation.</p>
+                      <button 
+                        className="action-button primary"
+                        onClick={() => {
+                          setEditingCompetence(true);
+                        }}
+                      >
+                        <Plus size={18} />
+                        <span>Ajouter une compétence</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Career Paths Section */}
+              <div className="section-header with-margin-top">
+                <h2 className="section-title">Débouchés professionnels</h2>
+                {!editingCareerPath && (
+                  <button 
+                    className="action-button primary"
+                    onClick={() => {
+                      setEditingCareerPath(true);
+                      setSelectedCareerPath(null);
+                    }}
+                  >
+                    <Plus size={18} />
+                    <span>Ajouter un débouché</span>
+                  </button>
+                )}
+              </div>
+              
+              {editingCareerPath ? (
+                <div className="form-container">
+                  <h3 className="section-subtitle">
+                    {selectedCareerPath ? "Modifier le débouché professionnel" : "Ajouter un nouveau débouché professionnel"}
+                  </h3>
+                  
+                  <div className="form-group full-width">
+                    <label>Titre du poste</label>
+                    <input 
+                      type="text"
+                      name="title"
+                      value={selectedCareerPath ? 
+                        careerPaths.find(c => c.id === selectedCareerPath.id).title : 
+                        newCareerPath.title
+                      }
+                      onChange={handleCareerPathChange}
+                      placeholder="Ex: Data Scientist, Architecte Big Data, etc."
+                    />
+                  </div>
+                  
+                  <div className="form-actions">
+                    <button 
+                      className="action-button secondary"
+                      onClick={() => {
+                        setEditingCareerPath(false);
+                        setSelectedCareerPath(null);
+                      }}
+                    >
+                      Annuler
+                    </button>
+                    <button 
+                      className="action-button success"
+                      onClick={saveCareerPathChanges}
+                      disabled={!selectedCareerPath && !newCareerPath.title}
+                    >
+                      <Save size={18} />
+                      <span>Enregistrer</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="career-paths-grid">
+                  {careerPaths.length > 0 ? (
+                    careerPaths.map(careerPath => (
+                      <div className="career-path-card" key={careerPath.id}>
+                        <div className="career-path-icon">
+                          <Award size={28} />
+                        </div>
+                        <h3 className="career-path-title">{careerPath.title}</h3>
+                        <div className="career-path-actions">
+                          <button 
+                            className="icon-button edit"
+                            onClick={() => {
+                              setSelectedCareerPath(careerPath);
+                              setEditingCareerPath(true);
+                            }}
+                          >
+                            <Edit size={16} />
+                          </button>
+                          <button 
+                            className="icon-button delete"
+                            onClick={() => deleteCareerPath(careerPath.id)}
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="empty-state">
+                      <h3>Aucun débouché professionnel défini</h3>
+                      <p>Ajoutez les opportunités de carrière pour les diplômés de cette formation.</p>
+                      <button 
+                        className="action-button primary"
+                        onClick={() => {
+                          setEditingCareerPath(true);
+                        }}
+                      >
+                        <Plus size={18} />
+                        <span>Ajouter un débouché</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </main>
