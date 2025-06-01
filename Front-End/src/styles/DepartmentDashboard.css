@@ -1991,3 +1991,247 @@ body {
 .professeur.dark .module-detail {
   background-color: rgba(244, 67, 54, 0.05);
 }
+/* Enhanced Module styling for Chef Department Dashboard */
+.chef-dep .modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.75rem;
+  margin-top: 2rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.chef-dep .module-card {
+  background: linear-gradient(to bottom right, var(--bg-primary), var(--bg-secondary));
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(238, 54, 56, 0.08);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(238, 54, 56, 0.15);
+  position: relative;
+}
+
+.chef-dep .module-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-color-hover));
+  z-index: 1;
+}
+
+.chef-dep .module-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(238, 54, 56, 0.15);
+}
+
+.chef-dep .module-card-header {
+  padding: 1.5rem 1.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  background: linear-gradient(to right, rgba(238, 54, 56, 0.05) 0%, transparent 100%);
+}
+
+.chef-dep .module-card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.chef-dep .module-card-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.chef-dep .module-card:hover .module-card-title::after {
+  width: 60px;
+}
+
+.chef-dep .module-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0.7;
+  transform: scale(0.9);
+  transition: all 0.3s ease;
+}
+
+.chef-dep .module-card:hover .module-card-actions {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.chef-dep .module-card-description {
+  padding: 1.25rem 1.5rem;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  flex-grow: 1;
+  line-height: 1.6;
+  position: relative;
+  border-top: 1px dashed rgba(238, 54, 56, 0.1);
+  margin-top: 0.5rem;
+}
+
+.chef-dep .module-detail {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(to right, rgba(238, 54, 56, 0.08), rgba(238, 54, 56, 0.02));
+  border-top: 1px solid rgba(238, 54, 56, 0.1);
+  transition: all 0.3s ease;
+}
+
+.chef-dep .module-card:hover .module-detail {
+  background: linear-gradient(to right, rgba(238, 54, 56, 0.15), rgba(238, 54, 56, 0.05));
+}
+
+.chef-dep .detail-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  margin-right: 0.75rem;
+  position: relative;
+  padding-left: 14px;
+}
+
+.chef-dep .detail-label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+}
+
+.chef-dep .detail-value {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: transform 0.3s ease;
+}
+
+.chef-dep .module-card:hover .detail-value {
+  transform: translateX(5px);
+}
+
+/* Module editing form with enhanced styling */
+.chef-dep .form-container {
+  background: linear-gradient(to bottom right, var(--bg-primary), var(--bg-secondary));
+  border-radius: 16px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-top: 2rem;
+  border: 1px solid rgba(238, 54, 56, 0.2);
+  animation: slideUp 0.4s ease-out;
+  position: relative;
+}
+
+.chef-dep .form-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, var(--primary-color), var(--primary-color-hover));
+  border-radius: 16px 16px 0 0;
+}
+
+.chef-dep .section-subtitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+  position: relative;
+  padding-left: 1rem;
+}
+
+.chef-dep .section-subtitle::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 24px;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+}
+
+/* Icon button styling */
+.chef-dep .icon-button.edit {
+  background-color: rgba(238, 54, 56, 0.1);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 8px;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chef-dep .icon-button.edit:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: rotate(15deg);
+  box-shadow: 0 4px 8px rgba(238, 54, 56, 0.25);
+}
+
+/* Animation keyframes */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dark mode enhancements */
+.app-layout.chef-dep.dark .module-card {
+  background: linear-gradient(to bottom right, #1e1e2d, #151521);
+  border-color: rgba(244, 67, 54, 0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.app-layout.chef-dep.dark .module-card:hover {
+  box-shadow: 0 15px 35px rgba(244, 67, 54, 0.2);
+}
+
+.app-layout.chef-dep.dark .module-card-header {
+  background: linear-gradient(to right, rgba(244, 67, 54, 0.08) 0%, transparent 100%);
+}
+
+.app-layout.chef-dep.dark .module-detail {
+  background: linear-gradient(to right, rgba(244, 67, 54, 0.1), rgba(244, 67, 54, 0.02));
+  border-top-color: rgba(244, 67, 54, 0.15);
+}
+
+.app-layout.chef-dep.dark .module-card:hover .module-detail {
+  background: linear-gradient(to right, rgba(244, 67, 54, 0.18), rgba(244, 67, 54, 0.08));
+}
+
+.app-layout.chef-dep.dark .module-card-description {
+  border-top-color: rgba(244, 67, 54, 0.15);
+}
+
+.app-layout.chef-dep.dark .icon-button.edit {
+  background-color: rgba(244, 67, 54, 0.15);
+}

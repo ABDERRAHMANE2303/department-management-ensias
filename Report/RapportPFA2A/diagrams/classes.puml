@@ -83,8 +83,11 @@ class Departement {
     -code: String
     -description: String
     -vision: String
-    -mission: String
+    -image: String
     -contact: String
+    -nombre_de_diplomes: Integer
+    -nombre_detudiants: Integer
+    -nombre_publications: Integer
     -chef_departement_id: String <<FK>>
     -date_creation: Timestamp
     -date_modification: Timestamp
@@ -96,7 +99,6 @@ class Formation {
     -nom: String
     -code: String
     -description: String
-    -objectifs: String
     -duree: Integer
     -coordinateur_id: String <<FK>>
     -date_creation: Timestamp

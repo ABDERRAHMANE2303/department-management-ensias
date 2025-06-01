@@ -4,7 +4,7 @@ import '../styles/DepartmentDashboard.css';
 import { 
   Home, Menu, X, Sun, Moon, BookOpen, Layers, Users, BookMarked, Award,
   GraduationCap, Plus, Edit, Trash2, Save, BarChart3, Settings, LogOut,
-  User, Mail, Phone, Eye, FileEdit, School, Calendar, UserCheck
+  User, Mail, Phone, Eye, FileEdit, School, Calendar, UserCheck, Book
 } from 'lucide-react';
 
 const DepartmentDashboard = () => {
@@ -30,7 +30,7 @@ const DepartmentDashboard = () => {
     graduatesCount: 520,
     activeStudentsCount: 180,
     PublicationsCount: 65,
-    views: 1240,
+    views: 65,
     contactEmail: "departement.gl@ensias.ma",
     contactPhone: "+212 5 37 68 71 50",
     openDaysInfo: "Journées Portes Ouvertes : Mars 2024",
@@ -122,6 +122,8 @@ const DepartmentDashboard = () => {
   const [editingProfessor, setEditingProfessor] = useState(false);
   const [selectedProfessor, setSelectedProfessor] = useState(null);
   const [editingProfile, setEditingProfile] = useState(false);
+  const [editingModule, setEditingModule] = useState(false);
+  const [selectedModule, setSelectedModule] = useState(null);
   const [newFormation, setNewFormation] = useState({
     name: "",
     shortName: "",
@@ -139,6 +141,46 @@ const DepartmentDashboard = () => {
     password: "",
     confirmPassword: ""
   });
+  
+  // Add module data for department head
+  const [assignedModules, setAssignedModules] = useState([
+    {
+      id: "mod-gl-1-1",
+      semesterId: "sem-gl-1",
+      name: "Introduction au Génie Logiciel",
+      description: "Ce module introduit les concepts fondamentaux du génie logiciel, les méthodologies de développement et les bonnes pratiques de l'industrie.",
+      professorName: "m.nassar",
+      professorId: "prof-123"
+    },
+    {
+      id: "mod-gl-2-2",
+      semesterId: "sem-gl-2",
+      name: "Architecture Logicielle",
+      description: "Étude des patterns d'architecture, des principes SOLID et des méthodes de conception des systèmes logiciels complexes.",
+      professorName: "m.nassar",
+      professorId: "prof-123"
+    }
+  ]);
+  
+  // Add semester data for context
+  const [semesters, setSemesters] = useState([
+    {
+      id: "sem-gl-1",
+      formationId: "GL",
+      number: 1,
+      name: "1er Semestre (S1) - Fondamentaux",
+      description: "Bases de la programmation et introduction au génie logiciel",
+      colorGradient: "from-blue-500 to-blue-600"
+    },
+    {
+      id: "sem-gl-2",
+      formationId: "GL",
+      number: 2,
+      name: "2ème Semestre (S2) - Bases avancées",
+      description: "Développement d'applications et conception logicielle",
+      colorGradient: "from-green-500 to-green-600"
+    }
+  ]);
 
   // Effect to update dark mode
   useEffect(() => {
@@ -305,6 +347,13 @@ const DepartmentDashboard = () => {
     setEditingProfile(false);
   };
 
+  const saveModuleChanges = () => {
+    console.log("Saving module changes:", assignedModules.find(m => m.id === selectedModule.id));
+    setEditingModule(false);
+    setSelectedModule(null);
+    // In a real app, you'd make an API call here
+  };
+
   const assignCoordinator = (professorId, formationId) => {
     // Update formation with new coordinator
     setFormations(formations.map(f => 
@@ -331,8 +380,24 @@ const DepartmentDashboard = () => {
     }
   };
 
+  // Helper function to get semester name by ID
+  const getSemesterName = (semesterId) => {
+    const semester = semesters.find(s => s.id === semesterId);
+    return semester ? semester.name : "Semestre inconnu";
+  };
+// Fix handleModuleChange function
+  const handleModuleChange = (e) => {
+    const { name, value } = e.target;
+    if (selectedModule) {
+      setAssignedModules(currentModules => 
+        currentModules.map(m => 
+          m.id === selectedModule.id ? { ...m, [name]: value } : m
+        )
+      );
+    }
+  };
   return (
-    <div className={`app-layout ${darkMode ? 'dark' : 'light'}`}>
+    <div className={`app-layout chef-dep ${darkMode ? 'dark' : 'light'}`}>
       {/* Sidebar */}
       <aside className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`} role="navigation" aria-label="Main Navigation">
         <div className="sidebar-header">
@@ -386,6 +451,16 @@ const DepartmentDashboard = () => {
             {isSidebarOpen && <span>Professeurs</span>}
           </button>
           
+          {/* Add new sidebar item for modules */}
+          <button 
+            className={`sidebar-item ${activeTab === 'modules' ? 'active' : ''}`}
+            onClick={() => setActiveTab('modules')}
+            aria-current={activeTab === 'modules' ? 'page' : undefined}
+          >
+            <Book size={20} />
+            {isSidebarOpen && <span>Mes modules</span>}
+          </button>
+          
           <div className="sidebar-separator"></div>
           
           <button 
@@ -419,6 +494,7 @@ const DepartmentDashboard = () => {
               {activeTab === 'department' && 'Gestion du département'}
               {activeTab === 'formations' && 'Gestion des formations'}
               {activeTab === 'professors' && 'Gestion des professeurs'}
+              {activeTab === 'modules' && 'Mes modules'}
               {activeTab === 'profile' && 'Mon profil'}
             </h1>
           </div>
@@ -1263,6 +1339,97 @@ const DepartmentDashboard = () => {
                             </span>
                           </div>
                         )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* New Modules Tab */}
+          {activeTab === 'modules' && (
+            <div>
+              <div className="section-header">
+                <h2 className="section-title">Mes modules</h2>
+              </div>
+              
+              {editingModule && selectedModule ? (
+                <div className="form-container">
+                  <h3 className="section-subtitle">
+                    Modifier les informations du module
+                  </h3>
+                  
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Nom du module</label>
+                      <div className="display-value">
+                        {assignedModules.find(m => m.id === selectedModule.id)?.name}
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label>Semestre</label>
+                      <div className="display-value">
+                        {getSemesterName(assignedModules.find(m => m.id === selectedModule.id)?.semesterId)}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="form-group full-width">
+                    <label>Description</label>
+                    <textarea 
+                      name="description"
+                      value={assignedModules.find(m => m.id === selectedModule.id)?.description}
+                      onChange={handleModuleChange}
+                      rows={3}
+                    />
+                  </div>
+                  
+                  <div className="form-actions">
+                    <button 
+                      className="action-button secondary"
+                      onClick={() => {
+                        setEditingModule(false);
+                        setSelectedModule(null);
+                      }}
+                    >
+                      Annuler
+                    </button>
+                    <button 
+                      className="action-button success"
+                      onClick={saveModuleChanges}
+                    >
+                      <Save size={18} />
+                      <span>Enregistrer</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="modules-grid">
+                  {assignedModules.map(module => (
+                    <div className="module-card" key={module.id}>
+                      <div className="module-card-header">
+                        <h3 className="module-card-title">{module.name}</h3>
+                        <div className="module-card-actions">
+                          <button 
+                            className="icon-button edit"
+                            onClick={() => {
+                              setSelectedModule(module);
+                              setEditingModule(true);
+                            }}
+                          >
+                            <Edit size={16} />
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <div className="module-card-description">
+                        {module.description}
+                      </div>
+                      
+                      <div className="module-detail">
+                        <div className="detail-label">Semestre:</div>
+                        <div className="detail-value">{getSemesterName(module.semesterId)}</div>
                       </div>
                     </div>
                   ))}
