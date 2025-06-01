@@ -9,8 +9,8 @@ const professeurs = [
     nom: "Prof. Mahmoud NASSAR",
     titre: "Professeur de l'Enseignement Supérieur - Chef de Département GL",
     specialite: "Architecture Orientée Service (SOA), Bases de données réparties, Administration de bases de données, Systèmes à objets distribués, Compilation, Algorithmique et Programmation",
-    email: "m.nassar@ensias.ma",
-    telephone: "06 64 72 54 77",
+    email: "mahmoud.nassar@um5.ac.ma",
+    // telephone: "06 64 72 54 77",
     formation: "Doctorat en Informatique de l'Institut National Polytechnique de Toulouse, 2005",
     isChef: true, // Mark this professor as chef
     // image sera fournie localement
@@ -54,9 +54,9 @@ const professeurs = [
   },
   {
     nom: "Prof. GUERMAH Hatim",
-    titre: "Professeur",
+    titre: "Professeur de l'Enseignement Supérieur ",
     specialite: "Génie Logiciel, Architecture Logicielle",
-    email: "h.guermah@ensias.ma"
+    email: "hatim.guermah@um5.ac.ma"
     // image sera fournie localement
   },
   {
@@ -116,7 +116,7 @@ const semestres_GL = [
     modules: [
       {
         nom: "Algorithmique et Structures de Données",
-        professeur: "Équipe enseignante ENSIAS",
+        professeur: "Mr. Ahmed ETTALBI",
 
         description: "Fondements de l'algorithmique et structures de données essentielles"
       },
@@ -128,19 +128,19 @@ const semestres_GL = [
       },
       {
         nom: "Probabilités et Statistiques",
-        professeur: "Équipe mathématiques",
+        professeur: "I. Amrani",
 
         description: "Fondements probabilistes pour l'informatique"
       },
       {
         nom: "Architecture des Ordinateurs",
-        professeur: "Équipe enseignante ENSIAS",
+        professeur: "J. EL HACHIMI",
 
         description: "Compréhension de l'architecture matérielle"
       },
       {
         nom: "Communication et Langues",
-        professeur: "Équipe langues",
+        professeur: "A. KOUR",
 
         description: "Anglais technique et communication professionnelle"
       }
@@ -1242,7 +1242,7 @@ const Departement = () => {
                 <div className="space-y-4">
                   <div className="flex items-center">
                     <Mail className="h-6 w-6 mr-4" />
-                    <span className="text-lg">departement.gl@ensias.ma</span>
+                    <span className="text-lg">mahmoud.nassar@ensias.um5.ac.ma</span>
                   </div>
                     <Link
                     to="/#contact"
