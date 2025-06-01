@@ -8,6 +8,7 @@ import um5 from '../assets/Mohammed_V_University_Logo.png'
 import ensias_image from '../assets/55.jpg'
 import background_ensias_light from '../assets/55.jpg'
 import DepartmentCard from '../components/DepartmentCard'
+import { Link } from 'react-router-dom';
 
 function App() {
   const [activeSection, setActiveSection] = useState('')
@@ -201,9 +202,9 @@ function App() {
               )}
             </button>
             
-            <button className="text-white bg-[#ee3638] px-4 py-2 rounded hover:bg-opacity-90">
+            <Link to="/login" className="text-white bg-[#ee3638] px-4 py-2 rounded hover:bg-opacity-90">
               Se connecter
-            </button>
+            </Link>
           </div>
         </div>
 

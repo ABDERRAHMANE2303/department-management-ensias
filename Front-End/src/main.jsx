@@ -4,15 +4,21 @@ import {
   RouterProvider,
 } from "react-router";
 import LandingPage from './pages/LandingPage.jsx'
+import Login from './pages/Login.jsx';
 import './index.css'
 import Departement from './pages/Department.jsx';
 import DepartmentDashboard from './pages/DepartmentDashboard.jsx';  
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
   },
+  {
+  path: "/login",
+  element: <Login />,
+ },
   {
     path: "/departement/details",
     element: <Departement />,
