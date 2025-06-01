@@ -1023,7 +1023,7 @@ const DepartmentDashboard = () => {
             <div>
               <div className="section-header">
                 <h2 className="section-title">Gestion des professeurs</h2>
-                {!editingProfessor && (
+                {/* {!editingProfessor && (
                   <button 
                     className="action-button primary"
                     onClick={() => {
@@ -1034,7 +1034,7 @@ const DepartmentDashboard = () => {
                     <Plus size={18} />
                     <span>Ajouter un professeur</span>
                   </button>
-                )}
+                )} */}
               </div>
               
               {editingProfessor ? (

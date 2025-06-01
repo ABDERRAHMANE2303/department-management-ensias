@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage.jsx'
 import './index.css'
 import Departement from './pages/Department.jsx';
 import DepartmentDashboard from './pages/DepartmentDashboard.jsx';  
+import AdminDashboard from './pages/AdminDashboard.jsx';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
     {
     path: "/chef-departement/dashboard",
     element: <DepartmentDashboard />,
+  },
+      {
+    path: "/admin/dashboard",
+    element: <AdminDashboard />,
   },
 ]);
 const root = document.getElementById("root");
