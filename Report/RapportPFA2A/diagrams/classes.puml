@@ -1,0 +1,168 @@
+@startuml Système de Gestion des Départements ENSIAS - Diagramme de Classes
+
+' Styling
+!define ENTITY_BG_COLOR #E3F2FD
+!define ADMIN_BG_COLOR #E8F5E8
+!define CHEF_DEP_BG_COLOR #E3F2FD
+!define CHEF_FIL_BG_COLOR #FFF3E0
+!define PROF_BG_COLOR #F3E5F5
+!define SERVICE_BG_COLOR #ECEFF1
+
+skinparam class {
+    ArrowColor #1976D2
+    BorderColor #1976D2
+    AttributeFontColor #333333
+    AttributeFontSize 11
+    BorderThickness 1.5
+    FontName Arial
+    FontSize 12
+}
+
+skinparam classFontStyle bold
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam padding 2
+
+' User base class
+class Utilisateur {
+    -id: String
+    -nom_utilisateur: String <<unique>>
+    -email: String <<unique>>
+    -mot_de_passe_hash: String
+    -image: String
+    -phone: String
+    -derniere_connexion: Timestamp
+    -est_actif: Boolean
+    -date_creation: Timestamp
+    -date_modification: Timestamp
+    +authentifier(nomUtilisateur, motDePasse): Boolean
+}
+
+' User-specific classes
+class Administrateur #E8F5E8 {
+    +gererUtilisateurs(): void
+    +attribuerRoles(utilisateurId, role): void
+    +creerDepartement(data): Departement
+}
+
+class ChefDepartement #E3F2FD {
+    -departement_id: String <<FK>>
+    -specialite: String
+    -titre: String
+    +modifierProfil(): void
+    +gererInformationsDepartement(): void
+    +gererFormations(): void
+    +assignerChefFiliere(professeurId, formationId): void
+    +gererProfesseurs(): void
+}
+
+class ChefFiliere #FFF3E0 {
+    -formation_id: String <<FK>>
+    -specialite: String
+    -titre: String
+    +modifierProfil(): void
+    +gererDetailsFormation(): void
+    +gererSemestres(): void
+    +gererModules(): void
+    +gererModulesAssignes(): void
+    +definirCompetences(): void
+    +definirDebouchesProfessionnels(): void
+}
+
+class Professeur #F3E5F5 {
+    -specialite: String
+    -titre: String
+    +modifierProfil(): void
+    +gererModulesAssignes(): void
+}
+
+' Core entities
+class Departement {
+    -id: String
+    -nom: String
+    -code: String
+    -description: String
+    -vision: String
+    -mission: String
+    -contact: String
+    -chef_departement_id: String <<FK>>
+    -date_creation: Timestamp
+    -date_modification: Timestamp
+}
+
+class Formation {
+    -id: String
+    -departement_id: String <<FK>>
+    -nom: String
+    -code: String
+    -description: String
+    -objectifs: String
+    -duree: Integer
+    -coordinateur_id: String <<FK>>
+    -date_creation: Timestamp
+    -date_modification: Timestamp
+}
+
+class Semestre {
+    -id: String
+    -formation_id: String <<FK>>
+    -nom: String
+    -numero: Integer
+    -description: String
+    -date_creation: Timestamp
+    -date_modification: Timestamp
+}
+
+class Module {
+    -id: String
+    -semestre_id: String <<FK>>
+    -nom: String
+    -code: String
+    -description: String
+    -professeur_id: String <<FK>>
+    -date_creation: Timestamp
+    -date_modification: Timestamp
+}
+
+class Competence {
+    -id: String
+    -formation_id: String <<FK>>
+    -nom: String
+    -description: String
+    -date_creation: Timestamp
+    -date_modification: Timestamp
+}
+
+class DeboucheProfessionnel {
+    -id: String
+    -formation_id: String <<FK>>
+    -titre: String
+    -description: String
+    -secteur: String
+    -date_creation: Timestamp
+    -date_modification: Timestamp
+}
+
+' Inheritance relationships
+Administrateur --|> Utilisateur
+ChefDepartement --|> Utilisateur
+ChefFiliere --|> Utilisateur
+Professeur --|> Utilisateur
+
+' Entity relationships
+ChefDepartement "1" -- "1" Departement : dirige >
+ChefFiliere "1" -- "1" Formation : coordonne >
+Professeur "1" -- "1..*" Module : enseigne >
+
+' Admin can create departments
+Administrateur "1" ..> "1..*" Departement : crée >
+
+Departement "1" -- "1..*" Formation : propose >
+Formation "1" -- "2..*" Semestre : contient >
+Formation "1" -- "1..*" Competence : développe >
+Formation "1" -- "1..*" DeboucheProfessionnel : offre >
+Semestre "1" -- "1..*" Module : comprend >
+
+
+
+@enduml
