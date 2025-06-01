@@ -56,7 +56,8 @@ const professeurs = [
     nom: "Prof. GUERMAH Hatim",
     titre: "Professeur de l'Enseignement Supérieur ",
     specialite: "Génie Logiciel, Architecture Logicielle",
-    email: "hatim.guermah@um5.ac.ma"
+    email: "hatim.guermah@um5.ac.ma",
+    image: "/src/assets/prof-guermah.jpg"
     // image sera fournie localement
   },
   {
@@ -467,8 +468,8 @@ const coordinateurs = {
   GL: {
     nom: "Prof. GUERMAH Hatim",
     titre: "Coordinateur Pédagogique - Filière Génie Logiciel",
-    email: "h.guermah@ensias.ma",
-    image: "https://randomuser.me/api/portraits/men/46.jpg" // Placeholder image
+    email: "hatim.guermah@um5.ac.ma",
+    image: "/src/assets/prof-guermah.jpg" // Placeholder image
   },
   GD: {
     nom: "Prof. TABII Youness",

@@ -9,6 +9,7 @@ import Departement from './pages/Department.jsx';
 import DepartmentDashboard from './pages/DepartmentDashboard.jsx';  
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import FormationDashboard from './pages/FormationDashboard.jsx';
+import ProfessorDashboard from './pages/ProfessorDashboard.jsx';
 
 const router = createBrowserRouter([
   {
@@ -27,9 +28,13 @@ const router = createBrowserRouter([
     path: "/admin/dashboard",
     element: <AdminDashboard />,
   },
-        {
+  {
     path: "/chef-filiere/dashboard",
     element: <FormationDashboard />,
+  },
+  {
+    path: "/prof/dashboard",
+    element: <ProfessorDashboard />,
   },
 ]);
 const root = document.getElementById("root");
