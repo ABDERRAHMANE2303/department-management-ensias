@@ -1,0 +1,92 @@
+@startuml Global_Sequence_Diagram
+
+' Styling
+!define ACTOR_BG_COLOR #A9DCDF
+!define SYSTEM_BG_COLOR #FFCC99
+!define DB_BG_COLOR #C5E0B4
+!define VISITOR_COLOR #F5F5F5
+
+skinparam backgroundColor white
+skinparam handwritten false
+skinparam shadowing false
+skinparam sequenceArrowThickness 1.5
+skinparam roundcorner 8
+skinparam sequenceParticipant underline
+
+skinparam sequence {
+    ActorBackgroundColor ACTOR_BG_COLOR
+    ParticipantBackgroundColor SYSTEM_BG_COLOR
+    DatabaseBackgroundColor DB_BG_COLOR
+}
+
+' Actors
+actor "Utilisateur Authentifié\n(Admin/Chef Dépt/Chef Filière/Prof)" as AuthUser
+actor "Visiteur" as Visitor VISITOR_COLOR
+participant "Interface Web\nENSIAS" as UI
+participant "Contrôleurs\nApplication" as Controllers
+database "Base de Données\nDépartements" as DB
+
+' Title
+title Diagramme de Séquence Global: Système de Gestion des Départements ENSIAS
+
+' Authentication for authenticated users only
+group Authentification (Utilisateurs authentifiés)
+    AuthUser -> UI: Accès au système
+    UI -> Controllers: S'authentifier
+    Controllers -> DB: Vérification identifiants
+    DB --> Controllers: Validation + rôle utilisateur
+    Controllers --> UI: Session authentifiée avec permissions
+    UI --> AuthUser: Accès personnalisé selon le rôle
+end
+
+' Administration Module
+group Module d'Administration (Administrateur)
+    AuthUser -> UI: Gérer utilisateurs/rôles/départements
+    UI -> Controllers: Traitement demandes administratives
+    Controllers -> DB: Opérations CRUD sur utilisateurs et structures
+    DB --> Controllers: Résultat opération
+    Controllers --> UI: Mise à jour interface admin
+    UI --> AuthUser: Confirmation des changements administratifs
+end
+
+' Department Management
+group Gestion des Départements (Chef de Département)
+    AuthUser -> UI: Gérer information dépt/formations/professeurs
+    UI -> Controllers: Traitement demandes départementales
+    Controllers -> DB: Mise à jour des données départementales
+    DB --> Controllers: Confirmation opération
+    Controllers --> UI: Actualisation interface
+    UI --> AuthUser: Affichage des données départementales
+end
+
+' Program Management
+group Gestion des Formations (Chef de Filière)
+    AuthUser -> UI: Gérer formations/semestres/modules/compétences
+    UI -> Controllers: Traitement données pédagogiques
+    Controllers -> DB: Mise à jour données formations
+    DB --> Controllers: Confirmation opération
+    Controllers --> UI: Actualisation interface formation
+    UI --> AuthUser: Affichage détaillé des programmes
+end
+
+' Profile Management
+group Gestion des Profils (Professeurs)
+    AuthUser -> UI: Consulter/Modifier profil ou modules assignés
+    UI -> Controllers: Traitement données personnelles
+    Controllers -> DB: Mise à jour profil ou contenu pédagogique
+    DB --> Controllers: Confirmation modifications
+    Controllers --> UI: Actualisation interface personnelle
+    UI --> AuthUser: Affichage profil ou modules actualisés
+end
+
+' Public Access (no authentication required)
+group Consultation Publique (Sans authentification)
+    Visitor -> UI: Consulter départements/formations/professeurs
+    UI -> Controllers: Requête données publiques
+    Controllers -> DB: Récupération information publique
+    DB --> Controllers: Données publiques filtrées
+    Controllers --> UI: Présentation données publiques
+    UI --> Visitor: Affichage information sans authentification
+end
+
+@enduml
