@@ -374,7 +374,7 @@ const FormationDashboard = () => {
   };
 
   return (
-    <div className={`app-layout ${darkMode ? 'dark' : 'light'}`}>
+    <div className={`app-layout formation ${darkMode ? 'dark' : 'light'}`}>
       {/* Sidebar */}
       <aside className={`sidebar ${isSidebarOpen ? 'open' : 'closed'}`} role="navigation" aria-label="Main Navigation">
         <div className="sidebar-header">

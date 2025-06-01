@@ -1,39 +1,36 @@
 /* Formation Dashboard specific styles */
 :root {
-  /* Color palette */
-  --primary-rgb: 238, 54, 56; /* Red color in RGB format */
-  --primary-color: #ee3638; /* Your red primary color */
-  --primary-color-light: #f26c6e; /* Lighter shade of red */
-  --primary-color-hover: #d92325; 
+  /* Formation-specific color variables */
+  --formation-primary-rgb: 238, 54, 56; /* Red color in RGB format */
+  --formation-primary: #ee3638; /* Your red primary color */
+  --formation-primary-light: #f26c6e; /* Lighter shade of red */
+  --formation-primary-hover: #d92325; 
   
- 
-  /* Effects */
-  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-  --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* Formation-specific shadows */
+  --formation-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --formation-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-.dark {
-  /* Color palette */
-  --primary-rgb: 240, 84, 86; /* Brighter red for dark mode */
-  --primary-color: #f05456; /* Brighter red for dark mode */
-  --primary-color-light: #f47b7c; /* Even lighter red for dark mode */
-  --primary-color-hover: #f26c6e;
-  --primary-rgb: 129, 140, 248; /* Indigo-400 in RGB format */
+.formation .dark {
+  /* Formation dark mode color variables */
+  --formation-primary-rgb: 240, 84, 86; /* Brighter red for dark mode */
+  --formation-primary: #f05456; /* Brighter red for dark mode */
+  --formation-primary-light: #f47b7c; /* Even lighter red for dark mode */
+  --formation-primary-hover: #f26c6e;
   
-  
-  /* Effects */
-  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  /* Formation dark mode shadows */
+  --formation-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --formation-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
 }
 /* Semesters overview */
-.semesters-overview {
+.formation .semesters-overview {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
   margin-top: 1rem;
 }
 
-.semester-card {
+.formation .semester-card {
   border-radius: 0.5rem;
   color: white;
   position: relative;
@@ -45,26 +42,26 @@
   min-height: 200px;
 }
 
-.semester-card-content {
+.formation .semester-card-content {
   padding: 1.5rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
-.semester-title {
+.formation .semester-title {
   font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
-.semester-description {
+.formation .semester-description {
   font-size: 0.875rem;
   margin-bottom: 1rem;
   opacity: 0.9;
 }
 
-.semester-modules-count {
+.formation .semester-modules-count {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -74,7 +71,7 @@
 }
 
 /* The action button remains at the very bottom */
-.semester-card-action {
+.formation .semester-card-action {
   width: 100%;
   display: flex;
   align-items: center;
@@ -90,18 +87,18 @@
 }
 
 /* Recent modules */
-.recent-modules-container {
+.formation .recent-modules-container {
   background-color: var(--card-bg);
   border-radius: 0.5rem;
   padding: 1.5rem;
   box-shadow: var(--card-shadow);
 }
 
-.modules-list {
+.formation .modules-list {
   margin-top: 1rem;
 }
 
-.module-list-item {
+.formation .module-list-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -109,25 +106,25 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.module-list-item:last-child {
+.formation .module-list-item:last-child {
   border-bottom: none;
 }
 
-.module-list-item-content {
+.formation .module-list-item-content {
   flex: 1;
 }
 
-.module-name {
+.formation .module-name {
   font-weight: 500;
   margin-bottom: 0.25rem;
 }
 
-.module-professor {
+.formation .module-professor {
   font-size: 0.875rem;
   color: var(--text-secondary);
 }
 
-.module-semester-badge {
+.formation .module-semester-badge {
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -141,32 +138,32 @@
 }
 
 /* Semesters grid */
-.semesters-grid {
+.formation .semesters-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 1.5rem;
   margin-top: 1rem;
 }
 
-.semester-details-card {
+.formation .semester-details-card {
   background-color: var(--card-bg);
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: var(--card-shadow);
 }
 
-.semester-header {
+.formation .semester-header {
   padding: 1.5rem;
   color: white;
   position: relative;
 }
 
-.semester-header-title {
+.formation .semester-header-title {
   font-size: 1.25rem;
   font-weight: 600;
 }
 
-.semester-actions {
+.formation .semester-actions {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -174,43 +171,43 @@
   gap: 0.5rem;
 }
 
-.semester-actions .icon-button {
+.formation .semester-actions .icon-button {
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
 }
 
-.semester-actions .icon-button:hover {
+.formation .semester-actions .icon-button:hover {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-.semester-details {
+.formation .semester-details {
   padding: 1.5rem;
 }
 
-.semester-name {
+.formation .semester-name {
   font-size: 1.125rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
 }
 
-.semester-modules {
+.formation .semester-modules {
   margin-top: 1.5rem;
 }
 
-.semester-modules-header {
+.formation .semester-modules-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.75rem;
 }
 
-.semester-modules-header h5 {
+.formation .semester-modules-header h5 {
   font-weight: 600;
   font-size: 0.875rem;
   color: var(--text-secondary);
 }
 
-.small-action-button {
+.formation .small-action-button {
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -224,11 +221,11 @@
   transition: background-color 0.2s;
 }
 
-.small-action-button:hover {
+.formation .small-action-button:hover {
   background-color: var(--primary-color-hover);
 }
 
-.semester-module-item {
+.formation .semester-module-item {
   display: flex;
   justify-content: space-between;
   padding: 0.75rem;
@@ -237,7 +234,7 @@
   margin-bottom: 0.5rem;
 }
 
-.no-modules-message {
+.formation .no-modules-message {
   padding: 1rem;
   text-align: center;
   color: var(--text-secondary);
@@ -247,7 +244,7 @@
 }
 
 /* Modules grid */
-.semester-tabs {
+.formation .semester-tabs {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
@@ -255,7 +252,7 @@
   padding-bottom: 0.5rem;
 }
 
-.semester-tab {
+.formation .semester-tab {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -268,41 +265,41 @@
   min-width: 100px;
 }
 
-.semester-tab:hover {
+.formation .semester-tab:hover {
   background-color: var(--hover-bg);
 }
 
-.semester-tab.active {
+.formation .semester-tab.active {
   border-color: var(--primary-color);
   background-color: var(--primary-color-light);
 }
 
-.dark .semester-tab.active {
+.formation .dark .semester-tab.active {
   background-color: rgba(99, 102, 241, 0.15);
 }
 
-.semester-tab-number {
+.formation .semester-tab-number {
   font-weight: 600;
   font-size: 1rem;
   margin-bottom: 0.25rem;
 }
 
-.semester-tab-name {
+.formation .semester-tab-name {
   font-size: 0.75rem;
   color: var(--text-secondary);
 }
 
-.modules-grid {
+.formation .modules-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
   margin-top: 1.5rem;
 }
 
-.module-card {
+.formation .module-card {
   background-color: var(--card-bg);
   border-radius: 0.75rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: var(--formation-shadow-sm);
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
@@ -312,60 +309,56 @@
   flex-direction: column;
 }
 
-.module-card:hover {
+.formation .module-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-  border-color: var(--primary-color-light);
-}
-
-.dark .module-card:hover {
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--formation-shadow-hover);
+  border-color: var(--formation-primary-light);
 }
 
 /* Colorful module headers based on semester number */
-.module-card[data-semester="1"] .module-card-header::before {
+.formation .module-card[data-semester="1"] .module-card-header::before {
   background: linear-gradient(to right, #4f46e5, #818cf8);
 }
 
-.module-card[data-semester="2"] .module-card-header::before {
+.formation .module-card[data-semester="2"] .module-card-header::before {
   background: linear-gradient(to right, #10b981, #34d399);
 }
 
-.module-card[data-semester="3"] .module-card-header::before {
+.formation .module-card[data-semester="3"] .module-card-header::before {
   background: linear-gradient(to right, #f59e0b, #fbbf24);
 }
 
-.module-card[data-semester="4"] .module-card-header::before {
+.formation .module-card[data-semester="4"] .module-card-header::before {
   background: linear-gradient(to right, #ec4899, #f472b6);
 }
 
-.module-card[data-semester="5"] .module-card-header::before {
+.formation .module-card[data-semester="5"] .module-card-header::before {
   background: linear-gradient(to right, #8b5cf6, #a78bfa);
 }
 
-.module-card[data-semester="6"] .module-card-header::before {
+.formation .module-card[data-semester="6"] .module-card-header::before {
   background: linear-gradient(to right, #06b6d4, #22d3ee);
 }
 
-.module-card-header {
+.formation .module-card-header {
   padding: 1.75rem 1.75rem 1.25rem;
   display: flex;
   justify-content: space-between;
   position: relative;
 }
 
-.module-card-header::before {
+.formation .module-card-header::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 8px;
-  background: linear-gradient(to right, var(--primary-color), var(--primary-color-light));
+  background: linear-gradient(to right, var(--formation-primary), var(--formation-primary-light));
   border-radius: 4px 4px 0 0;
 }
 
-.module-card-title {
+.formation .module-card-title {
   font-size: 1.35rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
@@ -375,7 +368,7 @@
   margin-top: 1.3rem;
 }
 
-.module-card-actions {
+.formation .module-card-actions {
   display: flex;
   gap: 0.5rem;
   opacity: 0;
@@ -385,18 +378,18 @@
   right: 1.25rem;
 }
 
-.module-card:hover .module-card-actions {
+.formation .module-card:hover .module-card-actions {
   opacity: 1;
 }
 
-.module-card-actions .icon-button {
+.formation .module-card-actions .icon-button {
   background-color: var(--card-bg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 32px;
   height: 32px;
 }
 
-.module-card-description {
+.formation .module-card-description {
   padding: 0 1.75rem 1.75rem;
   flex-grow: 1;
   color: var(--text-secondary);
@@ -405,7 +398,7 @@
   position: relative;
 }
 
-.module-card-professor {
+.formation .module-card-professor {
   padding: 1.25rem 1.75rem;
   border-top: 1px solid var(--border-color);
   background-color: rgba(var(--primary-rgb), 0.05);
@@ -414,11 +407,11 @@
   gap: 0.5rem;
 }
 
-.dark .module-card-professor {
+.formation .dark .module-card-professor {
   background-color: rgba(255, 255, 255, 0.03);
 }
 
-.module-professor-label {
+.formation .module-professor-label {
   font-size: 0.85rem;
   color: var(--text-secondary);
   font-weight: 600;
@@ -426,14 +419,14 @@
   text-transform: uppercase;
 }
 
-.module-professor-name {
+.formation .module-professor-name {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   position: relative;
 }
 
-.professor-info {
+.formation .professor-info {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -441,7 +434,7 @@
   color: var(--text-primary);
 }
 
-.professor-mini-avatar {
+.formation .professor-mini-avatar {
   width: 38px;
   height: 38px;
   border-radius: 50%;
@@ -450,18 +443,18 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.dark .professor-mini-avatar {
+.formation .dark .professor-mini-avatar {
   border-color: var(--card-bg);
 }
 
-.team-taught {
+.formation .team-taught {
   color: var(--text-secondary);
   font-style: italic;
   margin-top: 0.25rem;
 }
 
 /* Status indicator */
-.module-status-badge {
+.formation .module-status-badge {
   position: absolute;
   top: 1.75rem;
   right: 1.75rem;
@@ -474,28 +467,28 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.module-status-assigned {
+.formation .module-status-assigned {
   background-color: rgba(16, 185, 129, 0.15);
   color: #047857;
 }
 
-.dark .module-status-assigned {
+.formation .dark .module-status-assigned {
   background-color: rgba(16, 185, 129, 0.25);
   color: #34d399;
 }
 
-.module-status-unassigned {
+.formation .module-status-unassigned {
   background-color: rgba(245, 158, 11, 0.15);
   color: #b45309;
 }
 
-.dark .module-status-unassigned {
+.formation .dark .module-status-unassigned {
   background-color: rgba(245, 158, 11, 0.25);
   color: #fbbf24;
 }
 
 /* Empty module card for adding new modules */
-.add-module-card {
+.formation .add-module-card {
   background-color: transparent;
   border: 2px dashed var(--border-color);
   border-radius: 0.75rem;
@@ -508,17 +501,17 @@
   min-height: 250px;
 }
 
-.add-module-card:hover {
+.formation .add-module-card:hover {
   border-color: var(--primary-color);
   background-color: rgba(var(--primary-rgb), 0.03);
   transform: translateY(-5px);
 }
 
-.dark .add-module-card:hover {
+.formation .dark .add-module-card:hover {
   background-color: rgba(var(--primary-rgb), 0.08);
 }
 
-.add-module-content {
+.formation .add-module-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -527,44 +520,44 @@
   text-align: center;
 }
 
-.add-module-icon {
+.formation .add-module-icon {
   width: 48px;
   height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(var(--primary-rgb), 0.1);
-  color: var(--primary-color);
+  background-color: rgba(var(--formation-primary-rgb), 0.1);
+  color: var(--formation-primary);
   border-radius: 50%;
 }
 
-.add-module-text {
+.formation .add-module-text {
   font-weight: 500;
   color: var(--text-secondary);
 }
 
-.add-module-card:hover .add-module-text {
-  color: var(--primary-color);
+.formation .add-module-card:hover .add-module-text {
+  color: var(--formation-primary);
 }
 
 /* Enhanced dashboard layout */
-.dashboard-container {
+.formation .dashboard-container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.welcome-panel.gradient-bg {
-  background: linear-gradient(to right, var(--primary-color-light), var(--primary-color));
+.formation .welcome-panel.gradient-bg {
+  background: linear-gradient(to right, var(--formation-primary-light), var(--formation-primary));
   color: white;
   border-radius: 1rem;
-  box-shadow: 0 10px 25px -5px rgba(var(--primary-rgb), 0.3);
+  box-shadow: 0 10px 25px -5px rgba(var(--formation-primary-rgb), 0.3);
   margin-bottom: 2rem;
   position: relative;
   overflow: hidden;
 }
 
-.welcome-panel.gradient-bg::before {
+.formation .welcome-panel.gradient-bg::before {
   content: '';
   position: absolute;
   top: 0;
@@ -575,66 +568,66 @@
   opacity: 0.3;
 }
 
-.welcome-content {
+.formation .welcome-content {
   padding: 2rem;
   position: relative;
   z-index: 1;
 }
 
-.welcome-title {
+.formation .welcome-title {
   font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
-.welcome-message {
+.formation .welcome-message {
   font-size: 1.1rem;
   opacity: 0.9;
   margin-bottom: 1.5rem;
 }
 
-.welcome-stats {
+.formation .welcome-stats {
   display: flex;
   gap: 2rem;
   margin-top: 1rem;
 }
 
-.welcome-stat {
+.formation .welcome-stat {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-weight: 500;
 }
 
-.dashboard-content-grid {
+.formation .dashboard-content-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 1.5rem;
 }
 
-.dashboard-main-section,
-.dashboard-side-section {
+.formation .dashboard-main-section,
+.formation .dashboard-side-section {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.enhanced-action-buttons.vertical {
+.formation .enhanced-action-buttons.vertical {
   flex-direction: column;
 }
 
-.recent-assignments {
+.formation .recent-assignments {
   background-color: var(--card-bg);
   border-radius: 0.75rem;
   padding: 1.5rem;
   box-shadow: var(--card-shadow);
 }
 
-.assignments-list {
+.formation .assignments-list {
   margin-top: 0.75rem;
 }
 
-.assignment-item {
+.formation .assignment-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -644,30 +637,30 @@
   margin-bottom: 0.75rem;
 }
 
-.assignment-name {
+.formation .assignment-name {
   font-weight: 500;
   color: var(--text-primary);
 }
 
-.small-action-button {
+.formation .small-action-button {
   display: flex;
   align-items: center;
   gap: 0.25rem;
   padding: 0.35rem 0.75rem;
   font-size: 0.8rem;
   border-radius: 0.375rem;
-  background-color: var(--primary-color);
+  background-color: var(--formation-primary);
   color: white;
   border: none;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.small-action-button:hover {
-  background-color: var(--primary-color-hover);
+.formation .small-action-button:hover {
+  background-color: var(--formation-primary-hover);
 }
 
-.empty-list-message {
+.formation .empty-list-message {
   color: var(--text-secondary);
   text-align: center;
   font-style: italic;
@@ -675,30 +668,30 @@
 }
 
 /* Compact coordinator display */
-.user-info-with-image {
+.formation .user-info-with-image {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.95rem;
 }
 
-.user-mini-avatar {
+.formation .user-mini-avatar {
   width: 28px;
   height: 28px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--primary-color-light);
+  border: 2px solid var(--formation-primary-light);
   flex-shrink: 0;
 }
 
-.form-group .display-value .user-info-with-image {
+.formation .form-group .display-value .user-info-with-image {
   display: inline-flex;
   vertical-align: middle;
   font-weight: 500;
 }
 
 /* Colorful Quick Action Buttons */
-.enhanced-action-button {
+.formation .enhanced-action-button {
   border: none;
   transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
@@ -708,68 +701,68 @@
 }
 
 /* Formation button - Purple */
-.enhanced-action-button.formation {
+.formation .enhanced-action-button.formation {
   background: linear-gradient(to right bottom, #8b5cf6, #7c3aed);
   color: white;
   box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
 }
 
-.enhanced-action-button.formation:hover {
+.formation .enhanced-action-button.formation:hover {
   box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
 }
 
-.enhanced-action-button.formation .action-button-icon {
+.formation .enhanced-action-button.formation .action-button-icon {
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
 }
 
 /* Semester button - Orange */
-.enhanced-action-button.semester {
+.formation .enhanced-action-button.semester {
   background: linear-gradient(to right bottom, #f59e0b, #d97706);
   color: white;
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
 }
 
-.enhanced-action-button.semester:hover {
+.formation .enhanced-action-button.semester:hover {
   box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
 }
 
-.enhanced-action-button.semester .action-button-icon {
+.formation .enhanced-action-button.semester .action-button-icon {
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
 }
 
 /* Module button - Teal */
-.enhanced-action-button.module {
+.formation .enhanced-action-button.module {
   background: linear-gradient(to right bottom, #14b8a6, #0d9488);
   color: white;
   box-shadow: 0 4px 12px rgba(20, 184, 166, 0.25);
 }
 
-.enhanced-action-button.module:hover {
+.formation .enhanced-action-button.module:hover {
   box-shadow: 0 6px 16px rgba(20, 184, 166, 0.4);
 }
 
-.enhanced-action-button.module .action-button-icon {
+.formation .enhanced-action-button.module .action-button-icon {
   background-color: rgba(255, 255, 255, 0.2);
   color: white;
 }
 
 /* Common styles for all colorful buttons */
-.enhanced-action-button .action-button-title,
-.enhanced-action-button .action-button-description {
+.formation .enhanced-action-button .action-button-title,
+.formation .enhanced-action-button .action-button-description {
   color: white;
 }
 
-.enhanced-action-button .action-button-description {
+.formation .enhanced-action-button .action-button-description {
   opacity: 0.9;
 }
 
-.enhanced-action-button:hover {
+.formation .enhanced-action-button:hover {
   transform: translateY(-5px);
 }
 
-.enhanced-action-button::after {
+.formation .enhanced-action-button::after {
   content: '';
   position: absolute;
   top: -50%;
@@ -782,55 +775,55 @@
   transition: transform 0.5s;
 }
 
-.enhanced-action-button:hover::after {
+.formation .enhanced-action-button:hover::after {
   transform: scale(3);
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .semester-tabs {
+  .formation .semester-tabs {
     flex-wrap: wrap;
   }
   
-  .semester-tab {
+  .formation .semester-tab {
     width: calc(50% - 0.25rem);
   }
   
-  .formation-stats {
+  .formation .formation-stats {
     grid-template-columns: repeat(2, 1fr);
   }
   
-  .semesters-overview,
-  .semesters-grid,
-  .modules-grid {
+  .formation .semesters-overview,
+  .formation .semesters-grid,
+  .formation .modules-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 480px) {
-  .formation-stats {
+  .formation .formation-stats {
     grid-template-columns: 1fr;
   }
   
-  .semester-tab {
+  .formation .semester-tab {
     width: 100%;
   }
   
-  .module-header {
+  .formation .module-header {
     flex-direction: column;
   }
   
-  .module-actions {
+  .formation .module-actions {
     margin-top: 0.75rem;
   }
 }
 
 @media (max-width: 1024px) {
-  .dashboard-content-grid {
+  .formation .dashboard-content-grid {
     grid-template-columns: 1fr;
   }
   
-  .welcome-stats {
+  .formation .welcome-stats {
     flex-direction: column;
     gap: 0.75rem;
   }
