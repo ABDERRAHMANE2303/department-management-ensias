@@ -149,19 +149,20 @@ const FormationDashboard = () => {
   ]);
 
   // Current user data (chef de filière)
-  const [currentUser, setCurrentUser] = useState({
-    id: "prof-456",
-    nom_utilisateur: "s.afia",
-    email: "s.afia@ensias.ma",
-    role: "cf: chef filiere",
-    departement_id: "dept-gl-01",
-    isCoordinator: true,
-    isChefDep: false,
-    specialite: "Science des données",
-    titre: "Professeur Habilité",
-    image: "/src/assets/prof-afia.jpg",
-    phone: "+212 6 23 45 67 89"
-  });
+// Current user data (chef de filière)
+const [currentUser, setCurrentUser] = useState({
+  id: "prof-456",
+  nom_utilisateur: "hatim.guermah",
+  email: "hatim.guermah@ensias.ma",
+  role: "cf: chef filiere",
+  departement_id: "dept-gl-01",
+  isCoordinator: true,
+  isChefDep: false,
+  specialite: "Science des données",
+  titre: "Professeur Habilité",
+  image: "/src/assets/prof-guermah.jpg", // Update this path to your actual image
+  phone: "+212 6 23 45 67 89"
+});
 
   // Formation statistics
   const [stats, setStats] = useState({
