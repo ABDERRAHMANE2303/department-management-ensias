@@ -79,12 +79,11 @@ jobs:
             # Pull latest code
             git pull origin main
             
-            
             # Generate SSL certificate if not exists
             if [ ! -f nginx-ssl/cert.pem ]; then
               cd nginx-ssl
               openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes \
-              -subj "/C=MA/ST=Rabat/L=Rabat/O=ENSIAS/CN=${{ secrets.OCI_HOST }}"
+                -subj "/C=MA/ST=Rabat/L=Rabat/O=ENSIAS/CN=${{ secrets.OCI_HOST }}"
               cd ..
             fi
             
