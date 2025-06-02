@@ -4,6 +4,7 @@ import {
   RouterProvider,
 } from "react-router";
 import LandingPage from './pages/LandingPage.jsx'
+import Login from './pages/Login.jsx';
 import './index.css'
 import Departement from './pages/Department.jsx';
 import DepartmentDashboard from './pages/DepartmentDashboard.jsx';  
@@ -11,11 +12,16 @@ import AdminDashboard from './pages/AdminDashboard.jsx';
 import FormationDashboard from './pages/FormationDashboard.jsx';
 import ProfessorDashboard from './pages/ProfessorDashboard.jsx';
 
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
   },
+  {
+  path: "/login",
+  element: <Login />,
+ },
   {
     path: "/departement/details",
     element: <Departement />,
