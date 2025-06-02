@@ -29,6 +29,11 @@ class Utilisateur {
     -nom_utilisateur: String <<unique>>
     -email: String <<unique>>
     -mot_de_passe_hash: String
+    -role: String
+    -nom: String
+    -prenom: String
+    -departement_id: String <<FK>>
+
     -image: String
     -phone: String
     -derniere_connexion: Timestamp
@@ -40,6 +45,7 @@ class Utilisateur {
 
 ' User-specific classes
 class Administrateur #E8F5E8 {
+    
     +gererUtilisateurs(): void
     +attribuerRoles(utilisateurId, role): void
     +creerDepartement(data): Departement
@@ -49,18 +55,15 @@ class ChefDepartement #E3F2FD {
     -departement_id: String <<FK>>
     -specialite: String
     -titre: String
-    +modifierProfil(): void
     +gererInformationsDepartement(): void
     +gererFormations(): void
     +assignerChefFiliere(professeurId, formationId): void
-    +gererProfesseurs(): void
 }
 
 class ChefFiliere #FFF3E0 {
     -formation_id: String <<FK>>
     -specialite: String
     -titre: String
-    +modifierProfil(): void
     +gererDetailsFormation(): void
     +gererSemestres(): void
     +gererModules(): void
@@ -75,16 +78,22 @@ class Professeur #F3E5F5 {
     +modifierProfil(): void
     +gererModulesAssignes(): void
 }
-
+class Visiteur #c4ffff{
+    +ajouterVues(): void
+    +consulterDepartements(): List<Departement>
+    +consulterFormations(departementId): List<Formation>
+}
 ' Core entities
 class Departement {
     -id: String
     -nom: String
-    -code: String
+    -slug: String
+    -slogan: String
     -description: String
     -vision: String
     -image: String
     -contact: String
+    -vues: Integer
     -nombre_de_diplomes: Integer
     -nombre_detudiants: Integer
     -nombre_publications: Integer
@@ -97,7 +106,8 @@ class Formation {
     -id: String
     -departement_id: String <<FK>>
     -nom: String
-    -code: String
+    -nom_court: String
+    -slug: String
     -description: String
     -duree: Integer
     -coordinateur_id: String <<FK>>
@@ -119,7 +129,6 @@ class Module {
     -id: String
     -semestre_id: String <<FK>>
     -nom: String
-    -code: String
     -description: String
     -professeur_id: String <<FK>>
     -date_creation: Timestamp
@@ -139,16 +148,14 @@ class DeboucheProfessionnel {
     -id: String
     -formation_id: String <<FK>>
     -titre: String
-    -description: String
-    -secteur: String
     -date_creation: Timestamp
     -date_modification: Timestamp
 }
 
 ' Inheritance relationships
 Administrateur --|> Utilisateur
-ChefDepartement --|> Utilisateur
-ChefFiliere --|> Utilisateur
+ChefDepartement --|> Professeur
+ChefFiliere --|> Professeur
 Professeur --|> Utilisateur
 
 ' Entity relationships
@@ -165,6 +172,6 @@ Formation "1" -- "1..*" Competence : développe >
 Formation "1" -- "1..*" DeboucheProfessionnel : offre >
 Semestre "1" -- "1..*" Module : comprend >
 
-
+Visiteur "0..*" -- "0..*" Departement : consulte >
 
 @enduml
