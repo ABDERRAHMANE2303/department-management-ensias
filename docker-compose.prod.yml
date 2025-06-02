@@ -22,8 +22,7 @@ services:
   admin:
     image: ${DOCKER_USERNAME}/ensias-deps/admin:latest
     container_name: ensias-admin-prod
-    ports:
-      - "9091:9091"
+    # REMOVED external port - nginx handles this
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -41,8 +40,7 @@ services:
   auth:
     image: ${DOCKER_USERNAME}/ensias-deps/auth:latest
     container_name: ensias-auth-prod
-    ports:
-      - "9092:9092"
+    # REMOVED external port - nginx handles this
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -62,8 +60,7 @@ services:
   chef-dep:
     image: ${DOCKER_USERNAME}/ensias-deps/chef-dep:latest
     container_name: ensias-chef-dep-prod
-    ports:
-      - "9093:9093"
+    # REMOVED external port - nginx handles this
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -81,8 +78,7 @@ services:
   prof-dep:
     image: ${DOCKER_USERNAME}/ensias-deps/prof-dep:latest
     container_name: ensias-prof-dep-prod
-    ports:
-      - "9094:9094"
+    # REMOVED external port - nginx handles this
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
@@ -96,20 +92,60 @@ services:
       - ensias_prod_network
     restart: unless-stopped
 
-  # Frontend - exposed to internet via public IP
+  # Chef Filiere Service (added based on your nginx config)
+  chef-fil:
+    image: ${DOCKER_USERNAME}/ensias-deps/chef-fil:latest
+    container_name: ensias-chef-fil-prod
+    # REMOVED external port - nginx handles this
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: prod
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ensias_prod_network
+    restart: unless-stopped
+
+  # Frontend - internal only, nginx exposes it
   frontend:
     image: ${DOCKER_USERNAME}/ensias-deps/frontend:latest
     container_name: ensias-frontend-prod
-    ports:
-      - "5173:5173"  # Exposed on public IP
+    # REMOVED external port - nginx handles this
     environment:
       - NODE_ENV=production
-      - VITE_API_BASE_URL=http://${PUBLIC_IP}:9091  # Point to admin service via public IP
+      - VITE_API_BASE_URL=https://${PUBLIC_IP}  # CHANGED to https and removed port
     depends_on:
       - admin
       - auth
       - chef-dep
       - prof-dep
+      - chef-fil
+    networks:
+      - ensias_prod_network
+    restart: unless-stopped
+
+  # HTTPS Reverse Proxy
+  nginx-ssl:
+    image: nginx:alpine
+    container_name: nginx-ssl-proxy
+    ports:
+      - "80:80"   # HTTP (redirects to HTTPS)
+      - "443:443" # HTTPS - MAIN ENTRY POINT
+    volumes:
+      - ./nginx-ssl/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx-ssl/cert.pem:/etc/nginx/ssl/cert.pem:ro
+      - ./nginx-ssl/key.pem:/etc/nginx/ssl/key.pem:ro
+    depends_on:
+      - frontend
+      - admin
+      - auth
+      - chef-dep
+      - prof-dep
+      - chef-fil
     networks:
       - ensias_prod_network
     restart: unless-stopped
