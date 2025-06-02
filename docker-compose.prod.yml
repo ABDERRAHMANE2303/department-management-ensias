@@ -20,7 +20,7 @@ services:
 
   # Admin Service
   admin:
-    image: ${DOCKER_USERNAME}/ensias-deps/admin:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:admin-latest
     container_name: ensias-admin-prod
     # REMOVED external port - nginx handles this
     environment:
@@ -38,7 +38,7 @@ services:
 
   # Auth Service
   auth:
-    image: ${DOCKER_USERNAME}/ensias-deps/auth:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:auth-latest
     container_name: ensias-auth-prod
     # REMOVED external port - nginx handles this
     environment:
@@ -58,7 +58,7 @@ services:
 
   # Chef Department Service
   chef-dep:
-    image: ${DOCKER_USERNAME}/ensias-deps/chef-dep:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:chef-dep-latest
     container_name: ensias-chef-dep-prod
     # REMOVED external port - nginx handles this
     environment:
@@ -76,7 +76,7 @@ services:
 
   # Professor Department Service
   prof-dep:
-    image: ${DOCKER_USERNAME}/ensias-deps/prof-dep:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:prof-dep-latest
     container_name: ensias-prof-dep-prod
     # REMOVED external port - nginx handles this
     environment:
@@ -92,9 +92,9 @@ services:
       - ensias_prod_network
     restart: unless-stopped
 
-  # Chef Filiere Service (added based on your nginx config)
+  # Chef Filiere Service
   chef-fil:
-    image: ${DOCKER_USERNAME}/ensias-deps/chef-fil:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:chef-fil-latest
     container_name: ensias-chef-fil-prod
     # REMOVED external port - nginx handles this
     environment:
@@ -110,14 +110,14 @@ services:
       - ensias_prod_network
     restart: unless-stopped
 
-  # Frontend - internal only, nginx exposes it
+  # Frontend
   frontend:
-    image: ${DOCKER_USERNAME}/ensias-deps/frontend:latest
+    image: ${DOCKER_USERNAME}/ensias-deps:frontend-latest
     container_name: ensias-frontend-prod
     # REMOVED external port - nginx handles this
     environment:
       - NODE_ENV=production
-      - VITE_API_BASE_URL=https://${PUBLIC_IP}  # CHANGED to https and removed port
+      - VITE_API_BASE_URL=https://${PUBLIC_IP}
     depends_on:
       - admin
       - auth
