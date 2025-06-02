@@ -20,7 +20,7 @@ services:
 
   # Admin Service
   admin:
-    image: ${DOCKER_USERNAME}/ensias-deps:admin-latest
+    image: ${DOCKER_USERNAME}/ensias-deps/admin:latest
     container_name: ensias-admin-prod
     # REMOVED external port - nginx handles this
     environment:
@@ -38,7 +38,7 @@ services:
 
   # Auth Service
   auth:
-    image: ${DOCKER_USERNAME}/ensias-deps:auth-latest
+    image: ${DOCKER_USERNAME}/ensias-deps/auth:latest
     container_name: ensias-auth-prod
     # REMOVED external port - nginx handles this
     environment:
@@ -58,7 +58,7 @@ services:
 
   # Chef Department Service
   chef-dep:
-    image: ${DOCKER_USERNAME}/ensias-deps:chef-dep-latest
+    image: ${DOCKER_USERNAME}/ensias-deps/chef-dep:latest
     container_name: ensias-chef-dep-prod
     # REMOVED external port - nginx handles this
     environment:
@@ -76,8 +76,26 @@ services:
 
   # Professor Department Service
   prof-dep:
-    image: ${DOCKER_USERNAME}/ensias-deps:prof-dep-latest
+    image: ${DOCKER_USERNAME}/ensias-deps/prof-dep:latest
     container_name: ensias-prof-dep-prod
+    # REMOVED external port - nginx handles this
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: prod
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ensias_prod_network
+    restart: unless-stopped
+
+  # Chef Filiere Service (added based on your nginx config)
+  chef-fil:
+    image: ${DOCKER_USERNAME}/ensias-deps/chef-fil:latest
+    container_name: ensias-chef-fil-prod
     # REMOVED external port - nginx handles this
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
@@ -94,7 +112,7 @@ services:
 
   # Frontend - internal only, nginx exposes it
   frontend:
-    image: ${DOCKER_USERNAME}/ensias-deps:frontend-latest
+    image: ${DOCKER_USERNAME}/ensias-deps/frontend:latest
     container_name: ensias-frontend-prod
     # REMOVED external port - nginx handles this
     environment:
@@ -105,6 +123,7 @@ services:
       - auth
       - chef-dep
       - prof-dep
+      - chef-fil
     networks:
       - ensias_prod_network
     restart: unless-stopped
@@ -126,6 +145,7 @@ services:
       - auth
       - chef-dep
       - prof-dep
+      - chef-fil
     networks:
       - ensias_prod_network
     restart: unless-stopped

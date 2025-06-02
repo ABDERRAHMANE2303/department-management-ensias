@@ -48,7 +48,7 @@ jobs:
           cd ..
           
           # Build all backend service images
-          for service in common-models admin auth chef-dep prof-dep; do
+          for service in common-models admin auth chef-dep prof-dep chef-fil; do
             echo "Building $service..."
             docker build -f $service/Dockerfile.prod -t ${{ secrets.DOCKER_USERNAME }}/ensias-deps:$service-latest .
             docker push ${{ secrets.DOCKER_USERNAME }}/ensias-deps:$service-latest
@@ -78,6 +78,15 @@ jobs:
             
             # Pull latest code
             git pull origin main
+            
+            
+            # Generate SSL certificate if not exists
+            if [ ! -f nginx-ssl/cert.pem ]; then
+              cd nginx-ssl
+              openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes \
+              -subj "/C=MA/ST=Rabat/L=Rabat/O=ENSIAS/CN=${{ secrets.OCI_HOST }}"
+              cd ..
+            fi
             
             # Create .env file with all secrets
             cat > .env << EOF
@@ -120,4 +129,4 @@ jobs:
             docker image prune -f
             
             echo "🚀 Deployment completed successfully!"
-            echo "Frontend available at: http://${{ secrets.OCI_HOST }}:5173"
+            echo "Frontend available at: https://${{ secrets.OCI_HOST }}"
