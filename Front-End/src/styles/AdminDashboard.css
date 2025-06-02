@@ -1,0 +1,254 @@
+/* Admin-specific styling - extends the DepartmentDashboard.css */
+
+/* Role badges with additional admin style */
+.role-badge.admin {
+  background-color: #7c3aed;
+  color: white;
+}
+
+/* Mini role badges for assignment lists */
+.role-badge.mini {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  margin-left: 0.5rem;
+}
+
+/* Assignment containers */
+.assignment-container {
+  background-color: var(--card-bg);
+  border-radius: 0.5rem;
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.assignment-card {
+  background-color: var(--inner-card-bg);
+  border-radius: 0.375rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+}
+
+.assignment-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.assignment-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.assignment-current {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.assignment-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.assignment-value {
+  font-weight: 500;
+}
+
+.assignment-select {
+  flex: 1;
+  min-width: 200px;
+}
+
+.chef-select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+}
+
+/* Current assignments section */
+.current-assignments {
+  margin-top: 2rem;
+}
+
+.assignment-subtitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.assignments-list {
+  background-color: var(--inner-card-bg);
+  border-radius: 0.375rem;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.assignment-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.assignment-item:last-child {
+  border-bottom: none;
+}
+
+.assignment-user {
+  display: flex;
+  align-items: center;
+}
+
+.user-name {
+  font-weight: 500;
+}
+
+.assignment-department {
+  flex: 1;
+  text-align: right;
+  margin-right: 1rem;
+  color: var(--text-secondary);
+}
+
+/* Enhanced activity section */
+.enhanced-activity-section {
+  margin-top: 1.5rem;
+  background-color: var(--card-bg);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.view-all-button {
+  color: var(--primary-color);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.enhanced-activity-card {
+  background-color: var(--inner-card-bg);
+  border-radius: 0.375rem;
+}
+
+.enhanced-activity-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.enhanced-activity-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.enhanced-activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin: 0.5rem 1rem 0 0;
+}
+
+.activity-indicator.assignment {
+  background-color: #3b82f6;
+}
+
+.activity-indicator.update {
+  background-color: #10b981;
+}
+
+.activity-indicator.students {
+  background-color: #f59e0b;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.activity-title {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.activity-time {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.activity-description {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Full width styles */
+.full-width {
+  width: 100%;
+}
+
+/* Dark mode specific overrides */
+.dark .role-badge.admin {
+  background-color: #8b5cf6;
+}
+
+.dark .text-amber-500 {
+  color: #f59e0b;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .assignment-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .assignment-select {
+    width: 100%;
+  }
+  
+  .assignment-item {
+    flex-wrap: wrap;
+  }
+  
+  .assignment-user {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .assignment-department {
+    width: 100%;
+    text-align: left;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+}

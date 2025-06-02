@@ -1,0 +1,184 @@
+@startuml Système de Gestion des Départements ENSIAS
+
+' Enhanced layout configuration for professional appearance
+!define RECTANGLE_BACKGROUND #F8F9FA
+!define ACTOR_BACKGROUND #E3F2FD
+!define USECASE_BACKGROUND #FFFFFF
+!define PRIMARY_COLOR #1976D2
+!define SECONDARY_COLOR #424242
+
+' Advanced layout settings
+left to right direction
+!pragma layout smetana
+skinparam linetype ortho
+skinparam nodesep 100
+skinparam ranksep 80
+skinparam minClassWidth 150
+
+' Professional color scheme and typography
+skinparam backgroundColor #FAFAFA
+skinparam shadowing false
+skinparam roundcorner 8
+
+' Enhanced arrow styling
+skinparam arrow {
+  MessageAlignment center
+  routing polyline
+  thickness 1.2
+  color PRIMARY_COLOR
+}
+
+' Professional actor styling - smaller and cleaner
+skinparam actor {
+  BorderColor PRIMARY_COLOR
+  BackgroundColor ACTOR_BACKGROUND
+  FontSize 5
+  FontName Arial
+  FontStyle normal
+}
+
+' Professional use case styling - larger and more prominent
+skinparam usecase {
+  BorderColor #CCCCCC
+  BackgroundColor USECASE_BACKGROUND
+  FontSize 15
+  FontName Arial
+  BorderThickness 1.5
+  FontStyle bold
+}
+
+' Enhanced package styling
+skinparam package {
+  BorderColor PRIMARY_COLOR
+  BackgroundColor RECTANGLE_BACKGROUND
+  FontSize 12
+  FontName Arial
+  FontStyle bold
+  BorderThickness 2
+}
+
+' Professional title styling
+skinparam title {
+  FontSize 16
+  FontName Arial
+  FontStyle bold
+  FontColor PRIMARY_COLOR
+}
+
+title <size:10><color:#1976D2>Diagramme des cas d'utilisation</color></size>\n<size:10>Système de Gestion des Départements ENSIAS</size>
+
+' Actors with refined sizing
+actor "<size:15>Administrateur</size>" as Admin #E8F5E8
+actor "<size:15>Chef de Département</size>" as ChefDep #E3F2FD
+actor "<size:15>Chef de Filière</size>" as ChefFil #FFF3E0  
+actor "<size:15>Professeur</size>" as Prof #F3E5F5
+actor "<size:15>Visiteur</size>" as Visiteur #F5F5F5
+
+' Strategic spacing between actors
+Admin -[hidden]right- ChefDep
+ChefDep -[hidden]down- ChefFil
+ChefFil -[hidden]down- Prof
+Prof -[hidden]down- Visiteur
+
+package "<size:14><b>Système de Gestion des Départements ENSIAS</b></size>" as MainSystem {
+  
+  ' Core Authentication (highlighted)
+  usecase "<size:16><b>S'authentifier</b></size>" as Auth #FFE0B2
+  
+  ' Administration Module
+    usecase "<size:20>Gérer les utilisateurs</size>" as UC1 #E8F5E8
+    usecase "<size:20>Attribuer des rôles</size>" as UC2 #E8F5E8
+    usecase "<size:20>Créer des départements</size>" as UC3 #E8F5E8
+  
+  
+  ' Department Management Module
+    usecase "<size:20>Gérer les informations du département</size>" as UC5 #E3F2FD
+    usecase "<size:20>Gérer les formations</size>" as UC6 #E3F2FD
+    usecase "<size:20>Assigner les chefs de filière</size>" as UC7 #E3F2FD
+    usecase "<size:20>Gérer les professeurs</size>" as UC8 #E3F2FD
+  
+  
+  ' Program Management Module
+    usecase "<size:20>Gérer les détails de la formation</size>" as UC9 #FFF3E0
+    usecase "<size:20>Gérer les semestres</size>" as UC10 #FFF3E0
+    usecase "<size:20>Gérer les modules</size>" as UC11 #FFF3E0
+    usecase "<size:20>Définir les compétences</size>" as UC12 #FFF3E0
+    usecase "<size:20>Définir les débouchés professionnels</size>" as UC13 #FFF3E0
+  
+  
+  ' Profile Management Module
+    usecase "<size:20>Consulter/Modifier le profil</size>" as UC14 #F3E5F5
+    usecase "<size:20>Gérer les modules assignés</size>" as UC15 #F3E5F5
+  
+  
+  ' Public Consultation Module
+    usecase "<size:20>Consulter les informations des départements</size>" as UC16 #F5F5F5
+    usecase "<size:20>Consulter les détails des formations</size>" as UC17 #F5F5F5
+    usecase "<size:20>Consulter les profils des professeurs</size>" as UC18 #F5F5F5
+  
+}
+
+' Clean relationship styling with better organization
+' Administrator relationships - Green theme
+Admin --> UC1 #2E7D32
+Admin --> UC2 #2E7D32
+Admin --> UC3 #2E7D32
+
+' Department Head relationships - Blue theme
+ChefDep --> UC5 #1976D2
+ChefDep --> UC6 #1976D2
+ChefDep --> UC7 #1976D2
+ChefDep --> UC8 #1976D2
+' ChefDep --> UC14 #1976D2
+
+' Program Head relationships - Orange theme
+ChefFil --> UC9 #F57C00
+ChefFil --> UC10 #F57C00
+ChefFil --> UC11 #F57C00
+ChefFil --> UC12 #F57C00
+ChefFil --> UC13 #F57C00
+
+
+' Professor relationships - Purple theme
+Prof --> UC14 #7B1FA2
+Prof --> UC15 #7B1FA2
+
+' Visitor relationships - Gray theme
+Visiteur --> UC16 #616161
+Visiteur --> UC17 #616161
+Visiteur --> UC18 #616161
+
+' Clean include relationships
+UC6 ..> UC7 : <<include>>
+
+' Authentication includes - clean and organized
+UC1 ..> Auth : <<include>>
+UC2 ..> Auth : <<include>>
+UC3 ..> Auth : <<include>>
+UC5 ..> Auth : <<include>>
+UC6 ..> Auth : <<include>>
+UC7 ..> Auth : <<include>>
+UC8 ..> Auth : <<include>>
+UC9 ..> Auth : <<include>>
+UC10 ..> Auth : <<include>>
+UC11 ..> Auth : <<include>>
+UC12 ..> Auth : <<include>>
+UC13 ..> Auth : <<include>>
+UC14 ..> Auth : <<include>>
+UC15 ..> Auth : <<include>>
+
+' Clean inheritance relationships
+ChefDep --|> Prof
+ChefFil --|> Prof
+
+' Clean legend
+' note right of MainSystem
+'   <b><color:#1976D2>Légende:</color></b>
+'   • <color:#2E7D32>Vert</color>: Administration
+'   • <color:#1976D2>Bleu</color>: Gestion département
+'   • <color:#F57C00>Orange</color>: Gestion formation
+'   • <color:#7B1FA2>Violet</color>: Gestion profil
+'   • <color:#616161>Gris</color>: Consultation publique
+' end note
+
+@enduml

@@ -48,52 +48,44 @@ function App() {
   const departments = [
     {
       id: 1,
-      name: "Génie Logiciel",
-      description: "Optimisation des processus industriels et gestion de la production",
-      specializations: ["Logistique", "Qualité", "Management", 
-        "Devops", "Agilité"
-      ],
-      duration: "3 ans",
+      name: "Département Génie Logiciel",
+      description: "Ce département assure une formation en génie logiciel et en systèmes d'information, maîtrisant les techniques, les méthodes et les outils de développement et de conduite de projets logiciels de qualité, dans différents domaines d'application et opérant dans divers environnements d'architecture logicielle.",
+      specializations: ["Génie Logiciel", "Systèmes d'information", "Génie Logiciel Objet"],
       color: "bg-green-500"
     },
     {
       id: 2,
-      name: "Génie Data",
-      description: "Formation en développement logiciel, intelligence artificielle et systèmes d'information",
-      specializations: ["IA & Data Science", "Développement Web", "Cybersécurité"],
-      duration: "3 ans",
+      name: "Département Informatique et aide à la décision",
+      description: "Ce département assure une formation qui intègre et met en relation plusieurs disciplines de base : Informatique, Aide à la décision, Maths appliqués, Intelligence artificielle et Management. Il oriente aux spécialités suivantes : E-Management, Business Intelligence, Ingénierie de la Logistique.",
+      specializations: [" Business Intelligence", "E-Management", "Systèmes logistiques"],
       color: "bg-blue-500"
     },
     {
       id: 3,
-      name: "IDSIT",
-      description: "Conception et construction d'ouvrages d'art et d'infrastructures",
-      specializations: ["BTP", "Géotechnique", "Hydraulique"],
-      duration: "3 ans",
+      name: "Département Réseaux de communication",
+      description: "Ce département assure aux ingénieurs une double compétence en informatique réseaux et en télécommunications, qui leur permettront de développer, d'intégrer et de gérer des applications de communication au sein d'un réseau informatique.",
+      specializations: ["Réseaux aspects avancés", "Systèmes télécoms I", "Réseaux nouvelles générations"],
       color: "bg-orange-500"
     },
     {
       id: 4,
-      name: "SSE",
-      description: "Systèmes électriques, électroniques et énergies renouvelables",
-      specializations: ["Énergies Renouvelables", "Automatique", "Électronique", 'IOT', "data science"],
-      duration: "3 ans",
+      name: "Département Ingénierie des Systèmes Embarqués",
+      description: "Le Département Ingénierie des Systèmes Embarqués offre une Ingénierie des systèmes embarqués et temps réel.",
+      specializations: ["Capteurs et chaînes d'acquisition", "Antennes et propagation", "Traitements numériques des signaux"],
       color: "bg-yellow-500"
     },
     {
       id: 5,
-      name: "Génie Business intelligence",
-      description: "Conception et fabrication de systèmes mécaniques",
-      specializations: ["Mécatronique", "Matériaux", "Thermique", "Robotique"],
-      duration: "3 ans",
+      name: "Département Web and Mobile Engineering",
+      description: "Le département Web and Mobile Engineering (WME) vise à former des professionnels et chercheurs pouvant accompagner l'extraordinaire explosion que connaît le secteur des technologies de l'information et de la communication surtout au niveau des technologies web émergentes et de l'informatique mobile et ambiante.",
+      specializations: ["Développement Web", "Réseaux Mobiles", "Virtualisation et Cloud"],
       color: "bg-purple-500"
     },
     {
       id: 6,
-      name: "SSI",
-      description: "Technologies de communication et réseaux informatiques",
-      specializations: ["5G", "IoT", "Sécurité Réseaux","IA & Data Science", "Développement Web", "Cybersécurité"],
-      duration: "3 ans",
+      name: "Département Langues et Communication",
+      description: "Ce département assure aux élèves ingénieurs une formation adéquate en langues et en techniques d'expression et de communication afin de leur permettre d'intégrer plus facilement les divers secteurs de la vie professionnelle.",
+      specializations: ["expressions orales et écrites", "développement de l’esprit d’initiative", "Développement du savoir"],
       color: "bg-red-500"
     },
       
@@ -101,7 +93,7 @@ function App() {
 
   const filteredDepartments = departments.filter(dept =>
     dept.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    dept.description.toLowerCase().includes(searchTerm.toLowerCase())
+    dept.description.toLowerCase().includes(searchTerm.toLowerCase()) 
   );
   useEffect(() => {
     const handleScroll = () => {
