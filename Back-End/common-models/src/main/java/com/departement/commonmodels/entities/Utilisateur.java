@@ -32,25 +32,40 @@ public class Utilisateur {
     private String motDePasseHash;
 
     @Column(nullable = false)
-    private String role; // 'cf', 'professeur', 'admin'
+    private String role; // 'admin','professeur','chefFiliere','chefDepartement'
 
-    // OAuth related fields
-    @Column(name = "oauth_id")
-    private String oauthId;
-
-    @Column(name = "oauth_provider")
-    private String oauthProvider;
-
-    @Column(name = "professeur_id")
-    private String professeurId;
-
+    // Optional foreign keys
     @Column(name = "departement_id")
     private String departementId;
+
+    @Column(name = "formation_id")
+    private String formationId;
+
+    // Role-flags
+    @Column(name = "is_coordinator", nullable = false)
+    private boolean isCoordinator = false;
+
+    @Column(name = "is_chef_dep", nullable = false)
+    private boolean isChefDep = false;
+
+    // Professeur-specific
+    @Column
+    private String specialite;
+
+    @Column
+    private String titre;
+
+    // Profile
+    @Column
+    private String image;
+
+    @Column
+    private String phone;
 
     @Column(name = "derniere_connexion")
     private LocalDateTime derniereConnexion;
 
-    @Column(name = "est_actif")
+    @Column(name = "est_actif", nullable = false)
     private boolean estActif = true;
 
     @CreationTimestamp

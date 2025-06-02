@@ -1,0 +1,32 @@
+# Production Dockerfile for chef-fil service
+FROM maven:3.9-eclipse-temurin-21-alpine AS build
+
+WORKDIR /app
+
+# Copy parent POM
+COPY pom.xml ./parent-pom.xml
+
+# Copy and build common-models dependency first
+COPY common-models/pom.xml ./common-models/
+COPY common-models/src ./common-models/src
+
+# Copy chef-fil service files
+COPY chef-fil/pom.xml ./chef-fil/
+COPY chef-fil/src ./chef-fil/src
+
+# Install parent POM, build common-models, then build chef-fil
+RUN mvn clean install -N -f parent-pom.xml
+RUN cd common-models && mvn clean install -DskipTests
+RUN cd chef-fil && mvn clean package -DskipTests
+
+# Production runtime stage
+FROM eclipse-temurin:21-jre-alpine
+
+WORKDIR /app
+
+# Copy the built JAR
+COPY --from=build /app/chef-fil/target/*.jar app.jar
+
+EXPOSE 9095
+
+ENTRYPOINT ["java", "-jar", "app.jar"]

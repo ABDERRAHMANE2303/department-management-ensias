@@ -50,16 +50,16 @@ jobs:
           # Build all backend service images
           for service in common-models admin auth chef-dep prof-dep chef-fil; do
             echo "Building $service..."
-            docker build -f $service/Dockerfile.prod -t ${{ secrets.DOCKER_USERNAME }}/ensias-deps/$service:latest .
-            docker push ${{ secrets.DOCKER_USERNAME }}/ensias-deps/$service:latest
+            docker build -f $service/Dockerfile.prod -t ${{ secrets.DOCKER_USERNAME }}/ensias-deps:$service-latest .
+            docker push ${{ secrets.DOCKER_USERNAME }}/ensias-deps:$service-latest
           done
 
       # Build frontend (using regular Dockerfile)
       - name: Build and push frontend
         run: |
           cd Front-End
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/ensias-deps/frontend:latest .
-          docker push ${{ secrets.DOCKER_USERNAME }}/ensias-deps/frontend:latest
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/ensias-deps:frontend-latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/ensias-deps:frontend-latest
 
   # Job 2: Deploy to VM
   deploy:

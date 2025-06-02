@@ -129,6 +129,32 @@ services:
       - ./Back-End/common-models/target/classes:/app/common-model-classes
       - maven-repo:/root/.m2/repository
 
+  chef-fil:
+    container_name: chef-fil
+    build: ./Back-End/chef-fil
+    ports:
+      - "9095:9095"
+    depends_on:
+      db:
+        condition: service_healthy
+      build-all:
+        condition: service_completed_successfully
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DEVTOOLS_RESTART_ENABLED: ${SPRING_DEVTOOLS_RESTART_ENABLED}
+      SPRING_DEVTOOLS_LIVERELOAD_ENABLED: ${SPRING_DEVTOOLS_LIVERELOAD_ENABLED}
+      FILE_UPLOAD_DIR: ${UPLOAD_DIR}
+    volumes:
+      - ./Back-End/chef-fil/src/main/resources/uploads:/app/uploads
+      - ./Back-End/chef-fil/src:/app/src
+      - ./Back-End/chef-fil/target:/app/target
+      - ./Back-End/chef-fil/pom.xml:/app/pom.xml 
+      - ./Back-End/common-models/target/classes:/app/common-model-classes
+      - maven-repo:/root/.m2/repository
+
   prof-dep:
     container_name: prof-dep
     build: ./Back-End/prof-dep
