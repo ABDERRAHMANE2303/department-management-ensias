@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import ensiasBuilding from '../assets/55.jpg';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -39,10 +40,13 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center p-4">
       {/* Back to home link */}
-      <div className="absolute top-6 left-6 flex items-center text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-300 cursor-pointer">
+        <Link 
+        to="/" 
+        className="absolute top-6 left-6 flex items-center text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-300"
+        >
         <ArrowLeft className="h-5 w-5 mr-2" />
         <span className="font-medium">Retour à l'accueil</span>
-      </div>
+        </Link>
 
       {/* Main login container */}
       <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-2xl shadow-2xl dark:shadow-gray-900 overflow-hidden">
@@ -55,13 +59,6 @@ const Login = () => {
               alt="ENSIAS Campus" 
               className="w-full h-64 md:h-full object-cover"
             />
-            {/* Overlay with ENSIAS text */}
-            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-              <div className="text-center text-white">
-                <h1 className="text-4xl md:text-5xl font-bold mb-2">ENSIAS</h1>
-                <p className="text-lg md:text-xl opacity-90">École d'Excellence</p>
-              </div>
-            </div>
           </div>
 
           {/* Right side - Login form */}
@@ -97,7 +94,7 @@ const Login = () => {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200"
-                    placeholder="votre.email@example.com"
+                    placeholder="votre.email@umc.ac.ma"
                   />
                 </div>
 
@@ -118,7 +115,7 @@ const Login = () => {
                       onChange={handleInputChange}
                       required
                       className="w-full px-4 py-3 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-colors duration-200"
-                      placeholder="••••••••"
+                      placeholder="********"
                     />
                     <button
                       type="button"
@@ -145,12 +142,6 @@ const Login = () => {
                       Se souvenir de moi
                     </span>
                   </label>
-                  <button
-                    type="button"
-                    className="text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors duration-200"
-                  >
-                    Mot de passe oublié ?
-                  </button>
                 </div>
 
                 {/* Submit button */}
@@ -171,20 +162,6 @@ const Login = () => {
                 </button>
 
               </div>
-
-              {/* Additional links */}
-              <div className="mt-8 text-center">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Pas encore de compte ?{' '}
-                  <a
-                    href="#"
-                    className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-medium transition-colors duration-200"
-                  >
-                    Contactez l'administration
-                  </a>
-                </p>
-              </div>
-
             </div>
           </div>
 
