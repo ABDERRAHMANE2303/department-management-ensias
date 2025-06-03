@@ -61,11 +61,16 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
-<dependency>
-    <groupId>com.departement</groupId>
-    <artifactId>common-models</artifactId>
-    <version>0.0.1-SNAPSHOT</version> <!-- Use explicit version -->
-</dependency>
+        <dependency>
+            <groupId>com.departement</groupId>
+            <artifactId>common-models</artifactId>
+            <version>0.0.1-SNAPSHOT</version> <!-- Use explicit version -->
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -8,6 +8,8 @@ import com.departement.commonmodels.entities.Utilisateur;
 import com.departement.commonmodels.entities.Departement;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import java.util.List;
 import java.util.Map;
 
@@ -17,30 +19,32 @@ public class AdminController {
 
     private final UserService userSvc;
     private final DepartementService deptSvc;
+    private final BCryptPasswordEncoder passwordEncoder; // Add password encoder instance
 
     public AdminController(UserService userSvc, DepartementService deptSvc) {
         this.userSvc = userSvc;
         this.deptSvc = deptSvc;
+        this.passwordEncoder = new BCryptPasswordEncoder(); // Initialize password encoder
     }
 
     // --- USERS CRUD using DTOs ---
     @PostMapping("/users")
     public Utilisateur createUser(@RequestBody UtilisateurDTO dto) {
         Utilisateur u = new Utilisateur();
-        // map DTO → entity
+
+        // Handle password hashing entirely in the controller
+        if (dto.getMotDePasse() != null && !dto.getMotDePasse().isEmpty()) {
+
+            // Use the existing passwordEncoder instance
+            u.setMotDePasseHash(passwordEncoder.encode(dto.getMotDePasse()));
+        }
+
+        // Set other fields
         u.setNomUtilisateur(dto.getNomUtilisateur());
         u.setPrenom(dto.getPrenom());
         u.setNom(dto.getNom());
         u.setEmail(dto.getEmail());
-        u.setMotDePasseHash(dto.getMotDePasse());
-        // --- ROLE ---
-        if (dto.getRole().equals("cf: chef filiere")) {
-            u.setRole("cf"); // Changed to simplified format
-        } else if (dto.getRole().equals("cd: chef departement")) {
-            u.setRole("cd"); // Changed to simplified format
-        } else {
-            u.setRole(dto.getRole());
-        }
+        u.setRole(dto.getRole());
         u.setDepartementId(dto.getDepartementId());
         u.setChefDep(Boolean.TRUE.equals(dto.getChefDep()));
         u.setCoordinator(Boolean.TRUE.equals(dto.getCoordinator()));
@@ -61,15 +65,15 @@ public class AdminController {
         u.setPrenom(dto.getPrenom());
         u.setNom(dto.getNom());
         u.setEmail(dto.getEmail());
-        u.setMotDePasseHash(dto.getMotDePasse());
-        // --- ROLE ---
-        if (dto.getRole().equals("cf: chef filiere")) {
-            u.setRole("cf"); // Changed to simplified format
-        } else if (dto.getRole().equals("cd: chef departement")) {
-            u.setRole("cd"); // Changed to simplified format
-        } else {
-            u.setRole(dto.getRole());
-        }
+        // Hash the password before saving
+        if (dto.getMotDePasse() != null && !dto.getMotDePasse().isEmpty()) {
+            // Use BCryptPasswordEncoder for secure hashing
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(dto.getMotDePasse());
+            u.setMotDePasseHash(hashedPassword);
+        } // --- ROLE ---
+
+        u.setRole(dto.getRole());
         u.setDepartementId(dto.getDepartementId());
         u.setChefDep(Boolean.TRUE.equals(dto.getChefDep()));
         u.setCoordinator(Boolean.TRUE.equals(dto.getCoordinator()));

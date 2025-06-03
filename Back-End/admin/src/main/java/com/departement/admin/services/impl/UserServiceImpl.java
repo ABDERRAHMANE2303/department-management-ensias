@@ -1,11 +1,15 @@
 package com.departement.admin.services.impl;
 
+import com.departement.admin.dto.DepartementDTO;
+import com.departement.admin.dto.UtilisateurDTO;
 import com.departement.admin.exceptions.ResourceNotFoundException;
 import com.departement.admin.repositories.DepartementRepository;
 import com.departement.admin.repositories.UtilisateurRepository;
 import com.departement.admin.services.UserService;
 import com.departement.commonmodels.entities.Departement;
 import com.departement.commonmodels.entities.Utilisateur;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +23,14 @@ public class UserServiceImpl implements UserService {
     private final UtilisateurRepository userRepo;
     private final DepartementRepository deptRepo;
 
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
     public UserServiceImpl(UtilisateurRepository userRepo,
             DepartementRepository deptRepo) {
         this.userRepo = userRepo;
         this.deptRepo = deptRepo;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @Override
@@ -38,7 +46,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Utilisateur create(Utilisateur u) {
-        // you may want to hash u.getMotDePasseHash() here before saving
+        // Hash password before saving
+        if (u.getMotDePasseHash() != null) {
+            u.setMotDePasseHash(passwordEncoder.encode(u.getMotDePasseHash()));
+
+        }
         return userRepo.save(u);
     }
 
@@ -50,7 +62,11 @@ public class UserServiceImpl implements UserService {
         ex.setPrenom(u.getPrenom());
         ex.setNom(u.getNom());
         ex.setEmail(u.getEmail());
-        ex.setMotDePasseHash(u.getMotDePasseHash());
+
+        // Only update password if a new one is provided
+        if (u.getMotDePasseHash() != null) {
+            ex.setMotDePasseHash(u.getMotDePasseHash());
+        }
         ex.setRole(u.getRole());
         ex.setDepartementId(u.getDepartementId());
         ex.setFormationId(u.getFormationId());
