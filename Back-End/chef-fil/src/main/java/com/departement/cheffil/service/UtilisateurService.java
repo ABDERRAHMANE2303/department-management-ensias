@@ -88,8 +88,8 @@ public class UtilisateurService {
         BeanUtils.copyProperties(utilisateur, dto);
         
         // Set additional fields based on role
-        dto.setIsCoordinator(utilisateur.getRole().equals("cf"));
-        dto.setIsChefDep(utilisateur.getRole().equals("cd"));
+        dto.setCoordinator(utilisateur.getRole().equals("cf"));
+        dto.setChefDep(utilisateur.getRole().equals("cd"));
         
         return dto;
     }
