@@ -1,0 +1,230 @@
+@baseUrl = http://localhost:9095
+@departmentId = dept-123
+@formationId = form-456
+@semesterId = sem-789
+@moduleId = mod-101
+@competenceId = comp-202
+@careerPathId = career-303
+@userId = user-404
+@professorId = prof-505
+
+### Get Formation by Department ID
+GET {{baseUrl}}/api/cf/formations/department/{{departmentId}}
+Accept: application/json
+
+### Get Formation by ID
+GET {{baseUrl}}/api/cf/formations/{{formationId}}
+Accept: application/json
+
+### Get Formation by Coordinator ID
+GET {{baseUrl}}/api/cf/formations/by-coordinator/{{userId}}
+Accept: application/json
+
+### Create New Formation
+POST {{baseUrl}}/api/cf/formations
+Content-Type: application/json
+
+{
+  "departmentId": "{{departmentId}}",
+  "name": "Ingénierie des Données",
+  "shortName": "ID",
+  "slug": "ingenierie-donnees",
+  "description": "Formation spécialisée dans l'analyse et le traitement des données massives, l'intelligence artificielle et l'apprentissage automatique.",
+  "coordinateurId": "{{userId}}"
+}
+
+### Update Formation
+PUT {{baseUrl}}/api/cf/formations/{{formationId}}
+Content-Type: application/json
+
+{
+  "name": "Ingénierie des Données et IA",
+  "shortName": "ID+IA",
+  "slug": "ingenierie-donnees-ia",
+  "description": "Formation spécialisée dans l'analyse et le traitement des données massives, avec accent sur l'intelligence artificielle et l'apprentissage profond.",
+  "departmentId": "{{departmentId}}",
+  "coordinateurId": "{{userId}}"
+}
+
+### Get All Semesters for a Formation
+GET {{baseUrl}}/api/cf/semesters/formation/{{formationId}}
+Accept: application/json
+
+### Get Semester by ID
+GET {{baseUrl}}/api/cf/semesters/{{semesterId}}
+Accept: application/json
+
+### Create New Semester
+POST {{baseUrl}}/api/cf/semesters
+Content-Type: application/json
+
+{
+  "formationId": "{{formationId}}",
+  "number": 1,
+  "name": "S1: Fondements des données",
+  "description": "Introduction aux fondamentaux de la science des données",
+  "colorGradient": "from-blue-500 to-blue-600"
+}
+
+### Update Semester
+PUT {{baseUrl}}/api/cf/semesters/{{semesterId}}
+Content-Type: application/json
+
+{
+  "formationId": "{{formationId}}",
+  "number": 1,
+  "name": "S1: Fondements de la science des données",
+  "description": "Introduction aux fondamentaux de la science des données et statistiques",
+  "colorGradient": "from-blue-500 to-blue-600"
+}
+
+### Delete Semester
+DELETE {{baseUrl}}/api/cf/semesters/{{semesterId}}
+
+### Get Modules for a Semester
+GET {{baseUrl}}/api/cf/modules/semester/{{semesterId}}
+Accept: application/json
+
+### Get Modules by Professor
+GET {{baseUrl}}/api/cf/modules/professor/{{professorId}}
+Accept: application/json
+
+### Get Module by ID
+GET {{baseUrl}}/api/cf/modules/{{moduleId}}
+Accept: application/json
+
+### Create New Module
+POST {{baseUrl}}/api/cf/modules
+Content-Type: application/json
+
+{
+  "semesterId": "{{semesterId}}",
+  "name": "Programmation Python pour la Data Science",
+  "description": "Introduction à Python et ses bibliothèques pour l'analyse de données",
+  "professorId": "{{professorId}}",
+  "creditHours": 40,
+  "orderIndex": 1
+}
+
+### Update Module
+PUT {{baseUrl}}/api/cf/modules/{{moduleId}}
+Content-Type: application/json
+
+{
+  "semesterId": "{{semesterId}}",
+  "name": "Programmation avancée pour la Data Science",
+  "description": "Python avancé pour l'analyse et la visualisation de données",
+  "professorId": "{{professorId}}",
+  "creditHours": 45,
+  "syllabus": "https://example.com/syllabus.pdf",
+  "orderIndex": 1
+}
+
+### Delete Module
+DELETE {{baseUrl}}/api/cf/modules/{{moduleId}}
+
+### Assign Professor to Module
+PUT {{baseUrl}}/api/cf/modules/{{moduleId}}/assign-professor/{{professorId}}
+Content-Type: application/json
+
+### Get Competences for a Formation
+GET {{baseUrl}}/api/cf/competences/formation/{{formationId}}
+Accept: application/json
+
+### Get Competence by ID
+GET {{baseUrl}}/api/cf/competences/{{competenceId}}
+Accept: application/json
+
+### Create New Competence
+POST {{baseUrl}}/api/cf/competences
+Content-Type: application/json
+
+{
+  "departmentId": "{{departmentId}}",
+  "formationId": "{{formationId}}",
+  "description": "Maîtrise des algorithmes avancés d'apprentissage automatique pour la prédiction et classification de données"
+}
+
+### Update Competence
+PUT {{baseUrl}}/api/cf/competences/{{competenceId}}
+Content-Type: application/json
+
+{
+  "departmentId": "{{departmentId}}",
+  "formationId": "{{formationId}}",
+  "description": "Conception et implémentation d'algorithmes avancés d'apprentissage automatique pour l'analyse prédictive"
+}
+
+### Delete Competence
+DELETE {{baseUrl}}/api/cf/competences/{{competenceId}}
+
+### Get Career Paths for a Formation
+GET {{baseUrl}}/api/cf/career-paths/formation/{{formationId}}
+Accept: application/json
+
+### Get Career Path by ID
+GET {{baseUrl}}/api/cf/career-paths/{{careerPathId}}
+Accept: application/json
+
+### Create New Career Path
+POST {{baseUrl}}/api/cf/career-paths
+Content-Type: application/json
+
+{
+  "departmentId": "{{departmentId}}",
+  "formationId": "{{formationId}}",
+  "title": "Data Scientist"
+}
+
+### Update Career Path
+PUT {{baseUrl}}/api/cf/career-paths/{{careerPathId}}
+Content-Type: application/json
+
+{
+  "departmentId": "{{departmentId}}",
+  "formationId": "{{formationId}}",
+  "title": "Senior Data Scientist"
+}
+
+### Delete Career Path
+DELETE {{baseUrl}}/api/cf/career-paths/{{careerPathId}}
+
+### Get Professors by Department
+GET {{baseUrl}}/api/cf/professeurs/departement/{{departmentId}}
+Accept: application/json
+
+### Get User by ID
+GET {{baseUrl}}/api/cf/utilisateurs/{{userId}}
+Accept: application/json
+
+### Get Current User Profile
+GET {{baseUrl}}/api/cf/me
+User-ID: {{userId}}
+Accept: application/json
+
+### Update Current User Profile
+PUT {{baseUrl}}/api/cf/me
+User-ID: {{userId}}
+Content-Type: application/json
+
+{
+  "nom": "Guermah",
+  "prenom": "Hatim",
+  "nomUtilisateur": "hatim.guermah",
+  "email": "hatim.guermah@ensias.ma",
+  "specialite": "Science des données",
+  "titre": "Professeur Habilité",
+  "phone": "+212 623456789"
+}
+
+### Upload Profile Image
+POST {{baseUrl}}/api/cf/me/image
+User-ID: {{userId}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="profile.jpg"
+Content-Type: image/jpeg
+
+< ./profile.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

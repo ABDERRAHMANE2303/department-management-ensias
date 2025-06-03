@@ -1,0 +1,39 @@
+INSERT INTO utilisateurs (
+    id,
+    nom,
+    prenom,
+    email,
+    nom_utilisateur,
+    mot_de_passe_hash,
+    role,
+    est_actif,
+    is_chef_dep,
+    is_coordinator,
+    departement_id,
+    formation_id,
+    specialite,
+    titre,
+    phone,
+    image,
+    date_creation,
+    date_modification
+) VALUES (
+    '00000000-0000-0000-0000-000000000001',  -- Static UUID for easy identification
+    'Admin',                                 -- Last name
+    'Super',                                 -- First name
+    'admin@ensias.ma',                       -- Email
+    'superadmin',                            -- Username
+    '$2a$12$xlVl3Nq7hthNznL64or3NeSSbjbY7kZOEctKnqG36eDxCb0texAoq',  -- admin@ensias
+    'admin',                                 -- Role
+    true,                                    -- Active account
+    false,                                   -- Not department head
+    false,                                   -- Not coordinator
+    NULL,                                    -- No department
+    NULL,                                    -- No formation
+    'Administration',                        -- Specialty
+    'System Administrator',                  -- Title
+    '+212600000000',                         -- Phone
+    '/images/default-admin.png',             -- Default profile image
+    NOW(),                                   -- Creation date
+    NOW()                                    -- Last modified date
+);

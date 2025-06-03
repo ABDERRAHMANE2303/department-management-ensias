@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import ensiasBuilding from '../assets/55.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +10,8 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,15 +24,66 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
     
-    // TODO: Add authentication logic here
-    console.log('Login attempt:', formData);
-    
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // Use the proxy configured in vite.config.js
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        }),
+      });
+      
+      // Check if response is JSON before parsing
+      const contentType = response.headers.get("content-type");
+      if (!response.ok) {
+        let errorMessage = 'Failed to login';
+        if (contentType && contentType.includes("application/json")) {
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.message || errorMessage;
+          } catch (parseError) {
+            console.error('Error parsing JSON response:', parseError);
+            errorMessage = `Server error (${response.status})`;
+          }
+        } else {
+          errorMessage = `Server error (${response.status})`;
+        }
+        throw new Error(errorMessage);
+      }
+      
+      // Only try to parse JSON if we have a JSON content type
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error('Invalid response format from server');
+      }
+      
+      const data = await response.json();
+      
+      // Validate the response data
+      if (!data.token || !data.user) {
+        throw new Error('Invalid response from server');
+      }
+      
+      // Store auth token and user info
+      localStorage.setItem('auth_token', data.token);
+      localStorage.setItem('user_info', JSON.stringify(data.user));
+      
+      // Redirect to dashboard
+      navigate('/dashboard');
+    } catch (err) {
+      console.error('Login error:', err);
+      setError(
+        err.message || 
+        'Échec de connexion. Veuillez vérifier vos informations et réessayer.'
+      );
+    } finally {
       setIsLoading(false);
-      // TODO: Handle success/error and redirect
-    }, 2000);
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -143,6 +196,13 @@ const Login = () => {
                     </span>
                   </label>
                 </div>
+
+                {/* Error message display */}
+                {error && (
+                  <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
+                    {error}
+                  </div>
+                )}
 
                 {/* Submit button */}
                 <button

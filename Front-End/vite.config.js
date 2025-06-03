@@ -17,6 +17,16 @@ export default defineConfig({
         target: 'http://admin:9091',
         changeOrigin: true,
         secure: false,
+      },
+      '/api/auth': {
+        target: 'http://auth:9092',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/api/cd': {
+        target: 'http://chef-dep:9093', // Adjust port as needed
+        changeOrigin: true,
+        secure: false,
       }
     }
   }

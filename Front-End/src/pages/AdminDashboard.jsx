@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/DepartmentDashboard.css'; // Reusing the same styles
 import '../styles/AdminDashboard.css'; // Reusing the same styles
 
@@ -11,6 +11,8 @@ import {
 } from 'lucide-react';
 
 export default function AdminDashboard() {
+  const navigate = useNavigate();
+
   // State management
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
@@ -23,14 +25,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
 
   // Admin information
-  const [currentAdmin, setCurrentAdmin] = useState({
-    id: "admin-001",
-    nom_utilisateur: "admin.ensias",
-    email: "admin@ensias.ma",
-    role: "admin",
-    image: "https://randomuser.me/api/portraits/men/1.jpg",
-    derniere_connexion: new Date().toISOString()
-  });
+  const [currentAdmin, setCurrentAdmin] = useState(null);
 
   // Users data
   const [users, setUsers] = useState([]);
@@ -102,13 +97,37 @@ export default function AdminDashboard() {
 
   // Load data from API
   useEffect(() => {
-    // Remove the line that creates [loading, setLoading]
+    const token = localStorage.getItem('auth_token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
     
-    // load users, departments and stats
+    setLoading(true);
+    
+    // load users, departments and stats with auth token
     Promise.all([
-      fetch('/api/admin/users').then(r => r.json()),
-      fetch('/api/admin/departments').then(r => r.json()),
-      fetch('/api/admin/stats').then(r => r.json().catch(() => ({})))
+      fetch('/api/admin/users', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(r => r.json().catch(err => {
+        console.error("Error parsing users response:", err);
+        return [];
+      })),
+      fetch('/api/admin/departments', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(r => r.json().catch(err => {
+        console.error("Error parsing departments response:", err);
+        return [];
+      })),
+      fetch('/api/admin/stats', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(r => r.json().catch(() => ({})))
     ])
       .then(([usersData, departmentsData, statsData]) => {
         console.log("API response - users:", usersData);
@@ -202,7 +221,14 @@ export default function AdminDashboard() {
     if (!file) return;
     const form = new FormData();
     form.append("file", file);
-    fetch("/api/admin/upload", { method: "POST", body: form })
+    fetch("/api/admin/upload",  {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem('auth_token')}`
+        },
+        body: form
+      })
       .then(r=>r.json())
       .then(data => {
         setNewUser(u=>({...u, image: data.path}));
@@ -278,7 +304,8 @@ export default function AdminDashboard() {
       fetch("/api/admin/users", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem('auth_token')}`
         },
         body: JSON.stringify(payload)
       })
@@ -398,7 +425,10 @@ export default function AdminDashboard() {
       // Create new department
       fetch('/api/admin/departments', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+          "Authorization": `Bearer ${localStorage.getItem('auth_token')}`
+
+         },
         body: JSON.stringify(newDepartment)
       })
       .then( r => {
@@ -613,6 +643,48 @@ export default function AdminDashboard() {
       });
   };
 
+  // Add this useEffect at the top of your component to load user from localStorage
+  useEffect(() => {
+    const token = localStorage.getItem('auth_token');
+    const userInfoString = localStorage.getItem('user_info');
+    
+    if (!token || !userInfoString) {
+      // Redirect to login if no token or user info
+      navigate('/login');
+      return;
+    }
+    
+    try {
+      const userInfo = JSON.parse(userInfoString);
+      setCurrentAdmin(userInfo);
+      console.log("Current admin loaded from localStorage:", userInfo);
+    } catch (error) {
+      console.error("Error parsing user info from localStorage:", error);
+      navigate('/login');
+    }
+  }, []);
+
+  // Add this useEffect for enhancing user info
+  useEffect(() => {
+    const userInfoString = localStorage.getItem('user_info');
+    
+    if (userInfoString) {
+      try {
+        const userInfo = JSON.parse(userInfoString);
+        
+        // Add missing fields with default values
+        const enhancedUserInfo = {
+          ...userInfo,
+          derniere_connexion: userInfo.derniereConnexion || new Date().toISOString()
+        };
+        
+        setCurrentAdmin(enhancedUserInfo);
+      } catch (error) {
+        console.error("Error parsing user info:", error);
+      }
+    }
+  }, []);
+
   return (
     <div className={`app-layout ${darkMode ? 'dark' : 'light'}`}>
       {/* Sidebar */}
@@ -688,11 +760,11 @@ export default function AdminDashboard() {
             
             <div className="user-avatar">
               <img 
-                src={currentAdmin.image} 
+                src={currentAdmin?.image} 
                 alt="Admin" 
                 className="avatar-image"
                 onError={(e) => {
-                  e.target.src = "https://via.placeholder.com/40";
+                  e.target.src = "https://randomuser.me/api/portraits/men/1.jpg";
                   e.target.onerror = null;
                 }}
               />
@@ -716,7 +788,11 @@ export default function AdminDashboard() {
                 <div className="welcome-stats">
                   <div className="department-founded">
                     <Calendar size={16} />
-                    <span>Dernière connexion: {new Date(currentAdmin.derniere_connexion).toLocaleDateString()}</span>
+                    <span>
+                      Dernière connexion: {currentAdmin && currentAdmin.derniere_connexion 
+                        ? new Date(currentAdmin.derniere_connexion).toLocaleDateString() 
+                        : "Jamais connecté"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1113,7 +1189,7 @@ export default function AdminDashboard() {
                           alt={user.nom_utilisateur} 
                           className="professor-image" 
                           onError={(e) => {
-                            e.target.src = "https://via.placeholder.com/64";
+                            e.target.src = "https://randomuser.me/api/portraits/men/1.jpg";
                             e.target.onerror = null;
                           }}
                         />
