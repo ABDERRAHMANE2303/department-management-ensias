@@ -17,7 +17,12 @@ export default defineConfig({
         target: 'http://admin:9091',
         changeOrigin: true,
         secure: false,
-      }
+      },
+      '/api/auth': {
+        target: 'http://auth:9092',
+        changeOrigin: true,
+        secure: false,
+      },
     }
   }
 })

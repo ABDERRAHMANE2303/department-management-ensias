@@ -692,7 +692,7 @@ export default function AdminDashboard() {
                 alt="Admin" 
                 className="avatar-image"
                 onError={(e) => {
-                  e.target.src = "https://via.placeholder.com/40";
+                  e.target.src = "https://randomuser.me/api/portraits/men/1.jpg";
                   e.target.onerror = null;
                 }}
               />
@@ -1113,7 +1113,7 @@ export default function AdminDashboard() {
                           alt={user.nom_utilisateur} 
                           className="professor-image" 
                           onError={(e) => {
-                            e.target.src = "https://via.placeholder.com/64";
+                            e.target.src = "https://randomuser.me/api/portraits/men/1.jpg";
                             e.target.onerror = null;
                           }}
                         />
