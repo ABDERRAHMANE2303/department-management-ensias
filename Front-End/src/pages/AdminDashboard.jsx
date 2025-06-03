@@ -10,7 +10,7 @@ import {
   Building, ShieldCheck, Briefcase, UserCog
 } from 'lucide-react';
 
-const AdminDashboard = () => {
+export default function AdminDashboard() {
   // State management
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
@@ -19,6 +19,9 @@ const AdminDashboard = () => {
   });
   const [activeTab, setActiveTab] = useState('overview');
   
+  // Add this loading state at the component level
+  const [loading, setLoading] = useState(true);
+
   // Admin information
   const [currentAdmin, setCurrentAdmin] = useState({
     id: "admin-001",
@@ -30,105 +33,11 @@ const AdminDashboard = () => {
   });
 
   // Users data
-  const [users, setUsers] = useState([
-    {
-      id: "prof-123",
-      nom_utilisateur: "m.nassar",
-      email: "m.nassar@ensias.ma",
-      mot_de_passe_hash: "hashed_password",
-      role: "cd: chef departement",
-      professeur_id: "prof-123",
-      departement_id: "dept-gl-01",
-      isCoordinator: true,
-      isChefDep: true,
-      specialite: "Génie Logiciel",
-      titre: "Professeur de l'Enseignement Supérieur",
-      image: "/src/assets/prof-nassar.jpg",
-      phone: "+212 6 12 34 56 78",
-      derniere_connexion: "2023-05-28T15:30:00Z",
-      est_actif: true,
-      date_creation: "2020-09-01T10:00:00Z",
-      date_modification: "2023-01-15T09:45:00Z"
-    },
-    {
-      id: "prof-456",
-      nom_utilisateur: "s.afia",
-      email: "s.afia@ensias.ma",
-      mot_de_passe_hash: "hashed_password",
-      role: "cf: chef filiere",
-      professeur_id: "prof-456",
-      departement_id: "dept-gl-01",
-      isCoordinator: true,
-      isChefDep: false,
-      specialite: "Science des données",
-      titre: "Professeur Habilité",
-      image: "/src/assets/prof-afia.jpg",
-      phone: "+212 6 23 45 67 89",
-      derniere_connexion: "2023-05-27T11:20:00Z",
-      est_actif: true,
-      date_creation: "2020-09-01T10:15:00Z",
-      date_modification: "2023-01-15T09:50:00Z"
-    },
-    {
-      id: "prof-789",
-      nom_utilisateur: "a.professor",
-      email: "a.professor@ensias.ma", 
-      mot_de_passe_hash: "hashed_password",
-      role: "professeur",
-      professeur_id: "prof-789",
-      departement_id: "dept-gl-01",
-      isCoordinator: false,
-      isChefDep: false,
-      specialite: "Intelligence Artificielle",
-      titre: "Professeur Assistant",
-      image: "https://randomuser.me/api/portraits/men/42.jpg",
-      phone: "+212 6 34 56 78 90",
-      derniere_connexion: "2023-05-26T16:45:00Z",
-      est_actif: true,
-      date_creation: "2021-09-01T09:30:00Z",
-      date_modification: "2023-01-15T10:05:00Z"
-    }
-  ]);
-  
+  const [users, setUsers] = useState([]);
+
   // Departments data
-  const [departments, setDepartments] = useState([
-    {
-      id: "dept-gl-01",
-      name: "Génie Logiciel",
-      slug: "genie-logiciel",
-      chefId: "prof-123",
-      slogan: "Excellence • Innovation • Performance",
-      description: "Le département Génie Logiciel forme des ingénieurs spécialisés dans la conception, le développement et la maintenance de systèmes logiciels complexes.",
-      vision: "Former des experts du numérique capables de transformer les défis technologiques en opportunités d'innovation.",
-      yearsFounded: 2003,
-      graduatesCount: 520,
-      activeStudentsCount: 180,
-      PublicationsCount: 65,
-      views: 1240,
-      contactEmail: "departement.gl@ensias.ma",
-      contactPhone: "+212 5 37 68 71 50",
-      openDaysInfo: "Journées Portes Ouvertes : Mars 2024",
-      backgroundImage: "https://images.unsplash.com/photo-1498050108023-c5249f4df085"
-    },
-    {
-      id: "dept-ds-02",
-      name: "Science des Données",
-      slug: "science-donnees",
-      chefId: null, // No chef assigned yet
-      slogan: "Données • Intelligence • Décision",
-      description: "Le département Science des Données forme des spécialistes en analyse et traitement des grands volumes de données et intelligence artificielle.",
-      vision: "Devenir un leader dans la formation des experts en data science et intelligence artificielle au Maroc.",
-      yearsFounded: 2010,
-      graduatesCount: 310,
-      activeStudentsCount: 140,
-      PublicationsCount: 45,
-      views: 980,
-      contactEmail: "departement.ds@ensias.ma",
-      contactPhone: "+212 5 37 68 71 51",
-      openDaysInfo: "Journées Portes Ouvertes : Mars 2024",
-      backgroundImage: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0"
-    }
-  ]);
+  const [departments, setDepartments] = useState([]);
+  const [stats, setStats] = useState({});
 
   // Form states
   const [editingUser, setEditingUser] = useState(false);
@@ -140,6 +49,8 @@ const AdminDashboard = () => {
   // New records templates
   const [newUser, setNewUser] = useState({
     nom_utilisateur: "",
+    prenom: "",
+    nom: "",
     email: "",
     mot_de_passe: "",
     confirm_mot_de_passe: "",
@@ -150,6 +61,7 @@ const AdminDashboard = () => {
     specialite: "",
     titre: "",
     phone: "",
+    image: ""              // will hold the /uploads/xyz.jpg URL
   });
 
   const [newDepartment, setNewDepartment] = useState({
@@ -169,10 +81,14 @@ const AdminDashboard = () => {
   });
 
   // Stats
-  const totalUsers = users.length;
-  const totalDepartments = departments.length;
-  const activeProfessors = users.filter(user => user.est_actif && user.role.includes('professeur')).length;
-  const pendingAssignments = departments.filter(dept => !dept.chefId).length;
+  const totalUsers = Array.isArray(users) ? users.length : 0;
+  const totalDepartments = Array.isArray(departments) ? departments.length : 0;
+  const activeProfessors = Array.isArray(users)
+    ? users.filter(u => u.role === "prof").length  // Count users with exact prof role
+    : 0;
+  const pendingAssignments = Array.isArray(departments)
+    ? departments.filter(d => !d.chefId).length
+    : 0;
   
   // Effect to update dark mode
   useEffect(() => {
@@ -183,6 +99,66 @@ const AdminDashboard = () => {
     }
     localStorage.setItem('darkMode', String(darkMode));
   }, [darkMode]);
+
+  // Load data from API
+  useEffect(() => {
+    // Remove the line that creates [loading, setLoading]
+    
+    // load users, departments and stats
+    Promise.all([
+      fetch('/api/admin/users').then(r => r.json()),
+      fetch('/api/admin/departments').then(r => r.json()),
+      fetch('/api/admin/stats').then(r => r.json().catch(() => ({})))
+    ])
+      .then(([usersData, departmentsData, statsData]) => {
+        console.log("API response - users:", usersData);
+        console.log("API response - departments:", departmentsData);
+        
+        // Normalize user data - handle field name differences
+        const normalizeUser = (user) => {
+          return {
+            ...user,
+            // Handle both camelCase and snake_case field names
+            nom_utilisateur: user.nom_utilisateur || user.nomUtilisateur || '',
+            departement_id: user.departement_id || user.departementId || null,
+            is_chef_dep: user.is_chef_dep || user.chefDep || user.isChefDep || false
+          };
+        };
+        
+        const normalizedUsers = usersData.map(user => normalizeUser(user));
+        
+        // Normalize department data
+        const normalizedDepts = departmentsData.map(dept => ({
+          ...dept
+        }));
+
+        // Check for departments with chiefs not properly set
+        normalizedDepts.forEach(dept => {
+          if (!dept.chefId) {
+            // Try to find the chief from users
+            const deptChief = normalizedUsers.find(user => 
+              user.departement_id === dept.id && 
+              (user.role === 'cd' || user.is_chef_dep)
+            );
+            
+            if (deptChief) {
+              // Update the department with the chief
+              dept.chefId = deptChief.id;
+            }
+          }
+        });
+        
+        // Update state
+        setUsers(normalizedUsers);
+        setDepartments(normalizedDepts);
+        setStats(statsData || {});
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('API load error', err);
+        setLoading(false);
+      });
+  }, []);
 
   // Toggle functions
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
@@ -220,50 +196,181 @@ const AdminDashboard = () => {
     }
   };
 
+  // when the user picks a file, upload it immediately
+  const handleImageChange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const form = new FormData();
+    form.append("file", file);
+    fetch("/api/admin/upload", { method: "POST", body: form })
+      .then(r=>r.json())
+      .then(data => {
+        setNewUser(u=>({...u, image: data.path}));
+      })
+      .catch(console.error);
+  };
+
+  // Add this function near the top of your component
+  const checkEmailAvailability = async (email) => {
+    try {
+      // First check if any existing user in our state already has this email
+      const existingUser = users.find(u => u.email === email);
+      if (existingUser) {
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error("Error checking email availability:", error);
+      return false;
+    }
+  };
+
   // Save handlers
-  const saveUserChanges = () => {
-    if (selectedUser) {
-      // Update existing user
-      console.log("Updating user:", users.find(u => u.id === selectedUser.id));
-      // You would add API call here
-    } else {
-      // Create new user
-      if (newUser.mot_de_passe !== newUser.confirm_mot_de_passe) {
-        alert("Les mots de passe ne correspondent pas!");
+  const saveUserChanges = async () => {
+    if (!selectedUser) {
+      // Validate required fields
+      if (!newUser.nom_utilisateur || !newUser.email || !newUser.mot_de_passe) {
+        alert("Veuillez remplir tous les champs obligatoires");
         return;
       }
       
-      const newId = `user-${Date.now()}`;
-      const userToAdd = {
-        ...newUser,
-        id: newId,
-        professeur_id: newUser.role.includes("professeur") ? newId : null,
-        mot_de_passe_hash: "hashed_" + newUser.mot_de_passe, // In reality, you'd hash on the server
-        derniere_connexion: null,
-        est_actif: true,
-        date_creation: new Date().toISOString(),
-        date_modification: new Date().toISOString(),
-        image: "https://randomuser.me/api/portraits/" + (Math.random() > 0.5 ? "men" : "women") + 
-          "/" + Math.floor(Math.random() * 70 + 1) + ".jpg"
-      };
-      setUsers([...users, userToAdd]);
-      console.log("Added new user:", userToAdd);
+      // Check if passwords match
+      if (newUser.mot_de_passe !== newUser.confirm_mot_de_passe) {
+        alert("Les mots de passe ne correspondent pas");
+        return;
+      }
       
-      // Reset form
-      setNewUser({
-        nom_utilisateur: "",
-        email: "",
-        mot_de_passe: "",
-        confirm_mot_de_passe: "",
-        role: "professeur",
-        departement_id: "",
-        isCoordinator: false,
-        isChefDep: false,
-        specialite: "",
-        titre: "",
-        phone: "",
+      // Check if email is already taken
+      const isEmailAvailable = await checkEmailAvailability(newUser.email);
+      if (!isEmailAvailable) {
+        alert("Cette adresse email est déjà utilisée par un autre utilisateur. Veuillez en choisir une autre.");
+        return;
+      }
+      
+      // Creating new user - build proper JSON payload
+      console.log("Sending new user:", newUser); // debug
+      
+      const payload = {
+        nom_utilisateur: newUser.nom_utilisateur,
+        prenom: newUser.prenom,
+        nom: newUser.nom,
+        email: newUser.email,
+        mot_de_passe: newUser.mot_de_passe,
+        // If isChefDep is true, force role to "cd" (simplified)
+        role: newUser.isChefDep ? "cd" : (newUser.role || "prof"),
+        departement_id: newUser.departement_id || null,
+        // Use est_chef_dep or chefDep property name to match your backend entity
+        chefDep: Boolean(newUser.isChefDep),
+        // Only allow isChefDep if department is selected
+        isCoordinator: Boolean(newUser.isCoordinator),
+        specialite: newUser.specialite || "",
+        titre: newUser.titre || "",
+        phone: newUser.phone || "",
+        image: newUser.image || ""
+      };
+      
+      // Validation check - can't be department chief without a department
+      if (newUser.isChefDep && !newUser.departement_id) {
+        alert("Un chef de département doit être assigné à un département.");
+        return;
+      }
+      
+      fetch("/api/admin/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.text().then(text => {
+            console.error("Error response:", text);
+            throw new Error(`Server returned ${response.status}: ${text}`);
+          });
+        }
+        return response.json();
+      })
+      .then(savedUser => {
+        console.log("User saved:", savedUser);
+        setUsers(prev => [...prev, savedUser]);
+        // Reset form
+        setNewUser({
+          nom_utilisateur: "",
+          prenom: "",
+          nom: "",
+          email: "",
+          mot_de_passe: "",
+          confirm_mot_de_passe: "",
+          role: "prof",
+          departement_id: "",
+          isCoordinator: false,
+          isChefDep: false,
+          specialite: "",
+          titre: "",
+          phone: "",
+          image: ""
+        });
+      })
+      .catch(error => {
+        console.error("Failed to save user:", error);
+        
+        // Extract meaningful error message from database errors
+        if (error.message && error.message.includes("duplicate key value")) {
+          // Extract the field from the error message
+          if (error.message.includes("(email)=")) {
+            alert("Cette adresse email est déjà utilisée. Veuillez en choisir une autre.");
+          } else if (error.message.includes("(nom_utilisateur)=")) {
+            alert("Ce nom d'utilisateur est déjà pris. Veuillez en choisir un autre.");
+          } else {
+            alert("Une erreur est survenue: valeur dupliquée dans la base de données");
+          }
+        } else {
+          alert("Erreur lors de l'enregistrement. Veuillez réessayer.");
+        }
       });
+    } else {
+      // Update existing user
+      const user = users.find(u => u.id === selectedUser.id);
+      
+      const payload = {
+        id: user.id,
+        nom_utilisateur: user.nom_utilisateur,
+        prenom: user.prenom,
+        nom: user.nom,
+        email: user.email,
+        role: user.role,
+        departement_id: user.departement_id || null,
+        isChefDep: Boolean(user.isChefDep),
+        isCoordinator: Boolean(user.isCoordinator),
+        specialite: user.specialite || "",
+        titre: user.titre || "",
+        phone: user.phone || "",
+        image: user.image || "",
+        est_actif: user.est_actif
+      };
+      
+      fetch(`/api/admin/users/${user.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.text().then(text => {
+            console.error("Error updating user:", text);
+            throw new Error(`Server returned ${response.status}: ${text}`);
+          });
+        }
+        return response.json();
+      })
+      .then(updatedUser => {
+        console.log("User updated:", updatedUser);
+        // No need to update state since it's already updated via handleUserChange
+      })
+      .catch(error => console.error("Failed to update user:", error));
     }
+    
     setEditingUser(false);
     setSelectedUser(null);
   };
@@ -271,39 +378,55 @@ const AdminDashboard = () => {
   const saveDepartmentChanges = () => {
     if (selectedDepartment) {
       // Update existing department
-      console.log("Updating department:", departments.find(d => d.id === selectedDepartment.id));
-      // You would add API call here
+      const dept = departments.find(d => d.id === selectedDepartment.id);
+      
+      fetch(`/api/admin/departments/${dept.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dept)
+      })
+      .then(r => {
+        if (!r.ok) return r.text().then(text => { throw new Error(text); });
+        return r.json();
+      })
+      .then(updatedDept => {
+        console.log("Department updated:", updatedDept);
+        // State already updated via handleDepartmentChange
+      })
+      .catch(err => console.error('Update department failed', err));
     } else {
       // Create new department
-      const newId = `dept-${Date.now()}`;
-      const slug = newDepartment.slug || newDepartment.name.toLowerCase().replace(/\s+/g, '-');
-      
-      const departmentToAdd = {
-        ...newDepartment,
-        id: newId,
-        slug: slug,
-        chefId: null,
-        views: 0
-      };
-      setDepartments([...departments, departmentToAdd]);
-      console.log("Added new department:", departmentToAdd);
-      
-      // Reset form
-      setNewDepartment({
-        name: "",
-        slug: "",
-        slogan: "",
-        description: "",
-        vision: "",
-        yearsFounded: new Date().getFullYear(),
-        graduatesCount: 0,
-        activeStudentsCount: 0,
-        PublicationsCount: 0,
-        contactEmail: "",
-        contactPhone: "",
-        openDaysInfo: "",
-        backgroundImage: ""
-      });
+      fetch('/api/admin/departments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newDepartment)
+      })
+      .then( r => {
+        if (!r.ok) return r.text().then(text => { throw new Error(text); });
+        return r.json();
+      })
+      .then(createdDept => {
+        console.log("Department created:", createdDept);
+        setDepartments([...departments, createdDept]);
+        
+        // Reset form
+        setNewDepartment({
+          name: "",
+          slug: "",
+          slogan: "",
+          description: "",
+          vision: "",
+          yearsFounded: new Date().getFullYear(),
+          graduatesCount: 0,
+          activeStudentsCount: 0,
+          PublicationsCount: 0,
+          contactEmail: "",
+          contactPhone: "",
+          openDaysInfo: "",
+          backgroundImage: ""
+        });
+      })
+      .catch(err => console.error('Create department failed', err));
     }
     setEditingDepartment(false);
     setSelectedDepartment(null);
@@ -311,77 +434,183 @@ const AdminDashboard = () => {
 
   // Assign chef to department
   const assignChefToDepartment = (userId, departmentId) => {
-    // First, remove this user from being chef of any other department
-    const updatedDepartments = departments.map(dept => 
-      dept.id !== departmentId && dept.chefId === userId
-        ? { ...dept, chefId: null } 
-        : dept.id === departmentId
-          ? { ...dept, chefId: userId }
-          : dept
-    );
+    if (!userId || userId === "") {
+      return; // No user selected
+    }
     
-    // Update user to be chef of this department
-    const updatedUsers = users.map(user => {
-      if (user.id === userId) {
-        return {
-          ...user,
-          departement_id: departmentId,
-          isChefDep: true,
-          role: user.role === "professeur" ? "cd: chef departement" : user.role
-        };
-      } else if (user.departement_id === departmentId && user.isChefDep) {
-        // Remove chef status from any other user in this department
-        return {
-          ...user,
-          isChefDep: false,
-          role: "professeur"
-        };
-      }
-      return user;
-    });
-    
-    setDepartments(updatedDepartments);
-    setUsers(updatedUsers);
-    alert(`Chef de département assigné avec succès!`);
+    fetch(`/api/admin/users/${userId}/assignChef/${departmentId}`, { 
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(r => {
+        if (!r.ok) return r.text().then(text => { throw new Error(text); });
+        return r.json();
+      })
+      .then(updatedUser => {
+        console.log("Chief assignment successful:", updatedUser);
+        refreshAllData(); // Use the dedicated refresh function
+        
+        // Show confirmation after state update
+        setTimeout(() => {
+          const chief = users.find(u => u.id === userId);
+          if (chief) {
+            alert(`${formatUserName(chief)} a été désigné comme chef du département.`);
+          }
+        }, 500);
+      })
+      .catch(error => {
+        console.error("Failed to assign chief:", error);
+        alert(`Erreur lors de l'assignation: ${error.message}`);
+      });
   };
 
   // Assign user to department
   const assignUserToDepartment = (userId, departmentId) => {
-    setUsers(users.map(user =>
-      user.id === userId
-        ? { ...user, departement_id: departmentId }
-        : user
-    ));
-    alert(`Utilisateur assigné au département avec succès!`);
+    if (!userId) return;
+    
+    // For unassigning (empty departmentId), we need a different URL format
+    const url = departmentId 
+      ? `/api/admin/users/${userId}/assign/${departmentId}`
+      : `/api/admin/users/${userId}/assign/none`; // Use "none" instead of empty string
+    
+    fetch(url, { 
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(r => {
+        if (!r.ok) return r.text().then(text => { throw new Error(text); });
+        return r.json();
+      })
+      .then(updatedUser => {
+        console.log("User assigned successfully:", updatedUser);
+        refreshAllData(); // Use the dedicated refresh function
+        
+        // Show confirmation after state update
+        setTimeout(() => {
+          const user = users.find(u => u.id === userId);
+          const dept = departmentId ? departments.find(d => d.id === departmentId) : null;
+          
+          if (user) {
+            if (departmentId && dept) {
+              alert(`${formatUserName(user)} a été assigné au département ${dept.name}.`);
+            } else {
+              alert(`${formatUserName(user)} a été retiré de son département.`);
+            }
+          }
+        }, 500);
+      })
+      .catch(error => {
+        console.error("Failed to assign user:", error);
+        alert(`Erreur lors de l'assignation: ${error.message}`);
+      });
   };
 
   // Delete handlers
   const deleteUser = (userId) => {
     if (window.confirm(`Êtes-vous sûr de vouloir supprimer cet utilisateur ?`)) {
-      // Check if user is a chef
-      const userToDelete = users.find(u => u.id === userId);
-      if (userToDelete && userToDelete.isChefDep) {
-        // Update department to remove chef
-        setDepartments(departments.map(dept =>
-          dept.chefId === userId ? { ...dept, chefId: null } : dept
-        ));
-      }
-      
-      setUsers(users.filter(u => u.id !== userId));
+      fetch(`/api/admin/users/${userId}`, { method: 'DELETE' })
+        .then(response => {
+          if (!response.ok) {
+            return response.text().then(text => {
+              throw new Error(`Server returned ${response.status}: ${text}`);
+            });
+          }
+          // Success - remove from local state
+          const userToDelete = users.find(u => u.id === userId);
+          if (userToDelete && userToDelete.isChefDep) {
+            // Update department to remove chef
+            setDepartments(departments.map(dept =>
+              dept.chefId === userId ? { ...dept, chefId: null } : dept
+            ));
+          }
+          setUsers(users.filter(u => u.id !== userId));
+        })
+        .catch(error => console.error("Failed to delete user:", error));
     }
   };
 
   const deleteDepartment = (departmentId) => {
     if (window.confirm(`Êtes-vous sûr de vouloir supprimer ce département ?`)) {
-      // Update users to remove department association
-      setUsers(users.map(user =>
-        user.departement_id === departmentId
-          ? { ...user, departement_id: null, isChefDep: false }
-          : user
-      ));
-      
-      setDepartments(departments.filter(d => d.id !== departmentId));
+      fetch(`/api/admin/departments/${departmentId}`, { method: 'DELETE' })
+        .then(response => {
+          if (!response.ok) {
+            return response.text().then(text => {
+              throw new Error(`Server returned ${response.status}: ${text}`);
+            });
+          }
+          // Success - update local state
+          // Update users to remove department association
+          setUsers(users.map(user =>
+            user.departement_id === departmentId
+              ? { ...user, departement_id: null, isChefDep: false }
+              : user
+          ));
+          setDepartments(departments.filter(d => d.id !== departmentId));
+        })
+        .catch(error => console.error("Failed to delete department:", error));
     }
+  };
+
+  // 1. Create a helper function for displaying user names consistently
+  const formatUserName = (user) => {
+    if (user.prenom && user.nom) {
+      return `${user.prenom} ${user.nom}`;
+    } else {
+      return user.nom_utilisateur;
+    }
+  };
+
+  // Add this function near the top of your component
+  const refreshAllData = () => {
+    setLoading(true);
+    
+    Promise.all([
+      fetch('/api/admin/users').then(r => r.json()),
+      fetch('/api/admin/departments').then(r => r.json()),
+    ]
+    )
+      .then(([usersData, departmentsData]) => {
+        console.log("Refreshed data - users:", usersData);
+        console.log("Refreshed data - departments:", departmentsData);
+        
+        // Normalize user data
+        const normalizeUser = (user) => {
+          return {
+            ...user,
+            // Handle both camelCase and snake_case field names
+            nom_utilisateur: user.nom_utilisateur || user.nomUtilisateur || '',
+            departement_id: user.departement_id || user.departementId || null,
+            is_chef_dep: user.is_chef_dep || user.chefDep || user.isChefDep || false
+          };
+        };
+        
+        const normalizedUsers = usersData.map(user => normalizeUser(user));
+        
+        // Link departments and chiefs
+        const normalizedDepts = departmentsData.map(dept => {
+          if (!dept.chefId) {
+            // Find chief by role and department_id match
+            const deptChief = normalizedUsers.find(user => 
+              user.departement_id === dept.id && 
+              (user.role === 'cd' || user.is_chef_dep)
+            );
+            
+            if (deptChief) {
+              return { ...dept, chefId: deptChief.id };
+            }
+          }
+          return dept;
+        });
+        
+        // Update state
+        setUsers(normalizedUsers);
+        setDepartments(normalizedDepts);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Refresh data error:', err);
+        setLoading(false);
+      });
   };
 
   return (
@@ -706,9 +935,9 @@ const AdminDashboard = () => {
                         }
                         onChange={handleUserChange}
                       >
-                        <option value="professeur">Professeur</option>
-                        <option value="cf: chef filiere">Chef de filière</option>
-                        <option value="cd: chef departement">Chef de département</option>
+                        <option value="prof">Professeur</option>
+                        <option value="cf">Chef de filière</option>
+                        <option value="cd">Chef de département</option>
                         <option value="admin">Administrateur</option>
                       </select>
                     </div>
@@ -817,6 +1046,44 @@ const AdminDashboard = () => {
                     </div>
                   )}
                   
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Prénom</label>
+                      <input
+                        type="text"
+                        name="prenom"
+                        value={ selectedUser
+                                 ? users.find(u=>u.id===selectedUser.id).prenom
+                                 : newUser.prenom }
+                        onChange={handleUserChange}
+                        placeholder="Prénom"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Nom</label>
+                      <input
+                        type="text"
+                        name="nom"
+                        value={ selectedUser
+                                 ? users.find(u=>u.id===selectedUser.id).nom
+                                 : newUser.nom }
+                        onChange={handleUserChange}
+                        placeholder="Nom"
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label>Photo de profil</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                    />
+                    {newUser.image && (
+                      <img src={newUser.image} width={64} style={{marginTop:8}} />
+                    )}
+                  </div>
+                  
                   <div className="form-actions">
                     <button 
                       className="action-button secondary"
@@ -898,12 +1165,12 @@ const AdminDashboard = () => {
                           <Award size={16} className="detail-icon" />
                           <span className={`role-badge ${
                             user.role === "admin" ? 'admin' :
-                            user.isChefDep ? 'chef-dep' : 
-                            user.role === "cf: chef filiere" ? 'coordinator' : 'professor'
+                            user.role === "cd" ? 'chef-dep' : 
+                            user.role === "cf" ? 'coordinator' : 'professor'
                           }`}>
                             {user.role === "admin" ? 'Administrateur' :
-                             user.isChefDep ? 'Chef de Département' : 
-                             user.role === "cf: chef filiere" ? 'Chef de Filière' : 'Professeur'}
+                             user.role === "cd" ? 'Chef de Département' : 
+                             user.role === "cf" ? 'Chef de Filière' : 'Professeur'}
                           </span>
                         </div>
                         
@@ -1193,7 +1460,13 @@ const AdminDashboard = () => {
                           <span className="property-label">Chef:</span>
                           <span className="property-value">
                             {department.chefId ? 
-                              users.find(u => u.id === department.chefId)?.nom_utilisateur || "Non assigné" : 
+                              (() => {
+                                const chief = users.find(u => u.id === department.chefId);
+                                if (chief) {
+                                  return `${chief.prenom || ''} ${chief.nom || ''} (${chief.nom_utilisateur})`;
+                                } 
+                                return "ID Chief trouvé mais utilisateur non trouvé";
+                              })() : 
                               <span className="text-amber-500">Non assigné</span>}
                           </span>
                         </div>
@@ -1265,10 +1538,10 @@ const AdminDashboard = () => {
                             >
                               <option value="">Sélectionner un chef</option>
                               {users
-                                .filter(user => user.role.includes('professeur'))
+                                .filter(user => user.departement_id === department.id || !user.departement_id)
                                 .map(user => (
                                   <option key={user.id} value={user.id}>
-                                    {user.nom_utilisateur} - {user.specialite || user.titre}
+                                    {formatUserName(user)} - {user.specialite || user.titre || ""}
                                   </option>
                                 ))
                               }
@@ -1291,7 +1564,8 @@ const AdminDashboard = () => {
                         <option value="">Choisir un utilisateur</option>
                         {users.map(user => (
                           <option key={user.id} value={user.id}>
-                            {user.nom_utilisateur} - {user.role}
+                            {formatUserName(user)} - {user.role === "cd" ? "Chef de département" : 
+                             user.role === "cf" ? "Chef de filière" : "Professeur"}
                           </option>
                         ))}
                       </select>
@@ -1339,13 +1613,13 @@ const AdminDashboard = () => {
                         .map(user => (
                           <div key={user.id} className="assignment-item">
                             <div className="assignment-user">
-                              <span className="user-name">{user.nom_utilisateur}</span>
+                              <span className="user-name">{formatUserName(user)}</span>
                               <span className={`role-badge mini ${
-                                user.isChefDep ? 'chef-dep' : 
-                                user.role === "cf: chef filiere" ? 'coordinator' : 'professor'
+                                user.role === "cd" ? 'chef-dep' : 
+                                user.role === "cf" ? 'coordinator' : 'professor'
                               }`}>
-                                {user.isChefDep ? 'Chef' : 
-                                 user.role === "cf: chef filiere" ? 'CF' : 'Prof'}
+                                {user.role === "cd" ? 'Chef' : 
+                                 user.role === "cf" ? 'CF' : 'Prof'}
                               </span>
                             </div>
                             <div className="assignment-department">
@@ -1372,5 +1646,3 @@ const AdminDashboard = () => {
     </div>
   );
 };
-
-export default AdminDashboard;

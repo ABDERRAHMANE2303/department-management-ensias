@@ -20,6 +20,7 @@ public class Departement {
     private String id;
 
     private String name;
+    @Column(name = "chef_id")
     private String chefId;
     private String slogan;
     private String slug;
