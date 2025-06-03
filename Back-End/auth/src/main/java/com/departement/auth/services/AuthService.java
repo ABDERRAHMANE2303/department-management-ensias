@@ -81,6 +81,7 @@ public class AuthService {
             userDTO.setTitre(user.getTitre());
             userDTO.setPhone(user.getPhone());
             userDTO.setImage(user.getImage());
+            userDTO.setDerniereConnexion(user.getDerniereConnexion());
 
             // Create response with token and user DTO
             LoginResponse response = new LoginResponse();

@@ -3,6 +3,7 @@ package com.departement.auth.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -23,4 +24,5 @@ public class UserDTO {
     private String titre;
     private String phone;
     private String image;
+    private LocalDateTime derniereConnexion;
 }
