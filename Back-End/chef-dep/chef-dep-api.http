@@ -1,0 +1,141 @@
+@baseUrl = http://localhost:9093
+@departementId = 113294b1-53b2-4b70-a06d-8beef13ac47d
+@formationId = e0fb55b7-a6b0-4c16-b12f-a741215b9c21
+@professeurId = a765376b-c996-4247-b10f-0d7c77464447
+@moduleId = module-101
+@semesterId = sem-101
+@chefId = 113294b1-53b2-4b70-a06d-8beef13ac47d
+
+###
+# Get departement by chef ID
+GET {{baseUrl}}/api/cd/departements/by-chef/{{chefId}}
+Accept: application/json
+
+###
+# Get departement by ID
+GET {{baseUrl}}/api/cd/departements/{{departementId}}
+Accept: application/json
+
+###
+# Update departement
+PUT {{baseUrl}}/api/cd/departements/{{departementId}}
+Content-Type: application/json
+
+{
+  "name": "Génie Logiciel",
+  "slogan": "Excellence • Innovation • Performance",
+  "description": "Le département Génie Logiciel forme des ingénieurs spécialisés dans la conception, le développement et la maintenance de systèmes logiciels complexes.",
+  "vision": "Former des experts du numérique capables de transformer les défis technologiques en opportunités d'innovation.",
+  "contactEmail": "departement.gl@ensias.ma",
+  "contactPhone": "+212 5 37 68 71 50",
+  "openDaysInfo": "Journées Portes Ouvertes : Mars 2024",
+  "backgroundImage": "https://example.com/bg-image.jpg"
+}
+
+###
+# Increment departement views
+POST {{baseUrl}}/api/cd/departements/{{departementId}}/increment-views
+Content-Type: application/json
+
+###
+# Get formations by departement ID
+GET {{baseUrl}}/api/cd/formations/departement/{{departementId}}
+Accept: application/json
+
+###
+# Get formation by ID
+GET {{baseUrl}}/api/cd/formations/{{formationId}}
+Accept: application/json
+
+###
+# Create new formation
+POST {{baseUrl}}/api/cd/formations
+Content-Type: application/json
+
+{
+  "departmentId": "{{departementId}}",
+  "name": "Ingénierie des Systèmes d'Information",
+  "shortName": "ISI",
+  "slug": "ingenierie-systemes-information",
+  "description": "Formation en ingénierie des systèmes d'information et bases de données."
+}
+
+###
+# Update formation
+PUT {{baseUrl}}/api/cd/formations/{{formationId}}
+Content-Type: application/json
+
+{
+  "name": "Ingénierie des Systèmes d'Information",
+  "shortName": "ISI",
+  "slug": "ingenierie-systemes-information",
+  "description": "Formation actualisée en ingénierie des systèmes d'information et bases de données."
+}
+
+###
+# Delete formation
+DELETE {{baseUrl}}/api/cd/formations/{{formationId}}
+
+###
+# Get professeurs by departement ID
+GET {{baseUrl}}/api/cd/professeurs/departement/{{departementId}}
+Accept: application/json
+
+###
+# Get professeur by ID
+GET {{baseUrl}}/api/cd/professeurs/{{professeurId}}
+Accept: application/json
+
+###
+# Update professeur
+PUT {{baseUrl}}/api/cd/professeurs/{{professeurId}}
+Content-Type: application/json
+
+{
+  "nom": "Dupont",
+  "prenom": "Jean",
+  "nomUtilisateur": "jean.dupont",
+  "specialite": "Intelligence Artificielle",
+  "titre": "Professeur",
+  "phone": "+212612345678",
+  "image": "https://example.com/profile.jpg"
+}
+
+###
+# Assign professeur as coordinator
+PUT {{baseUrl}}/api/cd/professeurs/{{professeurId}}/assign/{{formationId}}
+Content-Type: application/json
+
+###
+# Get modules by professeur ID
+GET {{baseUrl}}/api/cd/modules/professeur/{{professeurId}}
+Accept: application/json
+
+###
+# Get modules by formation ID
+GET {{baseUrl}}/api/cd/modules/formation/{{formationId}}
+Accept: application/json
+
+###
+# Get modules by formation and semester
+GET {{baseUrl}}/api/cd/modules/formation/{{formationId}}/semester/{{semesterId}}
+Accept: application/json
+
+###
+# Get module by ID
+GET {{baseUrl}}/api/cd/modules/{{moduleId}}
+Accept: application/json
+
+###
+# Update module
+PUT {{baseUrl}}/api/cd/modules/{{moduleId}}
+Content-Type: application/json
+
+{
+  "name": "Programmation Avancée",
+  "description": "Cours de programmation avancée en Java et Spring Boot",
+  "professeurId": "{{professeurId}}",
+  "creditHours": 40,
+  "syllabus": "https://example.com/syllabus.pdf",
+  "orderIndex": 2
+}

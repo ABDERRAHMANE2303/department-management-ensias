@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping
 @EntityScan(basePackages = { "com.departement.commonmodels.entities", "com.departement.chefdep.entities" })
-@EnableJpaRepositories(basePackages = { "com.departement.chefdep.repositories" })
+@EnableJpaRepositories(basePackages = { "com.departement.chefdep.repository" })
 public class ChefDepApplication {
     @GetMapping("/chefdep")
     public String chefdep() {
