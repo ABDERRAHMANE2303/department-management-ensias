@@ -23,6 +23,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/api/cd': {
+        target: 'http://chef-dep:9093', // Adjust port as needed
+        changeOrigin: true,
+        secure: false,
+      }
     }
   }
 })
