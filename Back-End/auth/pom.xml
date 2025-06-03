@@ -82,11 +82,29 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-<dependency>
-    <groupId>com.departement</groupId>
-    <artifactId>common-models</artifactId>
-    <version>0.0.1-SNAPSHOT</version> <!-- Use explicit version -->
-</dependency>
+		<dependency>
+			<groupId>com.departement</groupId>
+			<artifactId>common-models</artifactId>
+			<version>0.0.1-SNAPSHOT</version> <!-- Use explicit version -->
+		</dependency>
+		<!-- JWT Dependencies -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.12.6</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.12.6</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.12.6</version>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
