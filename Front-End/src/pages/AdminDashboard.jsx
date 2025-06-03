@@ -30,65 +30,151 @@ const AdminDashboard = () => {
   });
 
   // Users data
-  const [users, setUsers] = useState([
-    {
-      id: "prof-123",
-      nom_utilisateur: "m.nassar",
-      email: "m.nassar@ensias.ma",
-      mot_de_passe_hash: "hashed_password",
-      role: "cd: chef departement",
-      professeur_id: "prof-123",
-      departement_id: "dept-gl-01",
-      isCoordinator: true,
-      isChefDep: true,
-      specialite: "Génie Logiciel",
-      titre: "Professeur de l'Enseignement Supérieur",
-      image: "/src/assets/prof-nassar.jpg",
-      phone: "+212 6 12 34 56 78",
-      derniere_connexion: "2023-05-28T15:30:00Z",
-      est_actif: true,
-      date_creation: "2020-09-01T10:00:00Z",
-      date_modification: "2023-01-15T09:45:00Z"
-    },
-    {
-      id: "prof-456",
-      nom_utilisateur: "s.afia",
-      email: "s.afia@ensias.ma",
-      mot_de_passe_hash: "hashed_password",
-      role: "cf: chef filiere",
-      professeur_id: "prof-456",
-      departement_id: "dept-gl-01",
-      isCoordinator: true,
-      isChefDep: false,
-      specialite: "Science des données",
-      titre: "Professeur Habilité",
-      image: "/src/assets/prof-afia.jpg",
-      phone: "+212 6 23 45 67 89",
-      derniere_connexion: "2023-05-27T11:20:00Z",
-      est_actif: true,
-      date_creation: "2020-09-01T10:15:00Z",
-      date_modification: "2023-01-15T09:50:00Z"
-    },
-    {
-      id: "prof-789",
-      nom_utilisateur: "a.professor",
-      email: "a.professor@ensias.ma", 
-      mot_de_passe_hash: "hashed_password",
-      role: "professeur",
-      professeur_id: "prof-789",
-      departement_id: "dept-gl-01",
-      isCoordinator: false,
-      isChefDep: false,
-      specialite: "Intelligence Artificielle",
-      titre: "Professeur Assistant",
-      image: "https://randomuser.me/api/portraits/men/42.jpg",
-      phone: "+212 6 34 56 78 90",
-      derniere_connexion: "2023-05-26T16:45:00Z",
-      est_actif: true,
-      date_creation: "2021-09-01T09:30:00Z",
-      date_modification: "2023-01-15T10:05:00Z"
-    }
-  ]);
+  const [users, setUsers] =useState([
+      {
+        id: "prof-123",
+        nom_utilisateur: "mahmoud nassar",
+        email: "mahmoud.nassar@um5.ac.ma",
+        role: "cd: chef departement",
+        departement_id: "dept-gl-01",
+        isCoordinator: false,
+        isChefDep: true,
+        specialite: "Architecture Orientée Service (SOA), Bases de données réparties",
+        titre: "Professeur de l'Enseignement Supérieur",
+        image: "/src/assets/prof-nassar.jpg",
+        phone: "+212 6 12 34 56 78"
+      },
+      {
+        id: "prof-456",
+        nom_utilisateur: "hatime guermah",
+        email: "hatim.guermah@um5.ac.ma",
+        role: "cf: chef filiere",
+        departement_id: "dept-gl-01",
+        isCoordinator: true,
+        isChefDep: false,
+        specialite: "Génie Logiciel",
+        titre: "Professeur de l'Enseignement Supérieur",
+        image: "/src/assets/prof-guermah.jpg",
+        phone: "+212 6 23 45 67 89"
+      },
+      {
+        id: "prof-789",
+        nom_utilisateur: "mouna abik",
+        email: "m.abik@ensias.ma", 
+        role: "professeur",
+        departement_id: "dept-gl-01",
+        isCoordinator: false,
+        isChefDep: false,
+        specialite: "Génie Logiciel, Systèmes d'Information",
+        titre: "Professeure",
+        image: "/src/assets/abik.png",
+        phone: "+212 6 34 56 78 90"
+      },
+      {
+        id: "prof-101",
+        nom_utilisateur: "Ahmed ettalbi",
+        email: "a.ettalbi@ensias.ma", 
+        role: "professeur",
+        departement_id: "dept-gl-01",
+        isCoordinator: false,
+        isChefDep: false,
+        specialite: "Génie Logiciel, Architecture Logicielle",
+        titre: "Professeur",
+        image: "/src/assets/prof-ettalbi.png",
+        phone: "+212 6 45 67 89 01"
+      },
+      {
+        id: "prof-102",
+        nom_utilisateur: "Mahmoud elhamlaoui",
+        email: "m.elhamloui@ensias.ma",
+        role: "professeur",
+        departement_id: "dept-gl-01",
+        isCoordinator: false,
+        isChefDep: false,
+        specialite: "Génie Logiciel, Architecture Logicielle",
+        titre: "Professeur",
+        image: "/src/assets/ham.png",
+        phone: "+212 6 34 56 78 92"
+      },
+      {
+        id: "prof-103",
+        nom_utilisateur: "sanaa elfkihi",
+        email: "sanaa.elfkihi@um5.ac.ma",
+        role: "cf: chef filiere",
+        departement_id: "dept-gl-01",
+        isCoordinator: true,
+        isChefDep: false,
+        specialite: "Science des données",
+        titre: "Professeur",
+        image: "/src/assets/prof-elfkihi.png",
+        phone: "+212 6 34 56 78 93"
+      },
+      {
+        id: "prof-104",
+        nom_utilisateur: "Bouchra Berrada",
+        email: "bouchra.berrada@ensias.ma",
+        role: "professeur",
+        departement_id: "dept-gl-01",
+        isCoordinator: false,
+        isChefDep: false,
+        specialite: "Génie Logiciel, Architecture Logicielle",
+        titre: "Professeur",
+        image: "/src/assets/prof-berrada.png",
+        phone: "+212 6 34 56 78 94"
+      },
+      {
+        id: "prof-105",
+        nom_utilisateur: "Salah baina",
+        email: "s.baina@ensias.ma",
+        role: "professeur",
+        departement_id: "dept-gl-01",
+        isCoordinator: false,
+        isChefDep: false,
+        specialite: "Génie Logiciel, Architecture Logicielle",
+        titre: "Professeur",
+        image: "/src/assets/prof-salah-baina.png",
+        phone: "+212 5 37 68 71 52"
+      },
+      {
+        id: "prof-106",
+        nom_utilisateur: "Bouchaib Bounabat",
+        email: "b.bounabat@ensias.ma",
+        role: "professeur",
+        departement_id: "dept-gl-01",
+        isCoordinator: false,
+        isChefDep: false,
+        specialite: "Systèmes d'Information, Génie Logiciel",
+        titre: "Directeur de l'ensias",
+        image: "/src/assets/bounab.png",
+        phone: "+212 5 37 68 71 53"
+      },
+      {
+        id: "prof-107",
+        nom_utilisateur: "Rachid ouladhajthami",
+        email: "r.ouladhajthami@ensias.ma",
+        role: "professeur",
+        departement_id: "dept-gl-01",
+        isCoordinator: false,
+        isChefDep: false,
+        specialite: "Doctorat d'État en Informatique",
+        titre: "Professeur de l'Enseignement Supérieur",
+        image: "/src/assets/haj.png",
+        phone: "+212 5 37 68 71 54"
+      },
+      {
+        id: "prof-108",
+        nom_utilisateur: "Youness tabii",
+        email: "y.tabii@ensias.ma",
+        role: "professeur",
+        departement_id: "dept-gl-01",
+        isCoordinator: false,
+        isChefDep: false,
+        specialite: "Informatique",
+        titre: "Professeur d'Enseignement Supérieur",
+        image: "/src/assets/ytabii.png",
+        phone: "+212 5 37 68 71 55"
+      }
+    ]);
   
   // Departments data
   const [departments, setDepartments] = useState([
@@ -110,24 +196,24 @@ const AdminDashboard = () => {
       openDaysInfo: "Journées Portes Ouvertes : Mars 2024",
       backgroundImage: "https://images.unsplash.com/photo-1498050108023-c5249f4df085"
     },
-    {
-      id: "dept-ds-02",
-      name: "Science des Données",
-      slug: "science-donnees",
-      chefId: null, // No chef assigned yet
-      slogan: "Données • Intelligence • Décision",
-      description: "Le département Science des Données forme des spécialistes en analyse et traitement des grands volumes de données et intelligence artificielle.",
-      vision: "Devenir un leader dans la formation des experts en data science et intelligence artificielle au Maroc.",
-      yearsFounded: 2010,
-      graduatesCount: 310,
-      activeStudentsCount: 140,
-      PublicationsCount: 45,
-      views: 980,
-      contactEmail: "departement.ds@ensias.ma",
-      contactPhone: "+212 5 37 68 71 51",
-      openDaysInfo: "Journées Portes Ouvertes : Mars 2024",
-      backgroundImage: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0"
-    }
+    // {
+    //   id: "dept-ds-02",
+    //   name: "Science des Données",
+    //   slug: "science-donnees",
+    //   chefId: null, // No chef assigned yet
+    //   slogan: "Données • Intelligence • Décision",
+    //   description: "Le département Science des Données forme des spécialistes en analyse et traitement des grands volumes de données et intelligence artificielle.",
+    //   vision: "Devenir un leader dans la formation des experts en data science et intelligence artificielle au Maroc.",
+    //   yearsFounded: 2010,
+    //   graduatesCount: 310,
+    //   activeStudentsCount: 140,
+    //   PublicationsCount: 45,
+    //   views: 980,
+    //   contactEmail: "departement.ds@ensias.ma",
+    //   contactPhone: "+212 5 37 68 71 51",
+    //   openDaysInfo: "Journées Portes Ouvertes : Mars 2024",
+    //   backgroundImage: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0"
+    // }
   ]);
 
   // Form states

@@ -17,39 +17,29 @@ const professeurs = [
     image: "/src/assets/prof-nassar.jpg"
   },
   {
-    nom: "Prof. Karim BAINA",
-    titre: "Professeur",
-    specialite: "Génie Logiciel, Systèmes d'Information",
-    email: "k.baina@ensias.ma"
-    // image sera fournie localement
-  },
-  {
     nom: "Pr. ABIK Mounia",
     titre: "Professeure",
     specialite: "Génie Logiciel, Systèmes d'Information",
-    email: "m.abik@ensias.ma"
+    email: "m.abik@ensias.ma",
+    image: "/src/assets/abik.png"
     // image sera fournie localement
   },
-  {
-    nom: "Prof. Salah BAINA",
-    titre: "Professeur",
-    specialite: "Génie Logiciel, Architecture Logicielle",
-    email: "s.baina@ensias.ma",
-    telephone: "+212 5 37 68 71 52",
-    // image sera fournie localement
-  },
+
   {
     nom: "Prof. ETTALBI Ahmed",
     titre: "Professeur",
     specialite: "Génie Logiciel, Architecture Logicielle",
-    email: "a.ettalbi@ensias.ma"
+    email: "a.ettalbi@ensias.ma",
+    image: "/src/assets/prof-ettalbi.png"
     // image sera fournie localement
   },
   {
     nom: "Prof. EL HAMLAOUI Mahmoud",
     titre: "Professeur",
     specialite: "Génie Logiciel, Architecture Logicielle",
-    email: "m.elhamloui@ensias.ma"
+    email: "m.elhamloui@ensias.ma",
+    image: "/src/assets/ham.png"
+
     // image sera fournie localement
   },
   {
@@ -64,8 +54,10 @@ const professeurs = [
     nom: "Prof. BOUCHRA Berrada",
     titre: "Professeur",
     specialite: "Génie Logiciel, Architecture Logicielle",
-    email: "bouchra.berrada@ensias.ma"
+    email: "bouchra.berrada@ensias.ma",
     // image sera fournie localement
+    image: "/src/assets/prof-karim-baina.png"
+
   },
   {
     nom: "Prof. Salah BAINA",
@@ -73,14 +65,17 @@ const professeurs = [
     specialite: "Génie Logiciel, Architecture Logicielle",
     email: "s.baina@ensias.ma",
     telephone: "+212 5 37 68 71 52",
+    image: "/src/assets/prof-salah-baina.png"
+
     // image sera fournie localement
   },
   {
     nom: "Prof. BOUCHAIB BOUNABAT",
-    titre: "Professeur",
+    titre: "Directeur de l'ensias",
     specialite: "Systèmes d'Information, Génie Logiciel",
     email: "b.bounabat@ensias.ma",
     telephone: "+212 5 37 68 71 53",
+    image: "/src/assets/bounab.png"
     // image sera fournie localement
   },
   {
@@ -90,6 +85,8 @@ const professeurs = [
     email: "r.ouladhajthami@ensias.ma",
     telephone: "+212 5 37 68 71 54",
     // image sera fournie localement
+    image: "/src/assets/haj.png"
+
   },
   {
     nom: "Prof. TABII Youness",
@@ -99,6 +96,7 @@ const professeurs = [
     telephone: "+212 5 37 68 71 55",
     formation: "Doctorat en Informatique de l'ENSIAS, Université Mohammed V - Rabat, 2010",
     // image sera fournie localement
+    image: "/src/assets/ytabii.png"
   }
 ];
 
@@ -404,7 +402,8 @@ const semestres_GD = [
       {
         nom: "Agile",
         professeur: "Prof. Salah BAINA",
-        description: "Architectures logicielles et patterns"
+        description: "Architectures logicielles et patterns",
+        
       },
   
     ]
@@ -472,31 +471,31 @@ const coordinateurs = {
     image: "/src/assets/prof-guermah.jpg" // Placeholder image
   },
   GD: {
-    nom: "Prof. TABII Youness",
+    nom: "Prof. Sanaa EL FKIHI",
     titre: "Coordinateur Pédagogique - Filière Génie Data",
-    email: "y.tabii@ensias.ma",
-    image: "https://randomuser.me/api/portraits/men/32.jpg" // Placeholder image
+    email: "sanaa.elfkihi@um5.ac.ma",
+    image: "/src/assets/prof-elfkihi.png" // Placeholder image
   },
-  IA: {
-    nom: "Prof. EL HAMLAOUI Mahmoud",
-    titre: "Coordinateur Pédagogique - Filière Intelligence Artificielle",
-    email: "m.elhamloui@ensias.ma",
-    image: "https://randomuser.me/api/portraits/men/28.jpg" // Placeholder image
-  },
-  SSI: {
-    nom: "Prof. ABIK Mounia", 
-    titre: "Coordinatrice Pédagogique - Filière Sécurité des Systèmes d'Information",
-    email: "m.abik@ensias.ma",
-    image: "https://randomuser.me/api/portraits/women/33.jpg" // Placeholder image
-  }
+  // IA: {
+  //   nom: "Prof. EL HAMLAOUI Mahmoud",
+  //   titre: "Coordinateur Pédagogique - Filière Intelligence Artificielle",
+  //   email: "m.elhamloui@ensias.ma",
+  //   image: "https://randomuser.me/api/portraits/men/28.jpg" // Placeholder image
+  // },
+  // SSI: {
+  //   nom: "Prof. ABIK Mounia", 
+  //   titre: "Coordinatrice Pédagogique - Filière Sécurité des Systèmes d'Information",
+  //   email: "m.abik@ensias.ma",
+  //   image: "https://randomuser.me/api/portraits/women/33.jpg" // Placeholder image
+  // }
 };
 
 // Add formations list
 const formations = [
   { id: 'GL', name: 'Génie Logiciel' },
   { id: 'GD', name: 'Génie Data' },
-  { id: 'IA', name: 'Intelligence Artificielle' },
-  { id: 'SSI', name: 'Sécurité des Systèmes d\'Information' },
+    // { id: 'IA', name: 'Intelligence Artificielle' },
+    // { id: 'SSI', name: 'Sécurité des Systèmes d\'Information' },
 ];
 
 // Add data structures for competences and debouches by formation

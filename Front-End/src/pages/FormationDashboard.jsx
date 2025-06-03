@@ -307,73 +307,163 @@ const FormationDashboard = () => {
   const [professors, setProfessors] = useState([
     {
       id: "prof-123",
-      nom_utilisateur: "m.nassar",
-      email: "m.nassar@ensias.ma",
+      nom_utilisateur: "mahmoud nassar",
+      email: "mahmoud.nassar@um5.ac.ma",
       role: "cd: chef departement",
       departement_id: "dept-gl-01",
       isCoordinator: false,
       isChefDep: true,
-      specialite: "Génie Logiciel",
+      specialite: "Architecture Orientée Service (SOA), Bases de données réparties",
       titre: "Professeur de l'Enseignement Supérieur",
       image: "/src/assets/prof-nassar.jpg",
       phone: "+212 6 12 34 56 78"
     },
     {
       id: "prof-456",
-      nom_utilisateur: "s.afia",
-      email: "s.afia@ensias.ma",
+      nom_utilisateur: "hatime guermah",
+      email: "hatim.guermah@um5.ac.ma",
       role: "cf: chef filiere",
       departement_id: "dept-gl-01",
       isCoordinator: true,
       isChefDep: false,
-      specialite: "Science des données",
-      titre: "Professeur Habilité",
-      image: "/src/assets/prof-afia.jpg",
+      specialite: "Génie Logiciel",
+      titre: "Professeur de l'Enseignement Supérieur",
+      image: "/src/assets/prof-guermah.jpg",
       phone: "+212 6 23 45 67 89"
     },
     {
       id: "prof-789",
-      nom_utilisateur: "a.professor",
-      email: "a.professor@ensias.ma", 
+      nom_utilisateur: "mouna abik",
+      email: "m.abik@ensias.ma", 
       role: "professeur",
       departement_id: "dept-gl-01",
       isCoordinator: false,
       isChefDep: false,
-      specialite: "Intelligence Artificielle",
-      titre: "Professeur Assistant",
-      image: "https://randomuser.me/api/portraits/men/42.jpg",
+      specialite: "Génie Logiciel, Systèmes d'Information",
+      titre: "Professeure",
+      image: "/src/assets/abik.png",
       phone: "+212 6 34 56 78 90"
     },
     {
       id: "prof-101",
-      nom_utilisateur: "j.data",
-      email: "j.data@ensias.ma", 
+      nom_utilisateur: "Ahmed ettalbi",
+      email: "a.ettalbi@ensias.ma", 
       role: "professeur",
       departement_id: "dept-gl-01",
       isCoordinator: false,
       isChefDep: false,
-      specialite: "Big Data",
-      titre: "Professeur Assistant",
-      image: "https://randomuser.me/api/portraits/women/24.jpg",
+      specialite: "Génie Logiciel, Architecture Logicielle",
+      titre: "Professeur",
+      image: "/src/assets/prof-ettalbi.png",
       phone: "+212 6 45 67 89 01"
+    },
+    {
+      id: "prof-102",
+      nom_utilisateur: "Mahmoud elhamlaoui",
+      email: "m.elhamloui@ensias.ma",
+      role: "professeur",
+      departement_id: "dept-gl-01",
+      isCoordinator: false,
+      isChefDep: false,
+      specialite: "Génie Logiciel, Architecture Logicielle",
+      titre: "Professeur",
+      image: "/src/assets/ham.png",
+      phone: "+212 6 34 56 78 92"
+    },
+    {
+      id: "prof-103",
+      nom_utilisateur: "sanaa elfkihi",
+      email: "sanaa.elfkihi@um5.ac.ma",
+      role: "cf: chef filiere",
+      departement_id: "dept-ds-02",
+      isCoordinator: true,
+      isChefDep: false,
+      specialite: "Science des données",
+      titre: "Professeur",
+      image: "/src/assets/prof-elfkihi.png",
+      phone: "+212 6 34 56 78 93"
+    },
+    {
+      id: "prof-104",
+      nom_utilisateur: "Bouchra Berrada",
+      email: "bouchra.berrada@ensias.ma",
+      role: "professeur",
+      departement_id: "dept-gl-01",
+      isCoordinator: false,
+      isChefDep: false,
+      specialite: "Génie Logiciel, Architecture Logicielle",
+      titre: "Professeur",
+      image: "/src/assets/prof-berrada.png",
+      phone: "+212 6 34 56 78 94"
+    },
+    {
+      id: "prof-105",
+      nom_utilisateur: "Salah baina",
+      email: "s.baina@ensias.ma",
+      role: "professeur",
+      departement_id: "dept-gl-01",
+      isCoordinator: false,
+      isChefDep: false,
+      specialite: "Génie Logiciel, Architecture Logicielle",
+      titre: "Professeur",
+      image: "/src/assets/prof-salah-baina.png",
+      phone: "+212 5 37 68 71 52"
+    },
+    {
+      id: "prof-106",
+      nom_utilisateur: "Bouchaib Bounabat",
+      email: "b.bounabat@ensias.ma",
+      role: "professeur",
+      departement_id: "dept-gl-01",
+      isCoordinator: false,
+      isChefDep: false,
+      specialite: "Systèmes d'Information, Génie Logiciel",
+      titre: "Directeur de l'ensias",
+      image: "/src/assets/bounab.png",
+      phone: "+212 5 37 68 71 53"
+    },
+    {
+      id: "prof-107",
+      nom_utilisateur: "Rachid ouladhajthami",
+      email: "r.ouladhajthami@ensias.ma",
+      role: "professeur",
+      departement_id: "dept-gl-01",
+      isCoordinator: false,
+      isChefDep: false,
+      specialite: "Doctorat d'État en Informatique",
+      titre: "Professeur de l'Enseignement Supérieur",
+      image: "/src/assets/haj.png",
+      phone: "+212 5 37 68 71 54"
+    },
+    {
+      id: "prof-108",
+      nom_utilisateur: "Youness tabii",
+      email: "y.tabii@ensias.ma",
+      role: "professeur",
+      departement_id: "dept-gl-01",
+      isCoordinator: false,
+      isChefDep: false,
+      specialite: "Informatique",
+      titre: "Professeur d'Enseignement Supérieur",
+      image: "/src/assets/ytabii.png",
+      phone: "+212 5 37 68 71 55"
     }
   ]);
 
   // Current user data (chef de filière)
-// Current user data (chef de filière)
-const [currentUser, setCurrentUser] = useState({
-  id: "prof-456",
-  nom_utilisateur: "hatim.guermah",
-  email: "hatim.guermah@ensias.ma",
-  role: "cf: chef filiere",
-  departement_id: "dept-gl-01",
-  isCoordinator: true,
-  isChefDep: false,
-  specialite: "Science des données",
-  titre: "Professeur Habilité",
-  image: "/src/assets/prof-guermah.jpg", // Update this path to your actual image
-  phone: "+212 6 23 45 67 89"
-});
+  const [currentUser, setCurrentUser] = useState({
+    id: "prof-456",
+    nom_utilisateur: "hatim guermah",
+    email: "hatim.guermah@um5.ac.ma",
+    role: "cf: chef filiere",
+    departement_id: "dept-gl-01",
+    isCoordinator: true,
+    isChefDep: false,
+    specialite: "Génie Logiciel",
+    titre: "Professeur de l'Enseignement Supérieur",
+    image: "/src/assets/prof-guermah.jpg",
+    phone: "+212 6 23 45 67 89"
+  });
 
   // Edit states
   const [editingFormation, setEditingFormation] = useState(false);
