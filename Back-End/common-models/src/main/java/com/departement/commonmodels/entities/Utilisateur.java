@@ -18,8 +18,9 @@ import java.time.LocalDateTime;
 public class Utilisateur {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(updatable = false, nullable = false)
     private String id;
 
     @Column(name = "nom_utilisateur", unique = true, nullable = false)
@@ -27,6 +28,10 @@ public class Utilisateur {
 
     @Column(unique = true, nullable = false)
     private String email;
+    @Column(name = "nom")
+    private String nom;
+    @Column(name = "prenom")
+    private String prenom;
 
     @Column(name = "mot_de_passe_hash", nullable = false)
     private String motDePasseHash;
