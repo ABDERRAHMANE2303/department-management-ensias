@@ -39,12 +39,35 @@ const Login = () => {
         }),
       });
       
+      // Check if response is JSON before parsing
+      const contentType = response.headers.get("content-type");
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to login');
+        let errorMessage = 'Failed to login';
+        if (contentType && contentType.includes("application/json")) {
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.message || errorMessage;
+          } catch (parseError) {
+            console.error('Error parsing JSON response:', parseError);
+            errorMessage = `Server error (${response.status})`;
+          }
+        } else {
+          errorMessage = `Server error (${response.status})`;
+        }
+        throw new Error(errorMessage);
+      }
+      
+      // Only try to parse JSON if we have a JSON content type
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error('Invalid response format from server');
       }
       
       const data = await response.json();
+      
+      // Validate the response data
+      if (!data.token || !data.user) {
+        throw new Error('Invalid response from server');
+      }
       
       // Store auth token and user info
       localStorage.setItem('auth_token', data.token);

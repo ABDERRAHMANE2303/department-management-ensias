@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.departement.auth.dto.UserDTO;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -29,51 +30,72 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest loginRequest) {
-        // Find user by email
-        Optional<Utilisateur> userOptional = utilisateurRepository.findByEmail(loginRequest.getEmail());
+        try {
+            // Find user by email
+            Optional<Utilisateur> userOptional = utilisateurRepository.findByEmail(loginRequest.getEmail());
 
-        if (userOptional.isEmpty()) {
-            throw new RuntimeException("User not found");
+            if (userOptional.isEmpty()) {
+                throw new RuntimeException("User not found");
+            }
+
+            Utilisateur user = userOptional.get();
+
+            // Check if account is active
+            if (!user.isEstActif()) {
+                throw new RuntimeException("Account is disabled");
+            }
+
+            // Verify password using BCrypt
+            boolean passwordMatches = passwordEncoder.matches(
+                    loginRequest.getPassword(),
+                    user.getMotDePasseHash());
+
+            if (!passwordMatches) {
+                throw new RuntimeException("Invalid credentials");
+            }
+
+            // Update last login timestamp
+            user.setDerniereConnexion(LocalDateTime.now());
+            utilisateurRepository.save(user);
+
+            // Generate JWT token
+            String token = jwtUtil.generateToken(
+                    user.getId(),
+                    user.getEmail(),
+                    user.getRole(),
+                    user.getDepartementId(),
+                    user.getFormationId());
+
+            // Create UserDTO (don't send entity directly)
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setNom(user.getNom());
+            userDTO.setPrenom(user.getPrenom());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setNomUtilisateur(user.getNomUtilisateur());
+            userDTO.setRole(user.getRole());
+            userDTO.setDepartementId(user.getDepartementId());
+            userDTO.setFormationId(user.getFormationId());
+            userDTO.setEstActif(user.isEstActif());
+            userDTO.setSpecialite(user.getSpecialite());
+            userDTO.setTitre(user.getTitre());
+            userDTO.setPhone(user.getPhone());
+            userDTO.setImage(user.getImage());
+
+            // Create response with token and user DTO
+            LoginResponse response = new LoginResponse();
+            response.setToken(token);
+            response.setUser(userDTO);
+
+            System.out.println("Login attempt for: " + loginRequest.getEmail());
+            System.out.println("Password matches: " + passwordMatches);
+            System.out.println("Generated token: " + token);
+
+            return response;
+        } catch (RuntimeException e) {
+            System.err.println("Login error: " + e.getMessage());
+            e.printStackTrace(); // Add this to see the full stack trace in logs
+            throw e; // Re-throw to be handled by controller
         }
-
-        Utilisateur user = userOptional.get();
-
-        // Check if account is active
-        if (!user.isEstActif()) {
-            throw new RuntimeException("Account is disabled");
-        }
-
-        // Verify password using BCrypt (same as admin service)
-        boolean passwordMatches = passwordEncoder.matches(
-                loginRequest.getPassword(),
-                user.getMotDePasseHash()
-        );
-
-        if (!passwordMatches) {
-            throw new RuntimeException("Invalid credentials");
-        }
-
-        // Update last login timestamp
-        user.setDerniereConnexion(LocalDateTime.now());
-        utilisateurRepository.save(user);
-
-        // Generate JWT token
-        String token = jwtUtil.generateToken(
-                user.getId(),
-                user.getEmail(),
-                user.getRole(),
-                user.getDepartementId(),
-                user.getFormationId()
-        );
-
-        // Create response with token and user (password excluded automatically)
-        LoginResponse response = new LoginResponse();
-        response.setToken(token);
-
-        // Clear password hash before returning user object
-        user.setMotDePasseHash(null);
-        response.setUser(user);
-
-        return response;
     }
 }

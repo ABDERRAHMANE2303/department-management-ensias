@@ -19,7 +19,7 @@ COPY src ./src
 # RUN mvn dependency:go-offline -B # -B for batch mode
 
 # Expose the application port and the LiveReload port (default 35729)
-EXPOSE 9091
+EXPOSE 9092
 
 # Command to run the application with mvn spring-boot:run
 # This command will be executed when the container starts.
